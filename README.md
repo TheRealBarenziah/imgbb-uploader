@@ -8,19 +8,19 @@ Node >= 8 recommended ( [this module uses async/await](https://node.green/) )
 `npm install imgbb-uploader`
 
 ## Use
-- 1) [First get a free API key from imgbb](https://api.imgbb.com/)(estimated time ~1 minute)
-- 1.5) (facultative) [Put that key in an environment variable](https://www.npmjs.com/package/dotenv)
-- 2) imgbbUploader takes exactly two string arguments; first your API key, then the absolute path of your image
+- I) [First get a free API key from imgbb](https://api.imgbb.com/)(estimated time ~1 minute)
+- II) (facultative) [Put that key in an environment variable](https://www.npmjs.com/package/dotenv)
+- III) **imgbbUploader takes *exactly two* String arguments**; first your API key, then the absolute path of your image :
 
 ```
 var imgbbUploader = require('imgbb-uploader');
 
-imgbbUploader("your-api-key-string", "absolute-path-to-your-image-string")
+imgbbUploader("your-imgbb-api-key-string", "home/absolute-path-to-your-image/image.png")
   .then(response => console.log(response))
   .catch(error => console.log(error))
 ```
 
-## Output example of `.then(response => console.log(response))`:
+### Output example of `.then(response => console.log(response))` :
 ```
 {
   id: '5jKj6XV',
@@ -54,10 +54,10 @@ You access it in your `.then(res => res)` as shown above.
 
 
 ## Learn more
-This module doesn't support array uploads and other fancy stuff. For heavy duty uploads, you'll probably have to work with [fs.readdir]('https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback') and [forEach]('https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach') methods.
+This module doesn't support array uploads and other fancy stuff. For heavy duty uploads, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) methods.
 
 
-In which case you may also be interested in [path]("https://nodejs.org/api/path.html#path_path"). For example, you can create a `baseDir.js` file wherever your images are:
+In which case you may also be interested in [path](https://nodejs.org/api/path.html#path_path). For example, you can create a `baseDir.js` file wherever your images are:
 ```
 // baseDir.js
 const path = require('path');
