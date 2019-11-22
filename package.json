@@ -1,0 +1,23 @@
+{
+  "name": "imgbb-uploader",
+  "version": "1.0.0",
+  "description": "Host local image files to imgBb using their API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "imgbb",
+    "imgbb-uploader"
+  ],
+  "author": "TheRealBarenziah",
+  "license": "SEE LICENSE IN TARGARYEN_UNLICENSE",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "request": "^2.88.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheRealBarenziah/imgbb-uploader.git"
+  }
+}
