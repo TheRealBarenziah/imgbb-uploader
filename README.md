@@ -1,16 +1,16 @@
 # imgbb-uploader
-## A lightweight module to easily upload images through imgbb API
+### Lightweight nodejs module to easily upload images through imgbb API
 
 ## Compatibility: 
-Node version >= 8 is recommended since this module uses async/await [(learn more)]("https://node.green/")
+Node >= 8 recommended ( [this module uses async/await](https://node.green/) )
 
 ## Install
 `npm install imgbb-uploader`
 
-## Usage
-- [First get a free API key from imgbb (estimated time ~1 minute)]("https://api.imgbb.com/")
-- (facultative) [Put that key in an environment variable]("https://www.npmjs.com/package/dotenv")
-- imgbbUploader takes exactly two string arguments; first your API key, then the absolute path of your image
+## Use
+- 1) [First get a free API key from imgbb](https://api.imgbb.com/)(estimated time ~1 minute)
+- 1.5) (facultative) [Put that key in an environment variable](https://www.npmjs.com/package/dotenv)
+- 2) imgbbUploader takes exactly two string arguments; first your API key, then the absolute path of your image
 
 ```
 var imgbbUploader = require('imgbb-uploader');
@@ -20,7 +20,7 @@ imgbbUploader("your-api-key-string", "absolute-path-to-your-image-string")
   .catch(error => console.log(error))
 ```
 
-Output example of `.then(response => console.log(response))`:
+## Output example of `.then(response => console.log(response))`:
 ```
 {
   id: '5jKj6XV',
@@ -52,6 +52,8 @@ Output example of `.then(response => console.log(response))`:
 This function returns a promise, this is why `console.log(imgbbUploader(myKey, myPath) // output : Promise { <pending> }`
 You access it in your `.then(res => res)` as shown above.
 
+
+## Learn more
 This module doesn't support array uploads and other fancy stuff. For heavy duty uploads, you'll probably have to work with [fs.readdir]('https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback') and [forEach]('https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach') methods.
 
 
