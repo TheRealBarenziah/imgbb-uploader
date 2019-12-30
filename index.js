@@ -1,8 +1,8 @@
-var fs = require('fs');
-var request = require('request');
+const fs = require('fs');
+const request = require('request');
 
-var imgbbUploader = async function(apiKey, pathToFile){
-  var formData = {
+const imgbbUploader = async (apiKey, pathToFile) => {
+  let formData = {
     image : fs.createReadStream(pathToFile)
   }
   return new Promise((resolve, reject) => {
@@ -10,9 +10,9 @@ var imgbbUploader = async function(apiKey, pathToFile){
     url: `https://api.imgbb.com/1/upload?key=${apiKey}`,
     formData: formData
   },
-    function cb(err, httpResponse, body) {
+    (err, httpResponse, body) => {
       if (err) {
-        console.error('Upload failed:', err)  
+        console.error('Upload failed:\n', err)  
         reject(err);
       }
       resolve(body)
@@ -20,7 +20,7 @@ var imgbbUploader = async function(apiKey, pathToFile){
   })
 }
 
-async function uploadToImgbb(apiKey, pathToFile){
+const uploadToImgbb = async (apiKey, pathToFile) => {
 	const result = await imgbbUploader(apiKey, pathToFile);
   return JSON.parse(result).data;
 }

@@ -2,7 +2,9 @@
 ### Lightweight nodejs module to easily upload images through imgbb API
 
 ## Compatibility: 
-Node >= 8 recommended ( [this module uses async/await](https://node.green/) )
+Node >= 8 ( [this module uses async/await](https://node.green/) )
+*Care: this module uses `fs` under the hood. It means it WON'T work outside the node environment !*  
+*To upload pictures from your frontend please check the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) instead*
 
 ## Install
 `npm install imgbb-uploader`
@@ -49,13 +51,13 @@ imgbbUploader("your-imgbb-api-key-string", "home/absolute/path/to/your/image/ima
 }
 ```
 
-This function returns a promise, this is why :
-`console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`
-Your data is available in the `.then(response => response)` as shown above.
+This async function returns a promise, so this is normal :  
+`console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
+Your data is available in `.then(response => response)` as shown above.
 
 
 ## Learn more
-This module doesn't support array uploads and other fancy stuff. For heavy duty uploads, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) methods ; in that case you may also be interested in [path](https://nodejs.org/api/path.html#path_path). 
+This module doesn't support array uploads. For heavy duty, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [async forEach](https://www.npmjs.com/package/async-foreach) (you may also be interested in [path](https://nodejs.org/api/path.html#path_path) ).  
 
 For example, you can create a `baseDir.js` file wherever it suits you:
 ```
@@ -64,7 +66,10 @@ const path = require('path');
 const dirPath = path.join(__dirname);
 module.exports = dirPath;
 ```
-Then you can require this file elsewhere, and use something like `path.join(myDirpath, "subfolder", "subsubfolder")` to dig into directories programmatically. Once you're there you can `fs.readdir` and iterate `forEach` file of that directory, then do whatever you want. 
-That is just a simple example, see `fs` documentation and Stack Overflow for more inspiration.
+Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder", subsubfolder)` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
+See `fs` documentation and Stack Overflow for more inspiration on the matter.  
 
-### Anyway, this module is ~20 lines long & totally unlicensed, so even the most junior Nodejs dev should be able to easily adapt it to its needs.
+### This module is ~20 lines long & totally unlicensed, so you can easily edit it to fit your need.
+
+## Changelog
+0.2.1 => 1.0.0 (Replace `var` and `function` with proper ES6 syntax & update README)

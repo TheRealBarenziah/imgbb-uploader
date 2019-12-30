@@ -1,6 +1,6 @@
 {
   "name": "imgbb-uploader",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Lightweight module to upload images through Imgbb API.",
   "main": "index.js",
   "dependencies": {
