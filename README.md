@@ -1,25 +1,27 @@
 # imgbb-uploader
-### Lightweight nodejs module to easily upload images through imgbb API
-
+Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response.
 ## Compatibility: 
 Node >= 8 ( [this module uses async/await](https://node.green/) )
+<<<<<<< HEAD
 *Care: this module uses `fs` under the hood. It means it WON'T work outside the node environment !*  
 *To upload pictures from your frontend please check the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) instead*
+=======
+>>>>>>> b4a3e033c2a8543aaf1caa68e6bad19201048326
 
 ## Install
 `npm install imgbb-uploader`
 
 ## Use
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time : ~1 minute )
-- II) (facultative) [Put that key in an environment variable](https://www.npmjs.com/package/dotenv)
-- III) **imgbbUploader takes *exactly two* String arguments** : your API key, then the absolute path of your image :
+- II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
+- III) **imgbbUploader takes *exactly two* String arguments** : your API key, and the absolute path of your image :
 
 ```
 var imgbbUploader = require('imgbb-uploader');
 
 imgbbUploader("your-imgbb-api-key-string", "home/absolute/path/to/your/image/image.png")
   .then(response => console.log(response))
-  .catch(error => console.log(error))
+  .catch(error => console.error(1))
 ```
 
 ## `.then(response => console.log(response))` output example :
