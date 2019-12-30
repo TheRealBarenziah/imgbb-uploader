@@ -70,5 +70,5 @@ Then you can require this file elsewhere and use something like `path.join(myDir
 See `fs` documentation and Stack Overflow for more inspiration on the matter.  
 
 ## Changelog
-0.2.1 => 1.0.0 (Replace `var` and `function` with proper ES6 syntax & update README)
+0.2.1 => 1.0.0 (Replace `var` and `function` with proper ES6 syntax & update README)  
 1.0.0 => 1.0.1 (Fix README)
