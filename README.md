@@ -1,5 +1,7 @@
 # imgbb-uploader
 Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response.
+[![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
+
 ## Compatibility: 
 **Node >= 8** ( [this module uses async/await](https://node.green/) )  
 *Care: this module uses `fs` under the hood. It means it WON'T work outside the node environment !*  
