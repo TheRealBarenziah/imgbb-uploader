@@ -1,12 +1,9 @@
 # imgbb-uploader
 Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response.
 ## Compatibility: 
-Node >= 8 ( [this module uses async/await](https://node.green/) )
-<<<<<<< HEAD
+**Node >= 8** ( [this module uses async/await](https://node.green/) )  
 *Care: this module uses `fs` under the hood. It means it WON'T work outside the node environment !*  
-*To upload pictures from your frontend please check the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) instead*
-=======
->>>>>>> b4a3e033c2a8543aaf1caa68e6bad19201048326
+*To upload pictures from your frontend please check the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) instead*  
 
 ## Install
 `npm install imgbb-uploader`
@@ -57,6 +54,7 @@ This async function returns a promise, so this is normal :
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
 Your data is available in `.then(response => response)` as shown above.
 
+**This module is ~20 lines long & totally unlicensed: to better fit your need, feel free to edit !**
 
 ## Learn more
 This module doesn't support array uploads. For heavy duty, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [async forEach](https://www.npmjs.com/package/async-foreach) (you may also be interested in [path](https://nodejs.org/api/path.html#path_path) ).  
@@ -71,7 +69,6 @@ module.exports = dirPath;
 Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder", subsubfolder)` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
 See `fs` documentation and Stack Overflow for more inspiration on the matter.  
 
-### This module is ~20 lines long & totally unlicensed, so you can easily edit it to fit your need.
-
 ## Changelog
 0.2.1 => 1.0.0 (Replace `var` and `function` with proper ES6 syntax & update README)
+1.0.0 => 1.0.1 (Fix README)
