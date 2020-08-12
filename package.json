@@ -4,10 +4,11 @@
   "description": "Lightweight module to upload images through Imgbb API.",
   "main": "index.js",
   "dependencies": {
-    "fs": "0.0.1-security",
-    "request": "^2.88.0"
+    "fs": "0.0.1-security"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  },
   "scripts": {
     "test": "npx standard"
   },
