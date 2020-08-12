@@ -7,7 +7,8 @@
     "fs": "0.0.1-security"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "eslint": "^7.6.0"
   },
   "scripts": {
     "test": "npx standard"
