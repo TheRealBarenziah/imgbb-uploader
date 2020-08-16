@@ -24,7 +24,7 @@
   },
   "scripts": {
     "test": "jest --config jestconfig.json",
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "build": "node rebuild.js && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json"
   },

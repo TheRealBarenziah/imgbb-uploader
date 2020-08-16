@@ -1,31 +1,6 @@
 import * as https from "https";
 import * as querystring from "querystring";
-
-export interface Response {
-  id: string;
-  title: string;
-  url_viewer: string;
-  url: string;
-  display_url: string;
-  size: number;
-  time: string;
-  expiration: string;
-  image: {
-    filename: string;
-    name: string;
-    mime: string;
-    extension: string;
-    url: string;
-  };
-  thumb: {
-    filename: string;
-    name: string;
-    mime: string;
-    extension: string;
-    url: string;
-  };
-  delete_url: string;
-}
+import ResponseObject from "./responseInterface";
 
 /**
  * Now using the standard 'https' module instead of 'request' deprecated dependency.
@@ -37,7 +12,7 @@ export interface Response {
  */
 
 export const postToImgbb = (apiKey: string, base64str: string) =>
-  new Promise<Response>((resolve, reject) => {
+  new Promise<ResponseObject>((resolve, reject) => {
     const payload = querystring.stringify({
       image: base64str,
     });
