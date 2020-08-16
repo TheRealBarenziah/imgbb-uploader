@@ -1,6 +1,6 @@
 {
-  "name": "imgbb-uploader",
-  "version": "1.0.2",
+  "name": "@therealbarenziah/imgbb-uploader",
+  "version": "1.0.3",
   "description": "Lightweight module to upload images through Imgbb API.",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -29,6 +29,11 @@
     "build": "node rebuild.js && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
     "pretty-quick": "pretty-quick"
   },
   "files": [
