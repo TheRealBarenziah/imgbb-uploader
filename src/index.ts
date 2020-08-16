@@ -1,6 +1,5 @@
 import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
-// Credits to https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
 
 /**
  * Upload local pictures files to imgbb API and get display URLs in response.
