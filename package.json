@@ -15,8 +15,10 @@
     "@types/node": "^14.0.27",
     "dotenv": "^8.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "husky": "^4.2.5",
     "jest": "^26.4.0",
     "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
     "ts-jest": "^26.2.0",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
@@ -26,7 +28,8 @@
     "test": "jest --config jestconfig.json",
     "build": "node rebuild.js && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "pretty-quick": "pretty-quick"
   },
   "files": [
     "lib/**/*"
@@ -46,5 +49,10 @@
   "bugs": {
     "url": "https://github.com/TheRealBarenziah/imgbb-uploader/issues"
   },
-  "homepage": "https://github.com/TheRealBarenziah/imgbb-uploader#readme"
+  "homepage": "https://github.com/TheRealBarenziah/imgbb-uploader#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }
