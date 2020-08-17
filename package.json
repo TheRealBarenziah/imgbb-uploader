@@ -1,6 +1,6 @@
 {
-  "name": "@therealbarenziah/imgbb-uploader",
-  "version": "1.1.1",
+  "name": "imgbb-uploader",
+  "version": "1.1.0",
   "description": "Lightweight module to upload images through Imgbb API.",
   "main": "lib/cjs/index.js",
   "browser": "lib/cjs/index.js",
