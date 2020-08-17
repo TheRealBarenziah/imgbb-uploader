@@ -19,4 +19,4 @@ const imgbbUploader = async (apiKey: string, pathToFile: string) => {
   return postToImgbb(apiKey, base64string);
 };
 
-export default imgbbUploader;
+export = imgbbUploader;

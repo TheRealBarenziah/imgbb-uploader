@@ -1,9 +1,12 @@
 const fs = require("fs");
 const path = require("path");
+const rimraf = require("rimraf");
 
 const rebuild = () => {
-  fs.rmdirSync(path.join(__dirname, "lib"), {"recursive": true}); // delete './lib' folder
-  fs.mkdirSync(path.join(__dirname, "lib")); // recreate empty './lib' folder
+  if (fs.existsSync(path.join(__dirname, "lib"))) {
+    // if './lib' exists..
+    rimraf.sync(path.join(__dirname, "lib")); // .. delete it
+  }
   return 0;
 };
 
