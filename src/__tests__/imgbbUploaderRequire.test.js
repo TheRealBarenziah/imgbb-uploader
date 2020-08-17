@@ -1,5 +1,5 @@
 var path = require("path");
-var imgbbUploader = require("../../lib/cjs/index");
+var imgbbUploader = require("../../lib/cjs/supportRequire");
 
 test("imgbbUploader using require", async () => {
   expect(

@@ -1,5 +1,5 @@
 import * as path from "path";
-import imgbbUploader from "../../lib/esm/index";
+import imgbbUploader from "../../lib/esm/supportImport";
 
 test("imgbbUploader using Import", async () => {
   expect(
