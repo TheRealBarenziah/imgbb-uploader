@@ -1,6 +1,7 @@
 # imgbb-uploader
 
-Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response.
+Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response. Primary use is letting imgBB handle the hosting & serving of images.
+
 [![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader?targetFile=package.json)
@@ -9,7 +10,7 @@ Lightweight Nodejs module to upload local pictures files to imgbb API and get di
 ## Compatibility:
 
 **Node >= 8** ( [this module uses async/await](https://node.green/) )  
-_Care: this module uses `fs` under the hood. It means it WON'T work outside the node environment !_  
+_Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_  
 _To upload pictures from your frontend please check the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) instead_
 
 ## Install
@@ -64,7 +65,8 @@ This async function returns a promise, so this is normal :
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
 Your data is available in `.then(response => response)` as shown above.
 
-**This module is ~20 lines long & totally unlicensed: to better fit your need, feel free to edit !**
+**This module is tiny & totally unlicensed: to better fit your need, feel free to fork !**  
+[Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
 
 ## Learn more
 
@@ -82,4 +84,4 @@ module.exports = dirPath;
 Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder", subsubfolder)` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
 See `fs` documentation and Stack Overflow for more inspiration on the matter.
 
-## Changelog
+[CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
