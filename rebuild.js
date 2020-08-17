@@ -7,7 +7,7 @@ const rebuild = () => {
     // if './lib' exists..
     rimraf.sync(path.join(__dirname, "lib")); // .. delete it
   }
-  return 0;
+  return null; // *Headpat V8*
 };
 
 rebuild();
