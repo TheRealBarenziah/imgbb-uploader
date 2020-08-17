@@ -1,6 +1,7 @@
 # imgbb-uploader
 
-Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response. Primary use is letting imgBB handle the hosting & serving of images.
+Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response.  
+Primary use is letting imgBB handle the hosting & serving of images.
 
 [![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
