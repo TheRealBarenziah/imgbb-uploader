@@ -2,9 +2,9 @@
   "name": "@therealbarenziah/imgbb-uploader",
   "version": "1.1.0",
   "description": "Lightweight module to upload images through Imgbb API.",
-  "main": "lib/cjs/supportRequire.js",
-  "browser": "lib/cjs/supportRequire.js",
-  "module": "lib/esm/supportImport.js",
+  "main": "lib/cjs/index.js",
+  "browser": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "types": "lib/index.d.ts",
   "dependencies": {
     "fs": "0.0.1-security"
@@ -27,7 +27,7 @@
     "lib/**/*"
   ],
   "exports": {
-    "./lib/esm": "./lib/esm/supportImport.js"
+    "./lib/cjs": "./lib/cjs/index.js"
   },
   "devDependencies": {
     "@babel/types": "^7.11.0",
