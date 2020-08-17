@@ -5,5 +5,5 @@
     "module": "CommonJS",
     "outDir": "./lib/cjs"
   },
-  "include": ["src/supportRequire.ts"]
+  "include": ["src"]
 }
