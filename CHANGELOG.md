@@ -20,12 +20,12 @@ Seeing some people found this module useful made me glad, so I decided to give i
   [This is the resource](https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c) that guided me through the TS/Jest stack, it was an interesting adventure.  
   I made my best to ensure this update won't break anything for you, but if it is the case, please open an issue :)
 
-Todo:
-Write CONTRIBUTING.md so this module remains easy to fork & tweak. It may look more bloated than before, but I'm convinced decent documentation should fix it.
+Todo:  
+Write more in CONTRIBUTING.md so this module remains easy to fork & tweak. It may look more bloated than before, but I'm convinced decent documentation should fix it.
 
-Making .mjs import work. Hopefully soon
-Supporting browsers (afterall why not)
-Supporting passing filename parameter
+Making .mjs import work. Hopefully soon  
+Supporting browsers (afterall why not)  
+Supporting passing filename parameter  
 Supporting arrays (in the very bottom of the list tbh)
 
 # 1.0.1
