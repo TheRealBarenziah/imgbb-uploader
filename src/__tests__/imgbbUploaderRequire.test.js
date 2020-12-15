@@ -1,5 +1,5 @@
-var path = require("path");
-var imgbbUploader = require("../../lib/cjs");
+const path = require("path");
+const imgbbUploader = require("../../lib/cjs");
 
 test("imgbbUploader using require", async () => {
   expect(
@@ -26,3 +26,12 @@ which can lead to confusing results (aka the 'toto.jpg phenomenon')
 
 need to imagine something to generate a new picture every time..
 */
+
+test("imgbbUploader using require", async () => {
+  expect(
+    await imgbbUploader(
+      process.env.API_KEY,
+      path.join(__dirname, "megumin.jpg"),
+    ).then((res) => res.size),
+  ).toBe(51895);
+});
