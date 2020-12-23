@@ -6,20 +6,21 @@ const imgbbUploader = require("../../lib/cjs");
 const generateWaifu = require("waifu-generator");
 const tfaker = require("tfaker");
 
-test("imgbbUploader using require", async () => {
+test("imgbbUploader without param, using require", async () => {
   const randomFilename = tfaker.firstName() + Date.now();
   await generateWaifu({
     path: "./src/__tests__/images",
     filename: randomFilename,
   });
+
   expect(
     await imgbbUploader(
       process.env.API_KEY,
       path.join(imagePath, `${randomFilename}.jpg`),
     ).then((res) => {
-      return res.title;
+      return Boolean(res.image.url);
     }),
-  ).toBe(randomFilename);
+  ).toBe(true);
 });
 
 /*
