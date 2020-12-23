@@ -3,6 +3,7 @@
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+  "testPathIgnorePatterns": ["/src/__tests__/images"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
   "verbose": false,
   "setupFiles": ["dotenv/config"]
