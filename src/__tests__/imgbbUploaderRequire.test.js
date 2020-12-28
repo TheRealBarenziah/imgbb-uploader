@@ -6,13 +6,12 @@ const imgbbUploader = require("../../lib/cjs");
 const generateWaifu = require("waifu-generator");
 const tfaker = require("tfaker");
 
-test("imgbbUploader without param, using require", async () => {
+test("imgbbUploader w/ require: passing NO option object", async () => {
   const randomFilename = tfaker.firstName() + Date.now();
   await generateWaifu({
     path: "./src/__tests__/images",
     filename: randomFilename,
   });
-
   expect(
     await imgbbUploader(
       process.env.API_KEY,
@@ -21,6 +20,25 @@ test("imgbbUploader without param, using require", async () => {
       return Boolean(res.image.url);
     }),
   ).toBe(true);
+});
+
+test("imgbbUploader w/ require: passing an option object, with expiration param", async () => {
+  const randomFilename = tfaker.firstName() + Date.now();
+  const randomExpirationValue = Math.floor(Math.random() * 300) + 1;
+  await generateWaifu({
+    path: "./src/__tests__/images",
+    filename: randomFilename,
+  });
+  const options = {
+    imagePath: path.join(imagePath, `${randomFilename}.jpg`),
+    apiKey: process.env.API_KEY,
+    expiration: randomExpirationValue,
+  };
+  expect(
+    await imgbbUploader(options).then((res) => {
+      return Number(res.expiration);
+    }),
+  ).toBe(randomExpirationValue);
 });
 
 /*
