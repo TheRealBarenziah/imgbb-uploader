@@ -6,9 +6,7 @@
   "browser": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/index.d.ts",
-  "dependencies": {
-    "fs": "0.0.1-security"
-  },
+  "dependencies": {},
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "node rebuild.js && tsc -p tsconfig-cjs.json",

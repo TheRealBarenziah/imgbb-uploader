@@ -11,17 +11,30 @@ import ResponseObject from "./responseInterface";
  * @returns A promise. Use `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
  */
 
-export const postToImgbb = (apiKey: string, base64str: string) =>
+interface IPostParams {
+  apiKey: string;
+  base64str: string;
+  name: string | null;
+  expiration: number | null;
+}
+
+export const postToImgbb = (params: IPostParams) =>
   new Promise<ResponseObject>((resolve, reject) => {
+    const { apiKey, base64str, name = null, expiration = null } = { ...params };
+
     const payload = querystring.stringify({
       image: base64str,
     });
+
+    let path = `/1/upload?key=${apiKey}`;
+    if (name) path += `&name=${name}`;
+    if (expiration) path += `&expiration=${expiration}`;
 
     const options = {
       hostname: "api.imgbb.com",
       method: "POST",
       timeout: 5000,
-      path: `/1/upload?key=${apiKey}`,
+      path: path,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",

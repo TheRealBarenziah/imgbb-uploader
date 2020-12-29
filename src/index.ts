@@ -1,6 +1,6 @@
 import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
-
+import { validateInput } from "./validateInput";
 /**
  * Upload local pictures files to imgbb API and get display URLs in response.
  *
@@ -14,19 +14,38 @@ import { postToImgbb } from "./postToImgbb";
  *       .catch(err => console.error(err))
  */
 
-const imgbbUploader = async (...args: string[] | Object[]) => {
-  console.log("args = ", args);
+interface IOptions {
+  apiKey: string;
+  imagePath: string;
+  name: string | undefined;
+  expiration: number | undefined;
+}
+
+const imgbbUploader = async (...args: string[] | IOptions[]) => {
+  // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
-    const base64string = await fileToString(String(args[0]));
-    return postToImgbb({ apiKey: String(args[1]), file: await base64string });
+    if (await validateInput(String(args[0]), String(args[1]))) {
+      console.log("validated");
+      return postToImgbb({
+        apiKey: String(args[0]),
+        base64str: await fileToString(String(args[1])),
+        name: null,
+        expiration: null,
+      });
+    } else {
+      throw new Error(
+        "Invalid params: please make sure that first argument is an imgBB API key, and second argument is a valid path to image file.",
+      );
+    }
   } else if (args.length === 1 && typeof args[0] === "object") {
-    const { imagePath, apiKey, name, expiration } = { ...args[0] };
-    const base64string = await fileToString(String(imagePath));
+    const { imagePath, apiKey, name = null, expiration = null } = {
+      ...args[0],
+    };
     return postToImgbb({
       apiKey: String(apiKey),
-      file: await base64string,
-      name: String(name),
-      expiration: Number(expiration),
+      base64str: await fileToString(String(imagePath)),
+      name: name ? String(name) : null,
+      expiration: expiration ? Number(expiration) : null,
     });
   } else
     throw new Error(

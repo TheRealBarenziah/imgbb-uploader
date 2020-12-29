@@ -64,7 +64,7 @@ test("imgbbUploader w/ require: passing an option object with name as 3rd param"
 test("imgbbUploader w/ require: passing an option object with name & expiration params", async () => {
   const valarDohaeris = tfaker.firstName();
   const randomFilename = valarDohaeris + Date.now();
-  const randomExpirationValue = Math.floor(Math.random() * 300) + 1;
+  const randomExpirationValue = Math.floor(Math.random() * 300) + 60;
   await generateWaifu({
     path: "./src/__tests__/images",
     filename: randomFilename,
@@ -79,10 +79,10 @@ test("imgbbUploader w/ require: passing an option object with name & expiration 
     await imgbbUploader(options).then((res) => {
       return {
         name: res.image.name,
-        expiration: res.expiration,
+        expiration: Number(res.expiration),
       };
     }),
-  ).toBe({
+  ).toStrictEqual({
     name: valarDohaeris,
     expiration: randomExpirationValue,
   });
