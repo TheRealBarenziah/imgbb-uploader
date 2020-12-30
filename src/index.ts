@@ -1,3 +1,4 @@
+import { rejects } from "assert";
 import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
 import { validateInput } from "./validateInput";
@@ -25,12 +26,16 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
     if (await validateInput(String(args[0]), String(args[1]))) {
-      return postToImgbb({
-        apiKey: String(args[0]),
-        base64str: await fileToString(String(args[1])),
-        name: null,
-        expiration: null,
-      });
+      try {
+        return postToImgbb({
+          apiKey: String(args[0]),
+          base64str: await fileToString(String(args[1])),
+          name: null,
+          expiration: null,
+        });
+      } catch (e) {
+        throw new Error(e);
+      }
     } else {
       throw new Error(
         "Invalid params: please make sure that first argument is an imgBB API key, and second argument is a valid path to image file.",
@@ -40,12 +45,16 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
     const { imagePath, apiKey, name = null, expiration = null } = {
       ...args[0],
     };
-    return postToImgbb({
-      apiKey: String(apiKey),
-      base64str: await fileToString(String(imagePath)),
-      name: name ? String(name) : null,
-      expiration: expiration ? Number(expiration) : null,
-    });
+    try {
+      return postToImgbb({
+        apiKey: String(apiKey),
+        base64str: await fileToString(String(imagePath)),
+        name: name ? String(name) : null,
+        expiration: expiration ? Number(expiration) : null,
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
   } else
     throw new Error(
       `It seems you didn't pass your arguments properly! Please check imgbbUploader documentation here:\nhttps://github.com/TheRealBarenziah/imgbb-uploader/tree/master`,
