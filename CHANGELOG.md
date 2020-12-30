@@ -1,3 +1,13 @@
+# 1.2.0
+
+Issues #3 and #4 were closed by users, but it still needed to be taken care of.
+
+Main features: now accepts an option object as parameter. Now possible to pass 'expiration' and 'name' params to imgBB API.
+
+Also, the way the tests worked was horribly wrong (was always uploading the same file, but imgBB API, by comparing checksum or something, is able to tell you're uploading the exact same file, thwarting the very purpose of the tests).
+
+Fixed by making each test generate a random image, enabling proper testing for the new option object & easier developments from now on.
+
 # 1.1.0
 
 Module overhaul:  

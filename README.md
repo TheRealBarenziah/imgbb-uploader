@@ -18,55 +18,130 @@ _To upload pictures from your frontend please check the [File API](https://devel
 
 `npm install imgbb-uploader`
 
-## Use
+## Use (legacy mode)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
 - III) **imgbbUploader takes _exactly two_ String arguments** : your API key, and the absolute path of your image :
 
-```
-var imgbbUploader = require('imgbb-uploader');
+```javascript
+const imgbbUploader = require("imgbb-uploader");
 
-imgbbUploader("your-imgbb-api-key-string", "home/absolute/path/to/your/image/image.png")
-  .then(response => console.log(response))
-  .catch(error => console.error(1))
+imgbbUploader(
+  "your-imgbb-api-key-string",
+  "absolute/path/to/your/image/image.png",
+)
+  .then((response) => console.log(response))
+  .catch((error) => console.error(error));
 ```
 
-## `.then(response => console.log(response))` output example :
+### `.then(response => console.log(response))` output example :
 
-```
+```javascript
 {
-  id: '5jKj6XV',
-  url_viewer: 'https://ibb.co/5jKj6XV',
-  url: 'https://i.ibb.co/94Z4Nmj/test.jpg',
-  display_url: 'https://i.ibb.co/94Z4Nmj/test.jpg',
-  title: 'test',
-  time: '1574431312',
+  id: '26Sy9tM',
+  title: '5e7599f65f27',
+  url_viewer: 'https://ibb.co/26Sy9tM',
+  url: 'https://i.ibb.co/z5FrMR2/5e7599f65f27.png',
+  display_url: 'https://i.ibb.co/z5FrMR2/5e7599f65f27.png',
+  size: 260258,
+  time: '1609336605',
+  expiration: '0',
   image: {
-    filename: 'test.jpg',
-    name: 'test',
-    mime: 'image/jpeg',
-    extension: 'jpg',
-    url: 'https://i.ibb.co/94Z4Nmj/test.jpg',
-    size: 91264
+    filename: '5e7599f65f27.png',
+    name: '5e7599f65f27',
+    mime: 'image/png',
+    extension: 'png',
+    url: 'https://i.ibb.co/z5FrMR2/5e7599f65f27.png'
   },
   thumb: {
-    filename: 'test.jpg',
-    name: 'test',
-    mime: 'image/jpeg',
-    extension: 'jpg',
-    url: 'https://i.ibb.co/5jKj6XV/test.jpg',
-    size: '12875'
+    filename: '5e7599f65f27.png',
+    name: '5e7599f65f27',
+    mime: 'image/png',
+    extension: 'png',
+    url: 'https://i.ibb.co/26Sy9tM/5e7599f65f27.png'
   },
-  delete_url: 'https://ibb.co/5jKj6XV/ffd8ef0b1c803f02443553535cf4a5f4'
+  delete_url: 'https://ibb.co/26Sy9tM/087a7edaaac26e1c940283df07d0b1d7'
 }
 ```
 
 This async function returns a promise, so this is normal :  
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
-Your data is available in `.then(response => response)` as shown above.
+Your data is available in `.then(response => response)` as shown above.  
+Alternatively, you're indeed free to assign the value directly, using `await` within an async function:
 
-**This module is tiny & totally unlicensed: to better fit your need, feel free to fork !**  
+```javascript
+const imgbbUploader = require("imgbb-uploader");
+
+const myAsyncFunc = async (options) => {
+  const imgbbResponse = await imgbbUploader(
+    process.env.IMGBB_API_KEY,
+    options.imagePath,
+  );
+  console.log(imgbbResponse.image.url);
+  await doMoreStuff(imgbbResponse.image.url);
+  return 0;
+};
+
+myAsyncFunc(); /* your image url prints in stdout;
+defining the doMoreStuff() async function is up to you */
+```
+
+## Use with option object
+
+From 1.2.0 onward, you can pass additional params through an option object.
+
+- I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
+- II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
+- III) **imgbbUploader takes an option object as argument** :
+
+```javascript
+const imgbbUploader = require("imgbb-uploader");
+
+const options = {
+  apiKey: "yourApiKey", // MANDATORY
+  imagePath: "yourImagePath", // MANDATORY
+  name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
+  expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
+  It must be in the 60-15552000 range (feature based on POSIX time).
+  Enable this if you want to force your image to be deleted after that time.
+  */,
+};
+
+imgbbUploader(options)
+  .then((response) => console.log(response))
+  .catch((error) => console.error(error));
+/* output structure similar to legacy mode. Notice res.expiration & res.image.name :
+
+  {
+  id: 'PWzcD11',
+  title: 'your-Custom-Filename',
+  url_viewer: 'https://ibb.co/PWzcD11',
+  url: 'https://i.ibb.co/xg81Fzz/your-Custom-Filename.jpg',
+  display_url: 'https://i.ibb.co/xg81Fzz/your-Custom-Filename.jpg',
+  size: 54921,
+  time: '1609336389',
+  expiration: '3600',
+  image: {
+    filename: 'your-Custom-Filename.jpg',
+    name: 'your-Custom-Filename',
+    mime: 'image/jpeg',
+    extension: 'jpg',
+    url: 'https://i.ibb.co/xg81Fzz/your-Custom-Filename.jpg'
+  },
+  thumb: {
+    filename: 'your-Custom-Filename.jpg',
+    name: 'your-Custom-Filename',
+    mime: 'image/jpeg',
+    extension: 'jpg',
+    url: 'https://i.ibb.co/PWzcD11/your-Custom-Filename.jpg'
+  },
+  delete_url: 'https://ibb.co/PWzcD11/0ec6e343ded12e46ca84c2109bdea040'
+}
+*/
+```
+
+**This module is tiny & totally unlicensed: to better fit your need, fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
 
 ## Learn more
@@ -82,7 +157,7 @@ const dirPath = path.join(__dirname);
 module.exports = dirPath;
 ```
 
-Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder", subsubfolder)` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
+Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
 See `fs` documentation and Stack Overflow for more inspiration on the matter.
 
 [CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
