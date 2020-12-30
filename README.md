@@ -18,7 +18,7 @@ _To upload pictures from your frontend please check the [File API](https://devel
 
 `npm install imgbb-uploader`
 
-## Use (legacy mode)
+## Use with two params (legacy mode)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
@@ -69,9 +69,10 @@ This async function returns a promise, so this is normal :
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
 Your data is available in `.then(response => response)` as shown above.
 
-## Use with option object
+## Use with options object
 
-From version 1.2.0 onward, you can pass additional params through an option object.
+From version 1.2.0 onward, you can also pass an options object as param.  
+[Use it to customize filename and/or a set duration after which the image will be deleted.](https://api.imgbb.com/)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
@@ -85,19 +86,21 @@ const options = {
   imagePath: "yourImagePath", // MANDATORY
   name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
   expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
+
   It must be in the 60-15552000 range (feature based on POSIX time).
-  Enable this if you want to force your image to be deleted after that time. */,
+  Enable this to force your image to be deleted after that time. */,
 };
 
 imgbbUploader(options)
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
-/* output similar to legacy mode, 
-res.expiration & res.image.name have the requested values
+
+/* same output structure as above, unless you provided name and/or expiration values; 
+in that case you'll see response.expiration and/or response.image.name change accordingly.
 */
 ```
 
-**This module is tiny & totally unlicensed: to better fit your need, fork away !**  
+**This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
 
 ## Learn more
