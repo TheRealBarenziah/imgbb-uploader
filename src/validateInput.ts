@@ -1,4 +1,4 @@
-const fs = require("fs").promises;
+import { lstat } from "fs/promises";
 
 /**
  * Formally validate input params
@@ -9,10 +9,10 @@ const fs = require("fs").promises;
  *    A promise that resolve to `true` if things are looking good, and otherwise resolve to `false`
  */
 export const validateInput = async (apiKey: string, path: string) => {
-  const presumedFile = await fs.lstat(path);
+  const presumedFile = await lstat(path);
   if (
     apiKey.length === 32 && // imgBB API keys being 32 characters long is empiric knowledge
-    (await presumedFile.isFile()) // Using fs.lstat to ensure there is a file to upload
+    presumedFile.isFile() // Using fs.lstat to ensure there is a file to upload
   ) {
     return true;
   } else return false;

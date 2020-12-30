@@ -26,15 +26,15 @@ export const postToImgbb = (params: IPostParams) =>
       image: base64str,
     });
 
-    let path = `/1/upload?key=${apiKey}`;
-    if (name) path += `&name=${name}`;
-    if (expiration) path += `&expiration=${expiration}`;
+    let query = `/1/upload?key=${apiKey}`;
+    if (name) query += `&name=${name}`;
+    if (expiration) query += `&expiration=${expiration}`;
 
     const options = {
       hostname: "api.imgbb.com",
       method: "POST",
       timeout: 5000,
-      path: path,
+      path: query,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
