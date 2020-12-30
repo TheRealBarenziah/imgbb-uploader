@@ -35,7 +35,7 @@ imgbbUploader(
   .catch((error) => console.error(error));
 ```
 
-### `.then(response => console.log(response))` output example :
+### `.then((response) => console.log(response))` output example :
 
 ```javascript
 {
@@ -67,29 +67,11 @@ imgbbUploader(
 
 This async function returns a promise, so this is normal :  
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
-Your data is available in `.then(response => response)` as shown above.  
-Alternatively, you're indeed free to assign the value directly, using `await` within an async function:
-
-```javascript
-const imgbbUploader = require("imgbb-uploader");
-
-const myAsyncFunc = async (options) => {
-  const imgbbResponse = await imgbbUploader(
-    process.env.IMGBB_API_KEY,
-    options.imagePath,
-  );
-  console.log(imgbbResponse.image.url);
-  await doMoreStuff(imgbbResponse.image.url);
-  return 0;
-};
-
-myAsyncFunc(); /* your image url prints in stdout;
-defining the doMoreStuff() async function is up to you */
-```
+Your data is available in `.then(response => response)` as shown above.
 
 ## Use with option object
 
-From 1.2.0 onward, you can pass additional params through an option object.
+From version 1.2.0 onward, you can pass additional params through an option object.
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
@@ -104,40 +86,14 @@ const options = {
   name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
   expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
   It must be in the 60-15552000 range (feature based on POSIX time).
-  Enable this if you want to force your image to be deleted after that time.
-  */,
+  Enable this if you want to force your image to be deleted after that time. */,
 };
 
 imgbbUploader(options)
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
-/* output structure similar to legacy mode. Notice res.expiration & res.image.name :
-
-  {
-  id: 'PWzcD11',
-  title: 'your-Custom-Filename',
-  url_viewer: 'https://ibb.co/PWzcD11',
-  url: 'https://i.ibb.co/xg81Fzz/your-Custom-Filename.jpg',
-  display_url: 'https://i.ibb.co/xg81Fzz/your-Custom-Filename.jpg',
-  size: 54921,
-  time: '1609336389',
-  expiration: '3600',
-  image: {
-    filename: 'your-Custom-Filename.jpg',
-    name: 'your-Custom-Filename',
-    mime: 'image/jpeg',
-    extension: 'jpg',
-    url: 'https://i.ibb.co/xg81Fzz/your-Custom-Filename.jpg'
-  },
-  thumb: {
-    filename: 'your-Custom-Filename.jpg',
-    name: 'your-Custom-Filename',
-    mime: 'image/jpeg',
-    extension: 'jpg',
-    url: 'https://i.ibb.co/PWzcD11/your-Custom-Filename.jpg'
-  },
-  delete_url: 'https://ibb.co/PWzcD11/0ec6e343ded12e46ca84c2109bdea040'
-}
+/* output similar to legacy mode, 
+res.expiration & res.image.name have the requested values
 */
 ```
 
