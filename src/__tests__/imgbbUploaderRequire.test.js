@@ -24,7 +24,7 @@ test("imgbbUploader w/ require: passing NO option object", async () => {
 
 test("imgbbUploader w/ require: passing an option object with expiration as 3rd param", async () => {
   const randomFilename = tfaker.firstName() + Date.now();
-  const randomExpirationValue = Math.floor(Math.random() * 300) + 1;
+  const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
   await generateWaifu({
     path: "./src/__tests__/images",
     filename: randomFilename,
@@ -63,7 +63,7 @@ test("imgbbUploader w/ require: passing an option object with name as 3rd param"
 test("imgbbUploader w/ require: passing an option object with name & expiration params", async () => {
   const valarDohaeris = tfaker.firstName();
   const randomFilename = valarDohaeris + Date.now();
-  const randomExpirationValue = Math.floor(Math.random() * 300) + 60;
+  const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
   await generateWaifu({
     path: "./src/__tests__/images",
     filename: randomFilename,
@@ -91,7 +91,7 @@ test("imgbbUploader w/ require: passing an invalid option object should throw wh
   const valarDohaeris = tfaker.firstName();
   const randomFilename = valarDohaeris + Date.now();
   const options = {
-    archmagePath: path.join(imagePath, `${randomFilename}.jpg`),
+    explosionPath: path.join(imagePath, `${randomFilename}.jpg`),
     apiKey: process.env.API_KEY,
   };
   expect(await imgbbUploader(options).catch((e) => e)).toThrow();
