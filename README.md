@@ -18,55 +18,90 @@ _To upload pictures from your frontend please check the [File API](https://devel
 
 `npm install imgbb-uploader`
 
-## Use
+## Use with two string params (legacy, LTS)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
 - III) **imgbbUploader takes _exactly two_ String arguments** : your API key, and the absolute path of your image :
 
-```
-var imgbbUploader = require('imgbb-uploader');
+```javascript
+const imgbbUploader = require("imgbb-uploader");
 
-imgbbUploader("your-imgbb-api-key-string", "home/absolute/path/to/your/image/image.png")
-  .then(response => console.log(response))
-  .catch(error => console.error(1))
+imgbbUploader(
+  "your-imgbb-api-key-string",
+  "absolute/path/to/your/image/image.png",
+)
+  .then((response) => console.log(response))
+  .catch((error) => console.error(error));
 ```
 
-## `.then(response => console.log(response))` output example :
+### `.then((response) => console.log(response))` output example :
 
-```
+```javascript
 {
-  id: '5jKj6XV',
-  url_viewer: 'https://ibb.co/5jKj6XV',
-  url: 'https://i.ibb.co/94Z4Nmj/test.jpg',
-  display_url: 'https://i.ibb.co/94Z4Nmj/test.jpg',
-  title: 'test',
-  time: '1574431312',
+  id: '26Sy9tM',
+  title: '5e7599f65f27',
+  url_viewer: 'https://ibb.co/26Sy9tM',
+  url: 'https://i.ibb.co/z5FrMR2/5e7599f65f27.png',
+  display_url: 'https://i.ibb.co/z5FrMR2/5e7599f65f27.png',
+  size: 260258,
+  time: '1609336605',
+  expiration: '0',
   image: {
-    filename: 'test.jpg',
-    name: 'test',
-    mime: 'image/jpeg',
-    extension: 'jpg',
-    url: 'https://i.ibb.co/94Z4Nmj/test.jpg',
-    size: 91264
+    filename: '5e7599f65f27.png',
+    name: '5e7599f65f27',
+    mime: 'image/png',
+    extension: 'png',
+    url: 'https://i.ibb.co/z5FrMR2/5e7599f65f27.png'
   },
   thumb: {
-    filename: 'test.jpg',
-    name: 'test',
-    mime: 'image/jpeg',
-    extension: 'jpg',
-    url: 'https://i.ibb.co/5jKj6XV/test.jpg',
-    size: '12875'
+    filename: '5e7599f65f27.png',
+    name: '5e7599f65f27',
+    mime: 'image/png',
+    extension: 'png',
+    url: 'https://i.ibb.co/26Sy9tM/5e7599f65f27.png'
   },
-  delete_url: 'https://ibb.co/5jKj6XV/ffd8ef0b1c803f02443553535cf4a5f4'
+  delete_url: 'https://ibb.co/26Sy9tM/087a7edaaac26e1c940283df07d0b1d7'
 }
 ```
 
 This async function returns a promise, so this is normal :  
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
-Your data is available in `.then(response => response)` as shown above.
+Your data is available in `.then((response) => response)` as shown above.
 
-**This module is tiny & totally unlicensed: to better fit your need, feel free to fork !**  
+## Use with options object (more features, yay! )
+
+From version 1.2.0 onward, you can also pass an options object as param.  
+Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).
+
+- I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
+- II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
+- III) pass an option object as argument :
+
+```javascript
+const imgbbUploader = require("imgbb-uploader");
+
+const options = {
+  apiKey: process.env.IMGBB_API_KEY, // MANDATORY
+  imagePath: "yourImagePath", // MANDATORY
+  name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
+  expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
+
+  It must be in the 60-15552000 range (feature based on POSIX time).
+  Enable this to force your image to be deleted after that time. */,
+};
+
+imgbbUploader(options)
+  .then((response) => console.log(response))
+  .catch((error) => console.error(error));
+
+/* 
+  Same data structure as above; if you provided name and/or expiration value, 
+  response.expiration and/or response.image.name will change accordingly.
+*/
+```
+
+**This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
 
 ## Learn more
@@ -82,7 +117,7 @@ const dirPath = path.join(__dirname);
 module.exports = dirPath;
 ```
 
-Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder", subsubfolder)` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
+Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
 See `fs` documentation and Stack Overflow for more inspiration on the matter.
 
 [CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
