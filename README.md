@@ -67,7 +67,7 @@ imgbbUploader(
 
 This async function returns a promise, so this is normal :  
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
-Your data is available in `.then(response => response)` as shown above.
+Your data is available in `.then((response) => response)` as shown above.
 
 ## Use with options object
 
@@ -95,8 +95,9 @@ imgbbUploader(options)
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
 
-/* same output structure as above, unless you provided name and/or expiration values; 
-in that case you'll see response.expiration and/or response.image.name change accordingly.
+/* 
+  Same output structure as above; if you provided name and/or expiration value, 
+  response.expiration and/or response.image.name will change accordingly.
 */
 ```
 
