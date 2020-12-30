@@ -18,7 +18,7 @@ _To upload pictures from your frontend please check the [File API](https://devel
 
 `npm install imgbb-uploader`
 
-## Use with two params (legacy mode)
+## Use with two string params (legacy, LTS)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
@@ -69,20 +69,20 @@ This async function returns a promise, so this is normal :
 `console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
 Your data is available in `.then((response) => response)` as shown above.
 
-## Use with options object
+## Use with options object (more features, yay! )
 
 From version 1.2.0 onward, you can also pass an options object as param.  
-[Use it to customize filename and/or a set duration after which the image will be deleted.](https://api.imgbb.com/)
+Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
-- II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
-- III) **imgbbUploader takes an option object as argument** :
+- II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
+- III) pass an option object as argument :
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
 
 const options = {
-  apiKey: "yourApiKey", // MANDATORY
+  apiKey: process.env.IMGBB_API_KEY, // MANDATORY
   imagePath: "yourImagePath", // MANDATORY
   name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
   expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
@@ -96,7 +96,7 @@ imgbbUploader(options)
   .catch((error) => console.error(error));
 
 /* 
-  Same output structure as above; if you provided name and/or expiration value, 
+  Same data structure as above; if you provided name and/or expiration value, 
   response.expiration and/or response.image.name will change accordingly.
 */
 ```
