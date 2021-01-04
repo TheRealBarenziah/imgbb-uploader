@@ -83,12 +83,19 @@ const imgbbUploader = require("imgbb-uploader");
 
 const options = {
   apiKey: process.env.IMGBB_API_KEY, // MANDATORY
-  imagePath: "yourImagePath", // MANDATORY
+  imagePath: "./your/image/path", // OPTIONAL (unless options.base64string is falsy)
   name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
   expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
-
-  It must be in the 60-15552000 range (feature based on POSIX time).
+  It must be in the 60-15552000 range (POSIX time ftw).
   Enable this to force your image to be deleted after that time. */,
+
+  base64string:
+    "data:image/jpeg;base64,blahblah" /* OPTIONAL (unless options.imagePath is falsy)
+  Enable this to upload base64-encoded image directly as string.
+  Allows to work with RAM directly for increased performance (skips the call to filesystem I/O).
+
+  Beware: this param will be ignored if options.imagePath exists! 
+  */,
 };
 
 imgbbUploader(options)
@@ -103,6 +110,46 @@ imgbbUploader(options)
 
 **This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
+
+## More examples using options object
+
+Standard use with variables:
+
+```javascript
+const path = require("path");
+const imagePath = require("../public/images");
+
+const customFilename = "fancy_name";
+const expires_in = 60 * 60;
+
+const options = {
+  apiKey: process.env.IMGBB_API_KEY,
+  imagePath: path.join(imagePath, `${customFilename}.jpg`),
+  name: customFilename.toUpperCase(),
+  expiration: Number(expires_in),
+};
+
+imgbbUploader(options)
+  .then((response) => console.log(response))
+  .catch((error) => console.error(error));
+```
+
+Use with base64string param:
+
+```javascript
+const path = require("path");
+
+const options = {
+  apiKey: process.env.IMGBB_API_KEY,
+  base64string: "",
+  name: customFilename.toUpperCase(),
+  expiration: Number(expires_in),
+};
+
+imgbbUploader(options)
+  .then((response) => console.log(response))
+  .catch((error) => console.error(error));
+```
 
 ## Learn more
 
