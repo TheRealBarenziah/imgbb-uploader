@@ -90,11 +90,11 @@ const options = {
   Enable this to force your image to be deleted after that time. */,
 
   base64string:
-    "data:image/jpeg;base64,blahblah" /* OPTIONAL (unless options.imagePath is falsy)
+    "data:image/jpeg;base64,blahblahblah" /* OPTIONAL (unless options.imagePath is falsy)
   Enable this to upload base64-encoded image directly as string.
-  Allows to work with RAM directly for increased performance (skips the call to filesystem I/O).
+  Allows to work with RAM directly for increased performance (skips fs I/O calls).
 
-  Beware: this param will be ignored if options.imagePath exists! 
+  Beware: options.imagePath will be ignored as long as options.base64string is defined! 
   */,
 };
 
@@ -139,11 +139,19 @@ Use with base64string param:
 ```javascript
 const path = require("path");
 
+// Some async function returning base64 string
+const base64str = async () => {
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  await delay(1000).then(
+    () =>
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=",
+  );
+};
+
 const options = {
   apiKey: process.env.IMGBB_API_KEY,
-  base64string: "",
-  name: customFilename.toUpperCase(),
-  expiration: Number(expires_in),
+  base64string: base64str(),
+  name: "custom-filename",
 };
 
 imgbbUploader(options)
