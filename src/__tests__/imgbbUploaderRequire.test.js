@@ -14,7 +14,10 @@ const fakeWaifu = (mode) =>
         try {
           return generateWaifu({
             skipFs: true,
-          }).then((res) => resolve(res));
+          }).then((res) =>
+            // remove base64 marker to please imgBB APIs
+            resolve(res.split("data:image/png;base64,")[1]),
+          );
         } catch (e) {
           reject(e);
         }
@@ -141,19 +144,53 @@ test("imgbbUploader w/ require: passing a base64string, expiration & name", asyn
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   const valarDohaeris = tfaker.firstName();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
-
-  // remove base64 marker to please imgBB API
-  const pureBase64Data = this.base64waifu.split("data:image/png;base64,")[1];
-
   const options = {
-    base64string: pureBase64Data,
+    base64string: this.base64waifu,
     apiKey: process.env.API_KEY,
     name: valarDohaeris,
     expiration: randomExpirationValue,
   };
   expect(
     await imgbbUploader(options).then((res) => {
-      return Boolean(res.image.url);
+      return {
+        name: res.image.name,
+        expiration: Number(res.expiration),
+      };
     }),
-  ).toBe(true);
+  ).toStrictEqual({
+    name: valarDohaeris,
+    expiration: randomExpirationValue,
+  });
+});
+
+test("imgbbUploader w/ require: passing a base64string & name", async () => {
+  this.base64waifu = "";
+  await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
+  const valarDohaeris = tfaker.firstName();
+  const options = {
+    base64string: this.base64waifu,
+    apiKey: process.env.API_KEY,
+    name: valarDohaeris,
+  };
+  expect(
+    await imgbbUploader(options).then((res) => res.image.name),
+  ).toStrictEqual(valarDohaeris);
+});
+
+test("imgbbUploader w/ require: passing a base64string without apiKey", async () => {
+  this.base64waifu = "";
+  await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
+  const options = {
+    base64string: this.base64waifu,
+    apiKey: "definitely-not-an-api-key",
+  };
+  return await imgbbUploader(options)
+    .then((res) => {
+      console.log("Im in here");
+      return res;
+    })
+    .catch((e) => {
+      console.log("Not in here but I should ", e);
+      return expect(e).toBeInstanceOf(Error);
+    });
 });

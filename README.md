@@ -12,7 +12,7 @@ Primary use is letting imgBB handle the hosting & serving of images.
 
 **Node >= 8** ( [this module uses async/await](https://node.green/) )  
 _Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_  
-_To upload pictures from your frontend please check the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) instead_
+_You really shouldn't use API keys from your frontend. But if you're the YOLO type, it can easily be made with [window.File](https://developer.mozilla.org/en-US/docs/Web/API/File) & [window.fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). [Your sin, not mine!](https://stackoverflow.com/a/63669049/11894221)_
 
 ## Install
 
@@ -76,7 +76,7 @@ Use it to customize filename and/or a set duration after which the image will be
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
-- III) pass an option object as argument :
+- III) **pass an option object as argument** :
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
@@ -88,7 +88,6 @@ const options = {
   expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
   It must be in the 60-15552000 range (POSIX time ftw).
   Enable this to force your image to be deleted after that time. */,
-
   base64string:
     "data:image/jpeg;base64,blahblahblah" /* OPTIONAL (unless options.imagePath is falsy)
   Enable this to upload base64-encoded image directly as string.
@@ -101,11 +100,6 @@ const options = {
 imgbbUploader(options)
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
-
-/* 
-  Same data structure as above; if you provided name and/or expiration value, 
-  response.expiration and/or response.image.name will change accordingly.
-*/
 ```
 
 **This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
@@ -113,50 +107,38 @@ imgbbUploader(options)
 
 ## More examples using options object
 
-Standard use with variables:
+Using base64string param:
 
 ```javascript
-const path = require("path");
-const imagePath = require("../public/images");
+const imgbbUploader = require("imgbb-uploader");
 
-const customFilename = "fancy_name";
-const expires_in = 60 * 60;
+// Some promise of base64 data
+const base64str = () =>
+  new Promise((resolve) => {
+    return setTimeout(() => {
+      resolve(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=",
+      );
+    }, 1000);
+  });
 
-const options = {
-  apiKey: process.env.IMGBB_API_KEY,
-  imagePath: path.join(imagePath, `${customFilename}.jpg`),
-  name: customFilename.toUpperCase(),
-  expiration: Number(expires_in),
+// Your custom async function
+const myFunc = async (name) => {
+  try {
+    const data = await base64str();
+    return await imgbbUploader({
+      apiKey: "definitely-not-a-valid-key",
+      base64string: await data,
+      name: name,
+    });
+  } catch (e) {
+    throw e;
+  }
 };
 
-imgbbUploader(options)
-  .then((response) => console.log(response))
-  .catch((error) => console.error(error));
-```
-
-Use with base64string param:
-
-```javascript
-const path = require("path");
-
-// Some async function returning base64 string
-const base64str = async () => {
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-  await delay(1000).then(
-    () =>
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=",
-  );
-};
-
-const options = {
-  apiKey: process.env.IMGBB_API_KEY,
-  base64string: base64str(),
-  name: "custom-filename",
-};
-
-imgbbUploader(options)
-  .then((response) => console.log(response))
-  .catch((error) => console.error(error));
+myFunc("Daenerys")
+  .then((res) => console.log(`res: ${res}`))
+  .catch((e) => console.error(`catch: ${e}`));
 ```
 
 ## Learn more

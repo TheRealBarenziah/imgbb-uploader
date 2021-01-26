@@ -1,3 +1,15 @@
+# 1.3.0
+
+Issue #6 brought an interesting feature idea. Took me a bit of time because I first had to adapt the module used by the tests (waifu-generator).
+
+Everything seem to be working as intended.
+
+Took the opportunity to reduce insanity within test code. Not perfect, but still less horrible than before.
+
+Finally, I'm abandoning the idea of making this frontend-compatible some day. I don't want to endorse terrorism, and it's definitely not reasonable to encourage people to throw API keys into their frontends (even free API key - remember this module will stop working the day imgBB shut down their service).
+
+What I could do, aside writing this in the README, is perhaps redirecting to a working HTML/JS or React snippet, so people looking for a quick solution without any regard for security (for POC/hackathon/pet project) could gain some time.
+
 # 1.2.0
 
 While issues #3 and #4 were closed by users, they still needed to be adressed.
