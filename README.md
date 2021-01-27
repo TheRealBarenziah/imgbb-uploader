@@ -6,7 +6,7 @@ Primary use is letting imgBB handle the hosting & serving of images.
 [![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader?targetFile=package.json)
-[![Dependencies](https://img.shields.io/badge/Dependencies-none-brightgreen)](https://img.shields.io/badge/Dependencies-none-brightgreen)
+[![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://img.shields.io/badge/dependencies-0-brightgreen)
 [![Build Status](https://travis-ci.org/TheRealBarenziah/imgbb-uploader.svg?branch=master)](https://travis-ci.org/TheRealBarenziah/imgbb-uploader)
 
 ## Compatibility:
