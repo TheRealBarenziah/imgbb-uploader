@@ -6,13 +6,16 @@ Primary use is letting imgBB handle the hosting & serving of images.
 [![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader?targetFile=package.json)
+[![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://img.shields.io/badge/dependencies-0-brightgreen)
 [![Build Status](https://travis-ci.org/TheRealBarenziah/imgbb-uploader.svg?branch=master)](https://travis-ci.org/TheRealBarenziah/imgbb-uploader)
 
 ## Compatibility:
 
 **Node >= 8** ( [this module uses async/await](https://node.green/) )  
-_Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_  
-_To upload pictures from your frontend please check the [File API](https://developer.mozilla.org/en-US/docs/Web/API/File) instead_
+_Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_
+
+_You really SHOULDN'T use API keys from your frontend. But, if you're the yolo type, you could use window.File & window.fetch. PLEASE DON'T DO THAT !!!_  
+[Blah blah blah, my soul is lost already, bring it on](https://stackoverflow.com/a/63669049/11894221)
 
 ## Install
 
@@ -76,33 +79,73 @@ Use it to customize filename and/or a set duration after which the image will be
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
-- III) pass an option object as argument :
+- III) **pass an option object as argument** :
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
 
 const options = {
   apiKey: process.env.IMGBB_API_KEY, // MANDATORY
-  imagePath: "yourImagePath", // MANDATORY
-  name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
-  expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
 
-  It must be in the 60-15552000 range (feature based on POSIX time).
+  imagePath: "./your/image/path", // OPTIONAL (unless options.base64string is falsy)
+
+  name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
+
+  expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
+  It must be in the 60-15552000 range (POSIX time ftw).
   Enable this to force your image to be deleted after that time. */,
+
+  base64string:
+    "data:image/jpeg;base64,blahblahblah" /* OPTIONAL (unless options.imagePath is falsy)
+  Enable this to upload base64-encoded image directly as string. (available from 1.3.0 onward)
+  Allows to work with RAM directly for increased performance (skips fs I/O calls).
+
+  Beware: options.imagePath will be ignored as long as options.base64string is defined! 
+  */,
 };
 
 imgbbUploader(options)
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
-
-/* 
-  Same data structure as above; if you provided name and/or expiration value, 
-  response.expiration and/or response.image.name will change accordingly.
-*/
 ```
 
 **This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
+
+## More examples using option object
+
+Using options.base64string:
+
+```javascript
+const imgbbUploader = require("imgbb-uploader");
+
+// Some promise of base64 data
+const base64str = () =>
+  new Promise((resolve) => {
+    return setTimeout(() => {
+      resolve(
+        "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR42mNcLVNbzwAEjDAGACcSA4kB6ARiAAAAAElFTkSuQmCC",
+      );
+    }, 1000);
+  });
+
+// Your barebone async function
+const myFunc = async (name) => {
+  try {
+    return await imgbbUploader({
+      apiKey: "definitely-not-a-valid-key",
+      base64string: await base64str(),
+      name: name,
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+myFunc("Dolunay_Obruk-Sama_<3")
+  .then((res) => console.log(res))
+  .catch((e) => console.error(e));
+```
 
 ## Learn more
 
