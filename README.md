@@ -122,13 +122,12 @@ const base64str = () =>
     }, 1000);
   });
 
-// Your custom async function
+// Your barebone async function
 const myFunc = async (name) => {
   try {
-    const data = await base64str();
     return await imgbbUploader({
       apiKey: "definitely-not-a-valid-key",
-      base64string: await data,
+      base64string: await base64str();,
       name: name,
     });
   } catch (e) {
@@ -136,9 +135,9 @@ const myFunc = async (name) => {
   }
 };
 
-myFunc("Daenerys")
-  .then((res) => console.log(`res: ${res}`))
-  .catch((e) => console.error(`catch: ${e}`));
+myFunc("Dolunay_Obruk-Sama_<3")
+  .then((res) => console.log(`in then : ${res}`))
+  .catch((e) => console.error(`in catch: ${e}`));
 ```
 
 ## Learn more

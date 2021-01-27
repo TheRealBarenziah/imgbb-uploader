@@ -107,7 +107,7 @@ test("imgbbUploader w/ require: passing an invalid option object should throw wh
     apiKey: process.env.API_KEY,
   };
   return await imgbbUploader(options)
-    .then((res) => res)
+    .then(() => fail()) // Test should fail if entering this block
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
@@ -177,7 +177,7 @@ test("imgbbUploader w/ require: passing a base64string & name", async () => {
   ).toStrictEqual(valarDohaeris);
 });
 
-test("imgbbUploader w/ require: passing a base64string without apiKey", async () => {
+test("imgbbUploader w/ require: passing a base64string without apiKey should throw", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   const options = {
@@ -185,12 +185,8 @@ test("imgbbUploader w/ require: passing a base64string without apiKey", async ()
     apiKey: "definitely-not-an-api-key",
   };
   return await imgbbUploader(options)
-    .then((res) => {
-      console.log("Im in here");
-      return res;
-    })
+    .then(() => fail()) // Test should fail if entering this block
     .catch((e) => {
-      console.log("Not in here but I should ", e);
-      return expect(e).toBeInstanceOf(Error);
+      expect(e).toBeInstanceOf(Error);
     });
 });
