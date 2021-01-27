@@ -117,7 +117,7 @@ const base64str = () =>
   new Promise((resolve) => {
     return setTimeout(() => {
       resolve(
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=",
+        "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR42mNcLVNbzwAEjDAGACcSA4kB6ARiAAAAAElFTkSuQmCC",
       );
     }, 1000);
   });
@@ -127,7 +127,7 @@ const myFunc = async (name) => {
   try {
     return await imgbbUploader({
       apiKey: "definitely-not-a-valid-key",
-      base64string: await base64str();,
+      base64string: await base64str(),
       name: name,
     });
   } catch (e) {
@@ -136,8 +136,8 @@ const myFunc = async (name) => {
 };
 
 myFunc("Dolunay_Obruk-Sama_<3")
-  .then((res) => console.log(`in then : ${res}`))
-  .catch((e) => console.error(`in catch: ${e}`));
+  .then((res) => console.log(res))
+  .catch((e) => console.error(e));
 ```
 
 ## Learn more

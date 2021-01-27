@@ -107,7 +107,7 @@ test("imgbbUploader w/ require: passing an invalid option object should throw wh
     apiKey: process.env.API_KEY,
   };
   return await imgbbUploader(options)
-    .then(() => fail()) // Test should fail if entering this block
+    .then(() => fail()) // Test should fail if ever entering this block
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
@@ -185,7 +185,7 @@ test("imgbbUploader w/ require: passing a base64string without apiKey should thr
     apiKey: "definitely-not-an-api-key",
   };
   return await imgbbUploader(options)
-    .then(() => fail()) // Test should fail if entering this block
+    .then(() => fail()) // Test should fail if ever entering this block
     .catch((e) => {
       expect(e).toBeInstanceOf(Error);
     });

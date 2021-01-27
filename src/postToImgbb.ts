@@ -52,7 +52,13 @@ export const postToImgbb = (params: IPostParams) =>
 
         res.on("end", () => {
           const output = JSON.parse(response).data;
-          resolve(output);
+          output
+            ? resolve(output)
+            : reject(
+                new Error(
+                  "There was a problem with imgBB, please check your inputs",
+                ),
+              );
         });
       })
 
