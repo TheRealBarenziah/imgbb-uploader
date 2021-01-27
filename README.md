@@ -97,7 +97,7 @@ const options = {
 
   base64string:
     "data:image/jpeg;base64,blahblahblah" /* OPTIONAL (unless options.imagePath is falsy)
-  Enable this to upload base64-encoded image directly as string.
+  Enable this to upload base64-encoded image directly as string. (available from 1.3.0 onward)
   Allows to work with RAM directly for increased performance (skips fs I/O calls).
 
   Beware: options.imagePath will be ignored as long as options.base64string is defined! 
