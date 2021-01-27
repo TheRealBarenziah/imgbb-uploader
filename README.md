@@ -14,8 +14,8 @@ Primary use is letting imgBB handle the hosting & serving of images.
 **Node >= 8** ( [this module uses async/await](https://node.green/) )  
 _Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_
 
-_You really SHOULDN'T use API keys from your frontend. But, if you're the yolo type, you could use window.File & window.fetch. Please don't do that !!!_  
-[Blahblah, you warned me but I'm a sinner anyway](https://stackoverflow.com/a/63669049/11894221)\_
+_You really SHOULDN'T use API keys from your frontend. But, if you're the yolo type, you could use window.File & window.fetch. PLEASE DON'T DO THAT !!!_  
+[Blah blah blah, my soul is lost already, bring it on](https://stackoverflow.com/a/63669049/11894221)
 
 ## Install
 
