@@ -11,8 +11,10 @@ Primary use is letting imgBB handle the hosting & serving of images.
 ## Compatibility:
 
 **Node >= 8** ( [this module uses async/await](https://node.green/) )  
-_Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_  
-_You really shouldn't use API keys from your frontend. But if you're the YOLO type, it can easily be made with [window.File](https://developer.mozilla.org/en-US/docs/Web/API/File) & [window.fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). [Your sin, not mine!](https://stackoverflow.com/a/63669049/11894221)_
+_Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_
+
+_You really SHOULDN'T use API keys from your frontend. But, if you're the yolo type, you could use window.File & window.fetch. Please don't do that !!!_  
+[Blahblah, you warned me but I'm a sinner anyway](https://stackoverflow.com/a/63669049/11894221)\_
 
 ## Install
 
@@ -83,11 +85,15 @@ const imgbbUploader = require("imgbb-uploader");
 
 const options = {
   apiKey: process.env.IMGBB_API_KEY, // MANDATORY
+
   imagePath: "./your/image/path", // OPTIONAL (unless options.base64string is falsy)
+
   name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
+
   expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
   It must be in the 60-15552000 range (POSIX time ftw).
   Enable this to force your image to be deleted after that time. */,
+
   base64string:
     "data:image/jpeg;base64,blahblahblah" /* OPTIONAL (unless options.imagePath is falsy)
   Enable this to upload base64-encoded image directly as string.
@@ -105,9 +111,9 @@ imgbbUploader(options)
 **This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
 
-## More examples using options object
+## More examples using option object
 
-Using base64string param:
+Using options.base64string:
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
