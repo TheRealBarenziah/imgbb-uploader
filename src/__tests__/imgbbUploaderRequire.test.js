@@ -73,12 +73,12 @@ test("imgbbUploader w/ require: passing an option object with name & expiration 
       apiKey: process.env.API_KEY,
       name: valarDohaeris,
       expiration: randomExpirationValue,
-    }).then((res) => {
-      return {
+    }).then((res) =>
+      Object({
         name: res.image.name,
         expiration: Number(res.expiration),
-      };
-    }),
+      }),
+    ),
   ).toStrictEqual({
     name: valarDohaeris,
     expiration: randomExpirationValue,
@@ -131,9 +131,9 @@ test("imgbbUploader w/ require: passing a base64string, expiration & name", asyn
       apiKey: process.env.API_KEY,
       name: valarDohaeris,
       expiration: randomExpirationValue,
-    }).then((res) => {
-      return { name: res.image.name, expiration: Number(res.expiration) };
-    }),
+    }).then((res) =>
+      Object({ name: res.image.name, expiration: Number(res.expiration) }),
+    ),
   ).toStrictEqual({
     name: valarDohaeris,
     expiration: randomExpirationValue,

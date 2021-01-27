@@ -1,6 +1,7 @@
 import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
 import { validateInput } from "./validateInput";
+
 /**
  * Upload local pictures files to imgbb API and get display URLs in response.
  *
@@ -16,6 +17,7 @@ import { validateInput } from "./validateInput";
  *
  * @returns {Promise.<ResponseObject>}
  *    A promise. Access your data using `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
+ *
  * @example
  *     imgbbUploader("your-api-key", "/absolute/path/to/file.jpg")
  *       .then(res => console.log(res))
@@ -72,10 +74,11 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
     } catch (e) {
       throw new Error(e);
     }
-  } else
+  } else {
     throw new Error(
       `It seems you didn't pass your arguments properly! Please check imgbbUploader documentation here:\nhttps://github.com/TheRealBarenziah/imgbb-uploader/tree/master`,
     );
+  }
 };
 
 export = imgbbUploader;
