@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const path = require("path");
 const imagePath = require("./images/imagePath");
 const imgbbUploader = require("../../lib/cjs");
@@ -14,14 +13,10 @@ const fakeWaifu = (mode) =>
         try {
           return generateWaifu({
             skipFs: true,
-          }).then((res) =>
-            // remove base64 marker to please imgBB APIs
-            resolve(res.split("data:image/png;base64,")[1]),
-          );
+          }).then((res) => resolve(res.split("data:image/png;base64,")[1]));
         } catch (e) {
           reject(e);
         }
-
       default:
         try {
           return generateWaifu({
@@ -40,39 +35,31 @@ test("imgbbUploader w/ require: passing NO option object", async () => {
     await imgbbUploader(
       process.env.API_KEY,
       path.join(imagePath, `${filename}.png`),
-    ).then((res) => {
-      return Boolean(res.image.url);
-    }),
+    ).then((res) => Boolean(res.image.url)),
   ).toBe(true);
 });
 
 test("imgbbUploader w/ require: passing an option object with expiration as 3rd param", async () => {
   const filename = await fakeWaifu();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
-  const options = {
-    imagePath: path.join(imagePath, `${filename}.png`),
-    apiKey: process.env.API_KEY,
-    expiration: randomExpirationValue,
-  };
   expect(
-    await imgbbUploader(options).then((res) => {
-      return Number(res.expiration);
-    }),
+    await imgbbUploader({
+      imagePath: path.join(imagePath, `${filename}.png`),
+      apiKey: process.env.API_KEY,
+      expiration: randomExpirationValue,
+    }).then((res) => Number(res.expiration)),
   ).toBe(randomExpirationValue);
 });
 
 test("imgbbUploader w/ require: passing an option object with name as 3rd param", async () => {
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
-  const options = {
-    imagePath: path.join(imagePath, `${filename}.png`),
-    apiKey: process.env.API_KEY,
-    name: valarDohaeris,
-  };
   expect(
-    await imgbbUploader(options).then((res) => {
-      return res.image.name;
-    }),
+    await imgbbUploader({
+      imagePath: path.join(imagePath, `${filename}.png`),
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+    }).then((res) => res.image.name),
   ).toBe(valarDohaeris);
 });
 
@@ -80,14 +67,13 @@ test("imgbbUploader w/ require: passing an option object with name & expiration 
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
-  const options = {
-    imagePath: path.join(imagePath, `${filename}.png`),
-    apiKey: process.env.API_KEY,
-    name: valarDohaeris,
-    expiration: randomExpirationValue,
-  };
   expect(
-    await imgbbUploader(options).then((res) => {
+    await imgbbUploader({
+      imagePath: path.join(imagePath, `${filename}.png`),
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+      expiration: randomExpirationValue,
+    }).then((res) => {
       return {
         name: res.image.name,
         expiration: Number(res.expiration),
@@ -102,23 +88,21 @@ test("imgbbUploader w/ require: passing an option object with name & expiration 
 test("imgbbUploader w/ require: passing an invalid option object should throw when 'imagePath' param is faulty", async () => {
   const valarDohaeris = tfaker.firstName();
   const randomFilename = valarDohaeris + Date.now();
-  const options = {
+  return await imgbbUploader({
     explosionPath: path.join(imagePath, `${randomFilename}.png`),
     apiKey: process.env.API_KEY,
-  };
-  return await imgbbUploader(options)
+  })
     .then(() => fail()) // Test should fail if ever entering this block
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
 test("imgbbUploader w/ require: passing an invalid option object should throw when 'apiKey' param is faulty", async () => {
   const filename = await fakeWaifu();
-  const options = {
+  return await imgbbUploader({
     path: path.join(imagePath, `${filename}.png`),
     naniKey: process.env.API_KEY,
-  };
-  return await imgbbUploader(options)
-    .then((res) => res)
+  })
+    .then(() => fail()) // Test should fail if ever entering this block
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
@@ -126,16 +110,13 @@ test("imgbbUploader w/ require: passing a 'valid enough' option object should no
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
-  const options = {
-    imagePath: path.join(imagePath, `${filename}.png`),
-    apiKey: process.env.API_KEY,
-    naem: valarDohaeris,
-    expuration: randomExpirationValue,
-  };
   expect(
-    await imgbbUploader(options).then((res) => {
-      return Boolean(res.image.url);
-    }),
+    await imgbbUploader({
+      imagePath: path.join(imagePath, `${filename}.png`),
+      apiKey: process.env.API_KEY,
+      naem: valarDohaeris,
+      expuration: randomExpirationValue,
+    }).then((res) => Boolean(res.image.url)),
   ).toBe(true);
 });
 
@@ -144,18 +125,14 @@ test("imgbbUploader w/ require: passing a base64string, expiration & name", asyn
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   const valarDohaeris = tfaker.firstName();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
-  const options = {
-    base64string: this.base64waifu,
-    apiKey: process.env.API_KEY,
-    name: valarDohaeris,
-    expiration: randomExpirationValue,
-  };
   expect(
-    await imgbbUploader(options).then((res) => {
-      return {
-        name: res.image.name,
-        expiration: Number(res.expiration),
-      };
+    await imgbbUploader({
+      base64string: this.base64waifu,
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+      expiration: randomExpirationValue,
+    }).then((res) => {
+      return { name: res.image.name, expiration: Number(res.expiration) };
     }),
   ).toStrictEqual({
     name: valarDohaeris,
@@ -167,26 +144,22 @@ test("imgbbUploader w/ require: passing a base64string & name", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   const valarDohaeris = tfaker.firstName();
-  const options = {
-    base64string: this.base64waifu,
-    apiKey: process.env.API_KEY,
-    name: valarDohaeris,
-  };
   expect(
-    await imgbbUploader(options).then((res) => res.image.name),
+    await imgbbUploader({
+      base64string: this.base64waifu,
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+    }).then((res) => res.image.name),
   ).toStrictEqual(valarDohaeris);
 });
 
 test("imgbbUploader w/ require: passing a base64string without apiKey should throw", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
-  const options = {
+  return await imgbbUploader({
     base64string: this.base64waifu,
     apiKey: "definitely-not-an-api-key",
-  };
-  return await imgbbUploader(options)
+  })
     .then(() => fail()) // Test should fail if ever entering this block
-    .catch((e) => {
-      expect(e).toBeInstanceOf(Error);
-    });
+    .catch((e) => expect(e).toBeInstanceOf(Error));
 });
