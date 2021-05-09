@@ -24,7 +24,8 @@
     "pretty-quick": "pretty-quick"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*.js",
+    "lib/**/*.ts"
   ],
   "devDependencies": {
     "@babel/types": "^7.11.0",
