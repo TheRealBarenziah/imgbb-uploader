@@ -69,5 +69,5 @@ export const postToImgbb = (params: IPostParams) =>
 
     req.write(payload);
 
-    req.end();
+    return req.end();
   });

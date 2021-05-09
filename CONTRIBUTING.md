@@ -2,9 +2,11 @@
 
 - Clone project
 - `npm i`
-- compile the code in `src` into `lib` folder: `npm run build`
-- run the tests defined in `src/__tests__`: `npm run test`
-- typical combo while tweaking: `npm run build && npm run test`
+- `npm run dev`
+
+* compile the code in `src` into `lib` folder: `npm run build`
+* run the tests defined in `src/__tests__`: `npm run test`
+* typical combo while tweaking: `npm run build && npm run test`
 
 See more scripts in `package.json`.
 

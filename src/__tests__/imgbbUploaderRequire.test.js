@@ -29,7 +29,7 @@ const fakeWaifu = (mode) =>
     }
   });
 
-test("imgbbUploader w/ require: passing NO option object", async () => {
+test("passing two strings as params", async () => {
   const filename = await fakeWaifu();
   expect(
     await imgbbUploader(
@@ -39,7 +39,7 @@ test("imgbbUploader w/ require: passing NO option object", async () => {
   ).toBe(true);
 });
 
-test("imgbbUploader w/ require: passing an option object with expiration as 3rd param", async () => {
+test("passing an option object with expiration as 3rd param", async () => {
   const filename = await fakeWaifu();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
   expect(
@@ -51,7 +51,7 @@ test("imgbbUploader w/ require: passing an option object with expiration as 3rd 
   ).toBe(randomExpirationValue);
 });
 
-test("imgbbUploader w/ require: passing an option object with name as 3rd param", async () => {
+test("passing an option object with name as 3rd param", async () => {
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
   expect(
@@ -63,7 +63,7 @@ test("imgbbUploader w/ require: passing an option object with name as 3rd param"
   ).toBe(valarDohaeris);
 });
 
-test("imgbbUploader w/ require: passing an option object with name & expiration params", async () => {
+test("passing an option object with name & expiration params", async () => {
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
@@ -85,28 +85,28 @@ test("imgbbUploader w/ require: passing an option object with name & expiration 
   });
 });
 
-test("imgbbUploader w/ require: passing an invalid option object should throw when 'imagePath' param is faulty", async () => {
+test("invalid 'imagePath' in default object should throw", async () => {
   const valarDohaeris = tfaker.firstName();
   const randomFilename = valarDohaeris + Date.now();
   return await imgbbUploader({
     explosionPath: path.join(imagePath, `${randomFilename}.png`),
     apiKey: process.env.API_KEY,
   })
-    .then(() => fail()) // Test should fail if ever entering this block
+    .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
-test("imgbbUploader w/ require: passing an invalid option object should throw when 'apiKey' param is faulty", async () => {
+test("invalid 'apiKey' param in default object should throw", async () => {
   const filename = await fakeWaifu();
   return await imgbbUploader({
     path: path.join(imagePath, `${filename}.png`),
     naniKey: process.env.API_KEY,
   })
-    .then(() => fail()) // Test should fail if ever entering this block
+    .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
-test("imgbbUploader w/ require: passing a 'valid enough' option object should not throw", async () => {
+test("passing a 'valid enough' option object", async () => {
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
@@ -120,7 +120,7 @@ test("imgbbUploader w/ require: passing a 'valid enough' option object should no
   ).toBe(true);
 });
 
-test("imgbbUploader w/ require: passing a base64string, expiration & name", async () => {
+test("passing a base64string, expiration & name", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   const valarDohaeris = tfaker.firstName();
@@ -140,7 +140,7 @@ test("imgbbUploader w/ require: passing a base64string, expiration & name", asyn
   });
 });
 
-test("imgbbUploader w/ require: passing a base64string & name", async () => {
+test("passing a base64string & name", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   const valarDohaeris = tfaker.firstName();
@@ -153,13 +153,19 @@ test("imgbbUploader w/ require: passing a base64string & name", async () => {
   ).toStrictEqual(valarDohaeris);
 });
 
-test("imgbbUploader w/ require: passing a base64string without apiKey should throw", async () => {
+test("passing a base64string without apiKey should throw", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   return await imgbbUploader({
     base64string: this.base64waifu,
     apiKey: "definitely-not-an-api-key",
   })
-    .then(() => fail()) // Test should fail if ever entering this block
+    .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
+
+// test("passing neither 2 strings nor an object should throw", async () => {
+//   return await imgbbUploader(() => null)
+//     .then(() => fail())
+//     .catch((e) => expect(e).toBeInstanceOf(Error));
+// });

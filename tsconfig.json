@@ -10,7 +10,10 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "allowJs": true,
-    "listFiles": false
+    "listFiles": false,
+    "sourceMap": true,
+    "types": ["intern"]
+    //"inlineSourceMap": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"],

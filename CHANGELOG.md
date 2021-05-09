@@ -1,3 +1,17 @@
+# 1.3.1
+
+- [Updated responseObject interface](https://github.com/TheRealBarenziah/imgbb-uploader/pull/9)  
+  Thanks for PR :)
+
+- While being at it, I had some fun with code coverage, tweaked some `package.json` scripts and gave a cleaner name to "rebuild.js".  
+   Intrigued about it, I tried Jest's built-in coverage report, but it pointed to ugly, transpiled JS. Saw two ways to fix this: a parallel Istanbul setup to handle it, or hacking around to make it work with Jest built-in tool. For funsies I took the latter route using [remap-istanbul](https://www.npmjs.com/package/remap-istanbul).  
+   Their readme says: `We strongly encourage developers to leverage IstanbulJS, and only use this package (remap-istanbul) when needing to support legacy versions of Istanbul.`  
+   In my case, it seem the Istanbul version in Jest's depencency graph is 0.x, so I opted to use their module for now and leave in-depth Istanbul for later.  
+   Note: node kept complaning about undefined "VERSION" and circular dependency while running `npm run remap`, so I ended using `--no-warnings` flag for it. If curious, feel free to make it `--trace-warnings` in `package.json` ;).
+  In the end, it allows to generate two HTML coverage reports after a test pass, one for transpiled code (`./coverage/lcov-report`), one for source (`./coverage/ts-report`).
+
+  - Updated [CONTRIBUTING](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md) to reflect that.
+
 # 1.3.0
 
 Issue #6 brought an interesting feature idea. Took a bit of time because I first had to adapt the module used by the tests (waifu-generator owo).

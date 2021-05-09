@@ -2,6 +2,14 @@ import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
 import { validateInput } from "./validateInput";
 
+interface IOptions {
+  apiKey: string;
+  imagePath?: string;
+  name?: string;
+  expiration?: number;
+  base64string?: string;
+}
+
 /**
  * Upload local pictures files to imgbb API and get display URLs in response.
  *
@@ -23,15 +31,6 @@ import { validateInput } from "./validateInput";
  *       .then(res => console.log(res))
  *       .catch(err => console.error(err))
  */
-
-interface IOptions {
-  apiKey: string;
-  imagePath: string | undefined;
-  name: string | undefined;
-  expiration: number | undefined;
-  base64string: string | undefined;
-}
-
 const imgbbUploader = async (...args: string[] | IOptions[]) => {
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
@@ -74,10 +73,6 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
     } catch (e) {
       throw new Error(e);
     }
-  } else {
-    throw new Error(
-      `It seems you didn't pass your arguments properly! Please check imgbbUploader documentation here:\nhttps://github.com/TheRealBarenziah/imgbb-uploader/tree/master`,
-    );
   }
 };
 

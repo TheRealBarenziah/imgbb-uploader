@@ -1,13 +1,18 @@
 const fs = require("fs");
 const path = require("path");
 const rimraf = require("rimraf");
+const imagePath = require("./src/__tests__/images/imagePath");
 
-const rebuild = () => {
-  // if './lib' exists, delete it
+const clean = () => {
+  // if './lib' or './coverage' exists, delete it
   if (fs.existsSync(path.join(__dirname, "lib"))) {
     rimraf.sync(path.join(__dirname, "lib"));
-  } // delete randomly generated test images while we're at it
-  const imagePath = path.join(__dirname, "src", "__tests__", "images");
+  }
+  if (fs.existsSync(path.join(__dirname, "coverage"))) {
+    rimraf.sync(path.join(__dirname, "coverage"));
+  }
+
+  // delete randomly generated test images while we're at it
   fs.readdir(imagePath, (err, files) => {
     if (err) console.error(err);
     const filesToDelete = files.filter(
@@ -20,4 +25,4 @@ const rebuild = () => {
   return null; // *Headpat V8*
 };
 
-rebuild();
+clean();

@@ -4,17 +4,16 @@ Lightweight Nodejs module to upload local pictures files to imgbb API and get di
 Primary use is letting imgBB handle the hosting & serving of images.
 
 [![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader?targetFile=package.json)
-[![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://img.shields.io/badge/dependencies-0-brightgreen)
+[![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://www.npmjs.com/package/imgbb-uploader?activeTab=dependencies)
 [![Build Status](https://travis-ci.org/TheRealBarenziah/imgbb-uploader.svg?branch=master)](https://travis-ci.org/TheRealBarenziah/imgbb-uploader)
 
 ## Compatibility:
 
 **Node >= 8** ( [this module uses async/await](https://node.green/) )  
-_Care: this module uses `fs` under the hood. It means **it WON'T work outside the node environment !**_
+_Care: this module uses `fs` under the hood. **It WON'T work outside the node environment !**_
 
-_You really SHOULDN'T use API keys from your frontend. But, if you're the yolo type, you could use window.File & window.fetch. PLEASE DON'T DO THAT !!!_  
+_You really SHOULDN'T use API keys from your frontend. PLEASE DON'T DO THAT !!!_  
 [Blah blah blah, my soul is lost already, bring it on](https://stackoverflow.com/a/63669049/11894221)
 
 ## Install
@@ -24,16 +23,13 @@ _You really SHOULDN'T use API keys from your frontend. But, if you're the yolo t
 ## Use with two string params (legacy, LTS)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
-- II) (facultative) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
-- III) **imgbbUploader takes _exactly two_ String arguments** : your API key, and the absolute path of your image :
+- II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
+- III) **imgbbUploader takes _exactly two_ String arguments** : your API key, and the path to your image :
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
 
-imgbbUploader(
-  "your-imgbb-api-key-string",
-  "absolute/path/to/your/image/image.png",
-)
+imgbbUploader("your-imgbb-api-key-string", "path/to/your/image.png")
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
 ```
@@ -64,22 +60,25 @@ imgbbUploader(
     extension: 'png',
     url: 'https://i.ibb.co/26Sy9tM/5e7599f65f27.png'
   },
+   medium: {
+   filename: '5e7599f65f27.png',
+    name: '5e7599f65f27',
+    mime: 'image/png',
+    extension: 'png',
+    url: 'https://i.ibb.co/14kK0tt/5e7599f65f27.png'
+  };
   delete_url: 'https://ibb.co/26Sy9tM/087a7edaaac26e1c940283df07d0b1d7'
 }
 ```
 
-This async function returns a promise, so this is normal :  
-`console.log(imgbbUploader(myKey, myPath)) // output : Promise { <pending> }`  
-Your data is available in `.then((response) => response)` as shown above.
+This async function returns a promise:  
+`console.log(imgbbUploader(myKey, myPath)) // Promise { <pending> }`  
+Use `await` or `.then` as shown above.
 
 ## Use with options object (more features, yay! )
 
 From version 1.2.0 onward, you can also pass an options object as param.  
-Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).
-
-- I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
-- II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
-- III) **pass an option object as argument** :
+Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/):
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
@@ -130,21 +129,23 @@ const base64str = () =>
   });
 
 // Your barebone async function
-const myFunc = async (name) => {
-  try {
-    return await imgbbUploader({
-      apiKey: "definitely-not-a-valid-key",
-      base64string: await base64str(),
-      name: name,
+const myUrl = async (name) => {
+  return await imgbbUploader({
+    apiKey: "definitely-not-a-valid-key",
+    base64string: await base64str(),
+    name: name,
+  })
+    .then((res) => {
+      console.log(`Handle success: ${res.url}`);
+      return res.url;
+    })
+    .catch((e) => {
+      console.error(`Handle error: ${e}`);
+      return "http://placekitten.com/300/300";
     });
-  } catch (e) {
-    throw e;
-  }
 };
 
-myFunc("Dolunay_Obruk-Sama_<3")
-  .then((res) => console.log(res))
-  .catch((e) => console.error(e));
+myUrl("Dolunay_Obruk-Sama_<3");
 ```
 
 ## Learn more
