@@ -35,44 +35,37 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
     if (await validateInput(String(args[0]), String(args[1]))) {
-      try {
-        return postToImgbb({
-          apiKey: String(args[0]),
-          base64str: await fileToString(String(args[1])),
-          name: null,
-          expiration: null,
-        });
-      } catch (e) {
-        throw new Error(e);
-      }
+      return postToImgbb({
+        apiKey: String(args[0]),
+        base64str: await fileToString(String(args[1])),
+      });
     } else {
       throw new Error(
         "Invalid params: please make sure that first argument is an imgBB API key, and second argument is a valid path to image file.",
       );
     }
-  } else if (args.length === 1 && typeof args[0] === "object") {
-    // handle the option object
-    const {
-      imagePath,
-      apiKey,
-      name = null,
-      expiration = null,
-      base64string = null,
-    } = {
-      ...args[0],
-    };
-    try {
-      return postToImgbb({
-        apiKey: String(apiKey),
-        base64str: base64string // if base64string is provided, skip fs call
-          ? base64string
-          : await fileToString(String(imagePath)),
-        name: name ? String(name) : null,
-        expiration: expiration ? Number(expiration) : null,
-      });
-    } catch (e) {
-      throw new Error(e);
-    }
+  } else {
+    if (args.length === 1 && typeof args[0] === "object") {
+      // handle the option object
+      const { imagePath, apiKey, name, expiration, base64string } = {
+        ...args[0],
+      };
+      try {
+        return postToImgbb({
+          apiKey: String(apiKey),
+          base64str: base64string // if base64string is provided, skip fs call
+            ? base64string
+            : await fileToString(String(imagePath)),
+          name: name,
+          expiration: expiration,
+        });
+      } catch (e) {
+        throw new Error(e);
+      }
+    } else
+      throw new Error(
+        `It seems you didn't pass your arguments properly! Please check imgbbUploader documentation here:\nhttps://github.com/TheRealBarenziah/imgbb-uploader/tree/master`,
+      );
   }
 };
 

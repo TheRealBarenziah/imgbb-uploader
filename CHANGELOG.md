@@ -10,6 +10,8 @@
    Note: node kept complaning about undefined "VERSION" and circular dependency while running `npm run remap`, so I ended using `--no-warnings` flag for it. If curious, feel free to make it `--trace-warnings` in `package.json` ;).
   In the end, it allows to generate two HTML coverage reports after a test pass, one for transpiled code (`./coverage/lcov-report`), one for source (`./coverage/ts-report`).
 
+  - Increased code coverage: 98.46% statements covered. Tests will never enter the ".on('error', () => )" callback in the POST function, but I'll feel safer leaving that block. It's not like it's hurting anybody anyway ^o^
+
   - Updated [CONTRIBUTING](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md) to reflect that.
 
 # 1.3.0

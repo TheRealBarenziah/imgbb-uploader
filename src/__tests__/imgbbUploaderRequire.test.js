@@ -39,6 +39,16 @@ test("passing two strings as params", async () => {
   ).toBe(true);
 });
 
+test("passing two strings as params: invalid file path should throw", async () => {
+  const filename = await fakeWaifu();
+  return await imgbbUploader(
+    process.env.API_KEY,
+    path.join("definitely-not-a-file-path", `${filename}.png`),
+  )
+    .then(() => fail())
+    .catch((e) => expect(e).toBeInstanceOf(Error));
+});
+
 test("passing an option object with expiration as 3rd param", async () => {
   const filename = await fakeWaifu();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
@@ -153,19 +163,28 @@ test("passing a base64string & name", async () => {
   ).toStrictEqual(valarDohaeris);
 });
 
-test("passing a base64string without apiKey should throw", async () => {
+test("passing invalid base64 string should throw", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
   return await imgbbUploader({
-    base64string: this.base64waifu,
-    apiKey: "definitely-not-an-api-key",
+    base64string: `uwu!${this.base64waifu}owo!`,
+    apiKey: process.env.API_KEY,
   })
     .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
-// test("passing neither 2 strings nor an object should throw", async () => {
-//   return await imgbbUploader(() => null)
-//     .then(() => fail())
-//     .catch((e) => expect(e).toBeInstanceOf(Error));
-// });
+test("no file in given imagePath should throw", async () => {
+  return await imgbbUploader({
+    imagePath: "definitely-not-the-path.png",
+    apiKey: process.env.API_KEY,
+  })
+    .then(() => fail())
+    .catch((e) => expect(e).toBeInstanceOf(Error));
+});
+
+test("non-object single argument should throw", async () => {
+  return await imgbbUploader(() => null)
+    .then(() => fail())
+    .catch((e) => expect(e).toBeInstanceOf(Error));
+});

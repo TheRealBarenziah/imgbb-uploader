@@ -156,9 +156,7 @@ For example, you can create a `baseDir.js` file wherever it suits you:
 
 ```
 // baseDir.js
-const path = require('path');
-const dirPath = path.join(__dirname);
-module.exports = dirPath;
+module.exports = require("path").join(__dirname);
 ```
 
 Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  

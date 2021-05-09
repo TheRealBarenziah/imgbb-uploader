@@ -4,9 +4,14 @@
 - `npm i`
 - `npm run dev`
 
-* compile the code in `src` into `lib` folder: `npm run build`
-* run the tests defined in `src/__tests__`: `npm run test`
-* typical combo while tweaking: `npm run build && npm run test`
+# the long read
+
+`npm run dev` is a shortcut for `npm run build && npm run test && npm run remap` :
+
+- `npm run build` will remove existing `coverage` and `lib` folder, then compile the code in `src` into `lib` folder
+- `npm run test` will run the tests defined in `src/__tests__`
+- `npm run remap` will leverage `remap-istanbul` module to generate HTML Code Coverage report for your TypeScript.
+- This report can be found here: `./coverage/ts-report`). Transpiled code report just in case: (`./coverage/lcov-report`).
 
 See more scripts in `package.json`.
 

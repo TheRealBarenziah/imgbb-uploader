@@ -15,8 +15,8 @@ import ResponseObject from "./responseInterface";
 interface IPostParams {
   apiKey: string;
   base64str: string;
-  name: string | null;
-  expiration: number | null;
+  name?: string;
+  expiration?: number;
 }
 
 export const postToImgbb = (params: IPostParams) =>
@@ -64,7 +64,7 @@ export const postToImgbb = (params: IPostParams) =>
       })
 
       .on("error", (err: any) => {
-        reject(err);
+        reject(new Error(err));
       });
 
     req.write(payload);
