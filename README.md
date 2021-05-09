@@ -66,7 +66,7 @@ imgbbUploader("your-imgbb-api-key-string", "path/to/your/image.png")
     mime: 'image/png',
     extension: 'png',
     url: 'https://i.ibb.co/14kK0tt/5e7599f65f27.png'
-  };
+  },
   delete_url: 'https://ibb.co/26Sy9tM/087a7edaaac26e1c940283df07d0b1d7'
 }
 ```
@@ -95,12 +95,13 @@ const options = {
   Enable this to force your image to be deleted after that time. */,
 
   base64string:
-    "data:image/jpeg;base64,blahblahblah" /* OPTIONAL (unless options.imagePath is falsy)
+    "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR42mNcLVNbzwAEjDAGACcSA4kB6ARiAAAAAElFTkSuQmCC",
+  /* OPTIONAL (unless options.imagePath is falsy)
+
   Enable this to upload base64-encoded image directly as string. (available from 1.3.0 onward)
   Allows to work with RAM directly for increased performance (skips fs I/O calls).
-
   Beware: options.imagePath will be ignored as long as options.base64string is defined! 
-  */,
+  */
 };
 
 imgbbUploader(options)
@@ -154,8 +155,7 @@ This module doesn't support array uploads. For heavy duty, you'll probably have 
 
 For example, you can create a `baseDir.js` file wherever it suits you:
 
-```
-// baseDir.js
+```javascript
 module.exports = require("path").join(__dirname);
 ```
 
