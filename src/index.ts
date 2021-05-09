@@ -56,8 +56,8 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
           base64str: base64string // if base64string is provided, skip fs call
             ? base64string
             : await fileToString(String(imagePath)),
-          name: name,
-          expiration: expiration,
+          name,
+          expiration,
         });
       } catch (e) {
         throw new Error(e);
