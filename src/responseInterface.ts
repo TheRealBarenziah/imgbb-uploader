@@ -21,7 +21,7 @@ export default interface ResponseObject {
     extension: string;
     url: string;
   };
-  medium: {
+  medium?: {
     filename: string;
     name: string;
     mime: string;

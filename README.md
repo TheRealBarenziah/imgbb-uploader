@@ -16,6 +16,8 @@ _Care: this module uses `fs` under the hood. **It WON'T work outside the node en
 _You really SHOULDN'T use API keys from your frontend. PLEASE DON'T DO THAT !!!_  
 [Blah blah blah, my soul is lost already, bring it on](https://stackoverflow.com/a/63669049/11894221)
 
+**File formats supported by ImgBB API:** `.jpg`, `.png`,`.bmp`,`.gif`.
+
 ## Install
 
 `npm install imgbb-uploader`

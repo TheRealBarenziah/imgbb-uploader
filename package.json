@@ -16,6 +16,7 @@
     "remap": "node --no-warnings ./node_modules/.bin/remap-istanbul -i coverage/coverage-final.json -o coverage/ts-report -t html -e src/__tests__/images",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
+    "clean": "node clean.js",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
