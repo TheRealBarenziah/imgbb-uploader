@@ -11,8 +11,8 @@
     "moduleResolution": "node",
     "allowJs": true,
     "listFiles": false,
-    "sourceMap": true,
-    "types": ["intern"]
+    "sourceMap": true
+    // "types": ["intern"]
     //"inlineSourceMap": true
   },
   "include": ["src"],
