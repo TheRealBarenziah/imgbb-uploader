@@ -42,7 +42,7 @@
     "jest": "^26.4.0",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "remap-istanbul": "^0.13.0",
+    "remap-istanbul": "git:github.com/TheRealBarenziah/remap-istanbul",
     "rimraf": "^3.0.2",
     "sharp": "^0.26.3",
     "tfaker": "^0.1.0",
