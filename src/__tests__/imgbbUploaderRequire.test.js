@@ -73,6 +73,19 @@ test("passing an option object with name as 3rd param", async () => {
   ).toBe(valarDohaeris);
 });
 
+test("passing an option object with funky name as 3rd param", async () => {
+  const filename = await fakeWaifu();
+  const valarDohaeris = tfaker.firstName();
+  const funkyName = `${valarDohaeris} 🀄 ;,/?:@&=+$# -_.!~*'() ABC abc 123`;
+  expect(
+    await imgbbUploader({
+      imagePath: path.join(imagePath, `${filename}.png`),
+      apiKey: process.env.API_KEY,
+      name: funkyName,
+    }).then((res) => res.image.name),
+  ).toBe(funkyName);
+});
+
 test("passing an option object with name & expiration params", async () => {
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
