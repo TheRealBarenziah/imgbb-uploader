@@ -1,3 +1,13 @@
+# 1.3.2
+
+- [Patch responseObject interface](https://github.com/TheRealBarenziah/imgbb-uploader/pull/9#issuecomment-860906935)  
+  Fix the interface for medium key & update README for that matter.
+
+- [Update devDependencies](https://github.com/TheRealBarenziah/remap-istanbul/commit/f8a107f7aba3b5224011ffa3d353d5e6c2360a8b)
+  For sport, I tried to please `npm audit` & GitHub dependabot for dev deps. Fixing the bothering [RCE](https://github.com/TheRealBarenziah/remap-istanbul/commit/f8a107f7aba3b5224011ffa3d353d5e6c2360a8b) vulnerability took a `remap-istanbul` fork since their repo last commit is 3 years ago.
+
+- One day tho, I should setup a proper Istanbul CC setup & take the opportunity to replace `tslint` by `typescript-eslint` since the former [is deprecated since 2019](https://github.com/palantir/tslint/issues/4534).
+
 # 1.3.1
 
 - [Updated responseObject interface](https://github.com/TheRealBarenziah/imgbb-uploader/pull/9)  

@@ -10,13 +10,13 @@ Primary use is letting imgBB handle the hosting & serving of images.
 
 ## Compatibility:
 
-**Node >= 8** ( [this module uses async/await](https://node.green/) )  
+**Node >= 8** ( [async/await](https://node.green/) )  
 _Care: this module uses `fs` under the hood. **It WON'T work outside the node environment !**_
 
-_You really SHOULDN'T use API keys from your frontend. PLEASE DON'T DO THAT !!!_  
+_You SHOULDN'T use API keys from your frontend anyway. PLEASE DON'T DO THAT !!!_  
 [Blah blah blah, my soul is lost already, bring it on](https://stackoverflow.com/a/63669049/11894221)
 
-**File formats supported by ImgBB API:** `base64`, `.jpg`, `.png`,`.bmp`,`.gif`.
+**File formats supported by ImgBB API:** `.jpg`, `.png`,`.bmp`,`.gif`, `base64`.
 
 ## Install
 
@@ -76,6 +76,8 @@ imgbbUploader("your-imgbb-api-key-string", "path/to/your/image.png")
 This async function returns a promise:  
 `console.log(imgbbUploader(myKey, myPath)) // Promise { <pending> }`  
 Use `await` or `.then` as shown above.
+
+_**Note about imgBB API:** the `medium` Object will only be returned for `.png` and `base64` files !_
 
 ## Use with options object (more features, yay! )
 
