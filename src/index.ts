@@ -1,6 +1,7 @@
 import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
 import { validateInput } from "./validateInput";
+import ResponseObject from "./responseInterface";
 
 interface IOptions {
   apiKey: string;
@@ -11,28 +12,31 @@ interface IOptions {
 }
 
 /**
- * Upload local pictures files to imgbb API and get display URLs in response.
- *
- * @param {string} apiKey - Your imgBB API key
- * @param {string} pathToFile - Path to your file
- *
- * @param {Object} options - OPTIONAL: pass Option object as parameter
- * @param {string} options.apiKey - Your imgBB API key
- * @param {string} options.imagePath - Path to your image
- * @param {string} options.name - Custom name for your file
- * @param {string} options.expiration - Expiration value in seconds
- * @param {string} options.base64string - Upload a base64 string (alternative to options.imagePath)
- *
- * @returns {Promise.<ResponseObject>}
- *    A promise. Access your data using `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
- *
+ * Upload files to imgbb API and get display URLs in response. Full doc here: [README](https://github.com/TheRealBarenziah/imgbb-uploader#use)
  * @example
- *     imgbbUploader("your-api-key", "/absolute/path/to/file.jpg")
- *       .then(res => console.log(res))
- *       .catch(err => console.error(err))
+ * // use with option object:
+ * const options = {
+ *    apiKey: String(process.env.IMGBB_APIKEY),
+ *    imagePath: "./images/test.png", // disabled if base64string is defined
+ *    // name: "hello-world",
+ *    // expiration: 3600, // seconds
+ *    // base64string: "iVBORw0KGgoAAAA..." // base64 data
+ * };
+ *
+ * imgbbUploader(options)
+ *  .then(res => console.log(res))
+ *  .catch(err => console.error(err));
+ *
+ * // or with two strings:
+ * imgbbUploader("your-api-key", "./path/to/file.jpg")
+ *   .then(res => console.log(res))
+ *   .catch(err => console.error(err));
  */
-const imgbbUploader = async (...args: string[] | IOptions[]) => {
-  // handle two string params to ensure retrocompatibility
+
+const imgbbUploader = async (
+  ...args: IOptions[] | string[]
+): Promise<ResponseObject> => {
+  // handle two string params for retrocompatibility
   if (args.length === 2) {
     if (await validateInput(String(args[0]), String(args[1]))) {
       return postToImgbb({
@@ -45,8 +49,8 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
       );
     }
   } else {
+    // handle option object
     if (args.length === 1 && typeof args[0] === "object") {
-      // handle the option object
       const { imagePath, apiKey, name, expiration, base64string } = {
         ...args[0],
       };
