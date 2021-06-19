@@ -15,8 +15,8 @@ import ResponseObject from "./responseInterface";
 export interface IPostParams {
   apiKey: string;
   base64str: string;
-  name?: string;
-  expiration?: number;
+  name?: string | undefined | null;
+  expiration?: number | undefined | null;
 }
 
 export const postToImgbb = (params: IPostParams) =>

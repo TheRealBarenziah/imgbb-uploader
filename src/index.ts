@@ -64,7 +64,7 @@ const imgbbUploader = async (
           expiration,
         });
       } catch (e) {
-        throw new Error(e);
+        throw new Error(String(e));
       }
     } else
       throw new Error(
