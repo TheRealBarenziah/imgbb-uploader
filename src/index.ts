@@ -38,7 +38,7 @@ const imgbbUploader = async (
 ): Promise<ResponseObject> => {
   // handle two string params for retrocompatibility
   if (args.length === 2) {
-    if (await validateInput(String(args[0]), String(args[1]))) {
+    if (await validateInput.twoStrings(String(args[0]), String(args[1]))) {
       return postToImgbb({
         apiKey: String(args[0]),
         base64str: await fileToString(String(args[1])),

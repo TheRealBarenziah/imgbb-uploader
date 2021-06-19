@@ -73,19 +73,6 @@ test("passing an option object with name as 3rd param", async () => {
   ).toBe(valarDohaeris);
 });
 
-test("passing an option object with funky name as 3rd param", async () => {
-  const filename = await fakeWaifu();
-  const valarDohaeris = tfaker.firstName();
-  const funkyName = `${valarDohaeris} 🀄 ;,/?:@&=+$# -_.!~*'() ABC abc 123`;
-  expect(
-    await imgbbUploader({
-      imagePath: path.join(imagePath, `${filename}.png`),
-      apiKey: process.env.API_KEY,
-      name: funkyName,
-    }).then((res) => res.image.name),
-  ).toBe(funkyName);
-});
-
 test("passing an option object with name & expiration params", async () => {
   const filename = await fakeWaifu();
   const valarDohaeris = tfaker.firstName();
@@ -108,7 +95,7 @@ test("passing an option object with name & expiration params", async () => {
   });
 });
 
-test("invalid 'imagePath' in default object should throw", async () => {
+test("no 'imagePath' in default object should throw if no 'base64string' key", async () => {
   const valarDohaeris = tfaker.firstName();
   const randomFilename = valarDohaeris + Date.now();
   return await imgbbUploader({
@@ -119,7 +106,7 @@ test("invalid 'imagePath' in default object should throw", async () => {
     .catch((e) => expect(e).toBeInstanceOf(Error));
 });
 
-test("invalid 'apiKey' param in default object should throw", async () => {
+test("no 'apiKey' param in default object should throw", async () => {
   const filename = await fakeWaifu();
   return await imgbbUploader({
     path: path.join(imagePath, `${filename}.png`),
@@ -144,13 +131,12 @@ test("passing a 'valid enough' option object", async () => {
 });
 
 test("passing a base64string, expiration & name", async () => {
-  this.base64waifu = "";
-  await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
+  const base64waifu = await fakeWaifu("base64string");
   const valarDohaeris = tfaker.firstName();
   const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
   expect(
     await imgbbUploader({
-      base64string: this.base64waifu,
+      base64string: base64waifu,
       apiKey: process.env.API_KEY,
       name: valarDohaeris,
       expiration: randomExpirationValue,
@@ -164,12 +150,11 @@ test("passing a base64string, expiration & name", async () => {
 });
 
 test("passing a base64string & name", async () => {
-  this.base64waifu = "";
-  await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
+  const base64waifu = await fakeWaifu("base64string");
   const valarDohaeris = tfaker.firstName();
   expect(
     await imgbbUploader({
-      base64string: this.base64waifu,
+      base64string: base64waifu,
       apiKey: process.env.API_KEY,
       name: valarDohaeris,
     }).then((res) => res.image.name),
@@ -177,10 +162,9 @@ test("passing a base64string & name", async () => {
 });
 
 test("passing invalid base64 string should throw", async () => {
-  this.base64waifu = "";
-  await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
+  const base64waifu = await fakeWaifu("base64string");
   return await imgbbUploader({
-    base64string: `uwu!${this.base64waifu}owo!`,
+    base64string: `uwu!${base64waifu}owo!`,
     apiKey: process.env.API_KEY,
   })
     .then(() => fail())
@@ -200,4 +184,30 @@ test("non-object single argument should throw", async () => {
   return await imgbbUploader(() => null)
     .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));
+});
+
+test("passing a 'name' that imgBB API can't exactly return should throw by default", async () => {
+  const filename = await fakeWaifu();
+  const valarDohaeris = tfaker.firstName();
+  const funkyName = `${valarDohaeris} 🀄 ;,/?:@&=+$# -_.!~*'() ABC abc 123`;
+  await imgbbUploader({
+    imagePath: path.join(imagePath, `${filename}.png`),
+    apiKey: process.env.API_KEY,
+    name: funkyName,
+  })
+    .then(() => fail())
+    .catch((e) => expect(e).toBeInstanceOf(Error));
+});
+
+test("passing a 'name' that imgBB API can't exactly return shouldn't throw if options['w/eName'] is set to true ", async () => {
+  const base64waifu = await fakeWaifu("base64string");
+  const valarDohaeris = tfaker.firstName();
+  expect(
+    await imgbbUploader({
+      base64string: base64waifu,
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+      "w/eName": true,
+    }).then((res) => Boolean(res.image.name)),
+  ).toBe(true);
 });

@@ -12,7 +12,7 @@ import ResponseObject from "./responseInterface";
  * @returns A promise. Use `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
  */
 
-interface IPostParams {
+export interface IPostParams {
   apiKey: string;
   base64str: string;
   name?: string;
@@ -52,14 +52,18 @@ export const postToImgbb = (params: IPostParams) =>
         });
 
         res.on("end", () => {
-          const output = JSON.parse(response).data;
-          output
-            ? resolve(output)
-            : reject(
-                new Error(
-                  "There was a problem with imgBB, please check your inputs",
-                ),
-              );
+          try {
+            const output = JSON.parse(response).data;
+            output
+              ? resolve(output)
+              : reject(
+                  new Error(
+                    "There was a problem with imgBB, please check your inputs",
+                  ),
+                );
+          } catch (e) {
+            reject(e);
+          }
         });
       })
 
