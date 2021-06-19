@@ -1,4 +1,5 @@
 import fs from "fs";
+import formatLikeImgbb from "./nameUtils";
 
 /**
  * Formally validate input params
@@ -19,6 +20,6 @@ export const validateInput = {
     return file && apiKey.length === 32 ? true : false;
   },
   name: async (name: string) => {
-    //
+    // return formatLikeImgbb(name) ? true : false;
   },
 };

@@ -29,6 +29,36 @@ const fakeWaifu = (mode) =>
     }
   });
 
+test("passing a 'name' that imgBB API can't exactly return should throw by default", async () => {
+  const filename = await fakeWaifu();
+  const valarDohaeris = tfaker.firstName();
+  const funkyName = `${valarDohaeris} 🀄 ;,/?:@&=+$# -_.!~*'() ABC abc 123`;
+  await imgbbUploader({
+    imagePath: path.join(imagePath, `${filename}.png`),
+    apiKey: process.env.API_KEY,
+    name: `i Completely synergize resource taxing relationships via premier niche markets.  Professionally cultivat
+      `, //funkyName,
+  })
+    .then((res) => {
+      console.log("clg just before fail; res.image.name ? ", res.image.name);
+      fail();
+    })
+    .catch((e) => expect(e).toBeInstanceOf(Error));
+});
+
+test("passing a 'name' that imgBB API can't exactly return shouldn't throw if options['w/eName'] is set to true ", async () => {
+  const base64waifu = await fakeWaifu("base64string");
+  const valarDohaeris = tfaker.firstName();
+  expect(
+    await imgbbUploader({
+      base64string: base64waifu,
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+      "w/eName": true,
+    }).then((res) => Boolean(res.image.name)),
+  ).toBe(true);
+});
+
 test("passing two strings as params", async () => {
   const filename = await fakeWaifu();
   expect(
@@ -184,30 +214,4 @@ test("non-object single argument should throw", async () => {
   return await imgbbUploader(() => null)
     .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));
-});
-
-test("passing a 'name' that imgBB API can't exactly return should throw by default", async () => {
-  const filename = await fakeWaifu();
-  const valarDohaeris = tfaker.firstName();
-  const funkyName = `${valarDohaeris} 🀄 ;,/?:@&=+$# -_.!~*'() ABC abc 123`;
-  await imgbbUploader({
-    imagePath: path.join(imagePath, `${filename}.png`),
-    apiKey: process.env.API_KEY,
-    name: funkyName,
-  })
-    .then(() => fail())
-    .catch((e) => expect(e).toBeInstanceOf(Error));
-});
-
-test("passing a 'name' that imgBB API can't exactly return shouldn't throw if options['w/eName'] is set to true ", async () => {
-  const base64waifu = await fakeWaifu("base64string");
-  const valarDohaeris = tfaker.firstName();
-  expect(
-    await imgbbUploader({
-      base64string: base64waifu,
-      apiKey: process.env.API_KEY,
-      name: valarDohaeris,
-      "w/eName": true,
-    }).then((res) => Boolean(res.image.name)),
-  ).toBe(true);
 });

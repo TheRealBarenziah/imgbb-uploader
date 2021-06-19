@@ -51,7 +51,14 @@ const imgbbUploader = async (
   } else {
     // handle option object
     if (args.length === 1 && typeof args[0] === "object") {
-      const { imagePath, apiKey, name, expiration, base64string } = {
+      const {
+        imagePath,
+        apiKey,
+        name,
+        expiration,
+        base64string,
+        noNameCheck = true,
+      } = {
         ...args[0],
       };
       try {
