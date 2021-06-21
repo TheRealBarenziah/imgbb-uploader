@@ -5,9 +5,48 @@ export default {
   formatLikeImgbb: (name: string) => {
     /* Facts picked up so far:
   - imgBB treats " " and "%20" the same way. Let's call this Space 
-  - Spaces at the start of the end of the string are ignored
-
+  - posting a single Space as name param returns "image" as res.image.name (their default value, it seem)
+  - All Spaces at the start AND the end of the string are ignored
+  - Spaces will be turned into "-" in the returned name. " aegon targaryen" => "aegon-targaryen"
+  - Special characters [_.!~*'();,/?:@&=+$] and the gang are ignored. 
+  - Recognized characters are [a-zA-20-9 -].
+  - [a-zA-Z0-9] are Text characters, while "-" === " " === "%20" in this context (Space)
+  - Text Block, for imgBB, is at least a single Text character, either alone or separated by at least 1 Space from another Text Block
+  - When there are more than one Space (or unrecognized character) between two Text Blocks, they are ignored (minus one)
+  - Maximum length for res.image.name is 100
+  - But it will be 99 if the 100th character of the string is a Space 
+  -(even if followed by Text Block in the longer string, it won't insert the "-" at string[99] in that case)
 */
-    return Boolean(name);
+
+    // Ignore shady characters
+    const alphanumString = name.replace(/[^a-zA-Z0-9%-\s]/g, "");
+    // Turn '%20's into '-'s for convenience, then remove other "%"s
+    const epuredStringIr = alphanumString
+      .replace(/%20| /g, "-")
+      .replace(/%/g, "");
+    // Lets switch in Array mode to remove the multiple "-"s
+    const goodOleArray = [...epuredStringIr];
+    const epured = goodOleArray.map((char, i) => {
+      if (char === "-") {
+        if (goodOleArray[i + 1] !== "-") {
+          return char;
+        }
+      } else return char;
+    });
+    // And to remove the "-"s at the start & end of string:
+    const padded = epured
+      .join("")
+      .split("-")
+      .filter((c) => (c ? 1 : 0))
+      .join("-");
+
+    // Almost there, all we need now is to enforce the "100char maximum, 99 if string[99] === '-'" rule
+    const directorsCut = padded.slice(0, 99);
+    switch (directorsCut[99]) {
+      case "-":
+        return directorsCut.slice(0, -1);
+      default:
+        return directorsCut;
+    }
   },
 };
