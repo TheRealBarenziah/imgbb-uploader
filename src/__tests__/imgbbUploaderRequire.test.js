@@ -4,6 +4,7 @@ const imagePath = require("./images/imagePath");
 const imgbbUploader = require("../../lib/cjs");
 const generateWaifu = require("waifu-generator");
 const tfaker = require("tfaker");
+import { formatLikeImgbb } from "../nameUtils";
 
 const fakeWaifu = (mode) =>
   new Promise((resolve, reject) => {
@@ -214,4 +215,17 @@ test("non-object single argument should throw", async () => {
   return await imgbbUploader(() => null)
     .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));
+});
+
+test("'formatLikeImgbb' function should format options.name like ImgBB API", async () => {
+  const base64waifu = await fakeWaifu("base64string");
+  const funkyName = "";
+  const formatedName = formatLikeImgbb(funkyName);
+  expect(
+    await imgbbUploader({
+      base64string: base64waifu,
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+    }).then((res) => res.image.name),
+  ).toStrictEqual(formatedName);
 });
