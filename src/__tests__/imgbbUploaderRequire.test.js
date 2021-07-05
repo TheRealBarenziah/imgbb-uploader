@@ -150,6 +150,16 @@ test("passing a base64string, expiration & name", async () => {
   });
 });
 
+test("passing an url should be feasible", async () => {
+  const imageUrl = "https://picsum.photos/400";
+  expect(
+    await imgbbUploader({
+      apiKey: process.env.API_KEY,
+      imageUrl,
+    }).then((res) => Boolean(res.image.url)),
+  ).toBe(true);
+});
+
 test("passing a base64string & name", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));

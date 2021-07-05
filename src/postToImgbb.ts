@@ -14,17 +14,24 @@ import ResponseObject from "./responseInterface";
 
 interface IPostParams {
   apiKey: string;
-  base64str: string;
+  base64str?: string;
   name?: string;
   expiration?: number;
+  imageUrl?: string;
 }
 
 export const postToImgbb = (params: IPostParams) =>
   new Promise<ResponseObject>((resolve, reject) => {
-    const { apiKey, base64str, name = null, expiration = null } = { ...params };
+    const {
+      apiKey,
+      base64str,
+      name = null,
+      expiration = null,
+      imageUrl = null,
+    } = { ...params };
 
     const payload = querystring.stringify({
-      image: base64str,
+      image: imageUrl ? imageUrl : base64str,
     });
 
     let query = `/1/upload?key=${apiKey}`;

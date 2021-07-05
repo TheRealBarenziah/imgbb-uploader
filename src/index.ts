@@ -8,6 +8,7 @@ interface IOptions {
   name?: string;
   expiration?: number;
   base64string?: string;
+  imageUrl?: string;
 }
 
 /**
@@ -22,6 +23,7 @@ interface IOptions {
  * @param {string} options.name - Custom name for your file
  * @param {string} options.expiration - Expiration value in seconds
  * @param {string} options.base64string - Upload a base64 string (alternative to options.imagePath)
+ * @param {string} options.imageUrl - URL of your image (32Mb max)
  *
  * @returns {Promise.<ResponseObject>}
  *    A promise. Access your data using `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
@@ -47,7 +49,7 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
   } else {
     if (args.length === 1 && typeof args[0] === "object") {
       // handle the option object
-      const { imagePath, apiKey, name, expiration, base64string } = {
+      const { imagePath, apiKey, name, expiration, base64string, imageUrl } = {
         ...args[0],
       };
       try {
@@ -55,9 +57,12 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
           apiKey: String(apiKey),
           base64str: base64string // if base64string is provided, skip fs call
             ? base64string
+            : imageUrl
+            ? imageUrl
             : await fileToString(String(imagePath)),
           name,
           expiration,
+          imageUrl,
         });
       } catch (e) {
         throw new Error(e);
