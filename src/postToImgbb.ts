@@ -28,7 +28,7 @@ export const postToImgbb = (params: IPostParams) =>
     });
 
     let query = `/1/upload?key=${apiKey}`;
-    if (name) query += `&name=${name}`;
+    if (name) query += `&name=${encodeURIComponent(name)}`;
     if (expiration) query += `&expiration=${expiration}`;
 
     const options = {
