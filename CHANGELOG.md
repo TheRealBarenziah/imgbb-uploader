@@ -1,3 +1,9 @@
+# 1.3.3
+
+- [Add encodeURIComponent](https://github.com/TheRealBarenziah/imgbb-uploader/issues/10) on the `name` that is passed. This revealed the weird transformations imgBB API could make on passed name. A future version will come to better check the compability of passed `name` with imgBB, and either warn or reject in case the exact `name` can't be accepted as is by imgBB.
+
+- [Feat: passing an image URL is now feasible](https://github.com/TheRealBarenziah/imgbb-uploader/issues/11) as it should !
+
 # 1.3.2
 
 - [Patch responseObject interface](https://github.com/TheRealBarenziah/imgbb-uploader/pull/9#issuecomment-860906935)  
