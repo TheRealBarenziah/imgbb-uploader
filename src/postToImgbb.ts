@@ -1,6 +1,6 @@
 import * as https from "https";
 import * as querystring from "querystring";
-import ResponseObject from "./responseInterface";
+import { IResponseObject } from "./interfaces";
 
 /**
  * Now using the standard 'https' module instead of 'request' deprecated dependency.
@@ -21,7 +21,7 @@ interface IPostParams {
 }
 
 export const postToImgbb = (params: IPostParams) =>
-  new Promise<ResponseObject>((resolve, reject) => {
+  new Promise<IResponseObject>((resolve, reject) => {
     const {
       apiKey,
       base64str,

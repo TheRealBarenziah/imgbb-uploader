@@ -8,7 +8,7 @@
   "types": "lib/index.d.ts",
   "dependencies": {},
   "scripts": {
-    "dev": "npm run build && npm run lint && npm run test && npm run remap",
+    "dev": "npm run build && npm run format && npm run lint && npm run test && npm run remap",
     "test": "jest --config jestconfig.json",
     "build": "node clean.js && tsc -p tsconfig-cjs.json",
     "build:cjs": "node clean.js && tsc -p tsconfig-cjs.json",

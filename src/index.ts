@@ -1,15 +1,7 @@
 import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
-import { validateInput } from "./validateInput";
-
-interface IOptions {
-  apiKey: string;
-  imagePath?: string;
-  name?: string;
-  expiration?: number;
-  base64string?: string;
-  imageUrl?: string;
-}
+import { validateOptionObject, validateStringInput } from "./validateInput";
+import { IOptionObject, IResponseObject } from "./interfaces";
 
 /**
  * Upload local pictures files to imgbb API and get display URLs in response.
@@ -33,10 +25,12 @@ interface IOptions {
  *       .then(res => console.log(res))
  *       .catch(err => console.error(err))
  */
-const imgbbUploader = async (...args: string[] | IOptions[]) => {
+const imgbbUploader = async (
+  ...args: string[] | IOptionObject[]
+): Promise<IResponseObject> => {
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
-    if (await validateInput(String(args[0]), String(args[1]))) {
+    if (await validateStringInput(String(args[0]), String(args[1]))) {
       return postToImgbb({
         apiKey: String(args[0]),
         base64str: await fileToString(String(args[1])),
@@ -53,19 +47,23 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
         ...args[0],
       };
       try {
+        const base64str = await validateOptionObject({ ...args[0] });
         return postToImgbb({
           apiKey: String(apiKey),
+          /*
           base64str: base64string // if base64string is provided, skip fs call
             ? base64string
-            : imageUrl
+            : imageUrl // else if imageUrl is provided, skip fs call
             ? imageUrl
-            : await fileToString(String(imagePath)),
+            : await fileToString(String(imagePath)), // else call fs w/ base64 param
+          */
+          base64str,
           name,
           expiration,
           imageUrl,
         });
       } catch (e) {
-        throw new Error(e);
+        throw new Error(String(e));
       }
     } else
       throw new Error(
