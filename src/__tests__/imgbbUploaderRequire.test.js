@@ -150,11 +150,57 @@ test("passing a base64string, expiration & name", async () => {
   });
 });
 
+test("passing an imageUrl, expiration & name", async () => {
+  const imageUrl = "https://picsum.photos/400";
+  const valarDohaeris = tfaker.firstName();
+  const randomExpirationValue = Math.floor(Math.random() * 300) + 120;
+  expect(
+    await imgbbUploader({
+      imageUrl,
+      apiKey: process.env.API_KEY,
+      name: valarDohaeris,
+      expiration: randomExpirationValue,
+    }).then((res) =>
+      Object({ name: res.image.name, expiration: Number(res.expiration) }),
+    ),
+  ).toStrictEqual({
+    name: valarDohaeris,
+    expiration: randomExpirationValue,
+  });
+});
+
 test("passing an url should be feasible", async () => {
   const imageUrl = "https://picsum.photos/400";
   expect(
     await imgbbUploader({
       apiKey: process.env.API_KEY,
+      imageUrl,
+    }).then((res) => Boolean(res.image.url)),
+  ).toBe(true);
+});
+
+test("passing multiple valid input sources (i.e imagePath + imageUrl) should throw", async () => {
+  const filename = await fakeWaifu();
+  const imageUrl = "https://picsum.photos/400";
+  expect(
+    await imgbbUploader({
+      apiKey: process.env.API_KEY,
+      imagePath: path.join(imagePath, `${filename}.png`),
+      imageUrl,
+    })
+      .then(() => fail())
+      .catch((e) => expect(e).toBeInstanceOf(Error)),
+  );
+});
+
+test("passing multiple input sources should NOT throw if only a single one is valid", async () => {
+  this.base64waifu = "";
+  await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
+  const imageUrl = "https://picsum.photos/400";
+  expect(
+    await imgbbUploader({
+      apiKey: process.env.API_KEY,
+      base64string: String(this.base64waifu).toUpperCase(),
       imageUrl,
     }).then((res) => Boolean(res.image.url)),
   ).toBe(true);

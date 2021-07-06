@@ -82,7 +82,7 @@ _**Note about imgBB API:** the `medium` Object will only be returned for `.png` 
 ## Use with options object (more features, yay! )
 
 From version 1.2.0 onward, you can also pass an options object as param.  
-Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).
+Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).  
 The key you'll use for your image depends on its nature. One of these must be defined:
 
 - `imagePath` in case of a local file
@@ -95,7 +95,7 @@ const imgbbUploader = require("imgbb-uploader");
 const options = {
   apiKey: process.env.IMGBB_API_KEY, // MANDATORY
 
-  imagePath: "./your/image/path", // OPTIONAL: pass a local file
+  imagePath: "./your/image/path", // OPTIONAL: pass a local file (max 32Mb)
 
   name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
 
@@ -107,7 +107,7 @@ const options = {
 
   base64string:
     "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR42mNcLVNbzwAEjDAGACcSA4kB6ARiAAAAAElFTkSuQmCC",
-  /* OPTIONAL: pass base64-encoded image
+  /* OPTIONAL: pass base64-encoded image (max 32Mb)
 
   Enable this to upload base64-encoded image directly as string. (available from 1.3.0 onward)
   Allows to work with RAM directly for increased performance (skips fs I/O calls).
