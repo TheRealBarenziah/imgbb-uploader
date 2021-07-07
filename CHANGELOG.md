@@ -4,6 +4,10 @@
 
 - [Feat: passing an image URL is now feasible](https://github.com/TheRealBarenziah/imgbb-uploader/issues/11) as it should !
 
+- [Chore: fileToString func now calls fs.promises.readFile instead of wrapping fs.readFile into a Promise](https://github.com/TheRealBarenziah/imgbb-uploader/commit/ee6e6abc2b6af08313f44b9b4e6a2f74aa53dd77): afaik it won't change the behaviour in the end, it's just more readable that way, & makes the async nature of that operation even more obvious (reminder: [the syncronous fs.readFile call blocks the holy Event Loop 'til it is complete](https://nodejs.org/api/fs.html#fs_synchronous_example))
+
+- TODO: continue the UX work that has been started. This implies, amongst other things, making extra sure (writing a test for it?) that the ResponseObject interface is easily accessible; update the "compatibility" section (I'm transpiling to es5 atm); better input validations (imageUrl regex, name parsing...); audit performance (could it be improved further)
+
 # 1.3.2
 
 - [Patch responseObject interface](https://github.com/TheRealBarenziah/imgbb-uploader/pull/9#issuecomment-860906935)  
