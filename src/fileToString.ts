@@ -1,4 +1,4 @@
-import { readFile } from "fs/promises";
+import fs from "fs";
 /**
  * Promise to turn an image path into a base64 string
  *
@@ -7,18 +7,5 @@ import { readFile } from "fs/promises";
  * A string (base64) representation of your image.
  */
 
-export const fileToString = async (imagePath: string) =>
-  await readFile(imagePath, "base64").catch((e: any) => {
-    throw new Error(e);
-  });
-
-/*
-new Promise<string>((resolve, reject) => {
-    return readFile(imagePath, "base64", (err: any, data: string) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    });
-  });
-*/
+export const fileToString = (imagePath: string) =>
+  fs.promises.readFile(imagePath, "base64").catch((e) => e);
