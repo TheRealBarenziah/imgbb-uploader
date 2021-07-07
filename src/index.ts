@@ -43,20 +43,14 @@ const imgbbUploader = async (
   } else {
     if (args.length === 1 && typeof args[0] === "object") {
       // handle the option object
-      const { imagePath, apiKey, name, expiration, base64string, imageUrl } = {
+      const { apiKey, name, expiration } = {
         ...args[0],
       };
       try {
+        // ensure there is a single defined key between 'imagePath', 'imageUrl' & 'base64string'
         const image = await validateOptionObject({ ...args[0] });
         return postToImgbb({
           apiKey: String(apiKey),
-          /*
-          base64str: base64string // if base64string is provided, skip fs call
-            ? base64string
-            : imageUrl // else if imageUrl is provided, skip fs call
-            ? imageUrl
-            : await fileToString(String(imagePath)), // else call fs w/ base64 param
-          */
           image,
           name,
           expiration,
