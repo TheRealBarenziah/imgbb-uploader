@@ -33,7 +33,7 @@ const imgbbUploader = async (
     if (await validateStringInput(String(args[0]), String(args[1]))) {
       return postToImgbb({
         apiKey: String(args[0]),
-        base64str: await fileToString(String(args[1])),
+        image: await fileToString(String(args[1])),
       });
     } else {
       throw new Error(
@@ -47,7 +47,7 @@ const imgbbUploader = async (
         ...args[0],
       };
       try {
-        const base64str = await validateOptionObject({ ...args[0] });
+        const image = await validateOptionObject({ ...args[0] });
         return postToImgbb({
           apiKey: String(apiKey),
           /*
@@ -57,10 +57,9 @@ const imgbbUploader = async (
             ? imageUrl
             : await fileToString(String(imagePath)), // else call fs w/ base64 param
           */
-          base64str,
+          image,
           name,
           expiration,
-          imageUrl,
         });
       } catch (e) {
         throw new Error(String(e));

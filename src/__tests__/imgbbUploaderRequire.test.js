@@ -193,19 +193,6 @@ test("passing multiple valid input sources (i.e imagePath + imageUrl) should thr
   );
 });
 
-test("passing multiple input sources should NOT throw if only a single one is valid", async () => {
-  this.base64waifu = "";
-  await fakeWaifu("base64string").then((res) => (this.base64waifu = res));
-  const imageUrl = "https://picsum.photos/400";
-  expect(
-    await imgbbUploader({
-      apiKey: process.env.API_KEY,
-      base64string: String(this.base64waifu).toUpperCase(),
-      imageUrl,
-    }).then((res) => Boolean(res.image.url)),
-  ).toBe(true);
-});
-
 test("passing a base64string & name", async () => {
   this.base64waifu = "";
   await fakeWaifu("base64string").then((res) => (this.base64waifu = res));

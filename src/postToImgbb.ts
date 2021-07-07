@@ -7,31 +7,24 @@ import { IResponseObject } from "./interfaces";
  *
  * To tweak the method, edit 'postToImgbb.ts' with the help of [the docs](https://nodejs.org/api/https.html#https_https_request_options_callback)
  * @param {string} apiKey - Your imgBB API key
- * @param {string} base64string - Typically, the output of fileToString("path") function
+ * @param {string} imageing - Typically, the output of fileToString("path") function
  *
  * @returns A promise. Use `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
  */
 
 interface IPostParams {
   apiKey: string;
-  base64str?: string;
+  image?: string;
   name?: string;
   expiration?: number;
-  imageUrl?: string;
 }
 
 export const postToImgbb = (params: IPostParams) =>
   new Promise<IResponseObject>((resolve, reject) => {
-    const {
-      apiKey,
-      base64str,
-      name = null,
-      expiration = null,
-      imageUrl = null,
-    } = { ...params };
+    const { apiKey, image, name = null, expiration = null } = { ...params };
 
     const payload = querystring.stringify({
-      image: imageUrl ? imageUrl : base64str,
+      image,
     });
 
     let query = `/1/upload?key=${apiKey}`;
@@ -64,7 +57,7 @@ export const postToImgbb = (params: IPostParams) =>
             ? resolve(output)
             : reject(
                 new Error(
-                  "There was a problem with imgBB, please check your inputs",
+                  `There was a problem with imgBB, please check your inputs.\nFaulty payload: ${image}`,
                 ),
               );
         });
