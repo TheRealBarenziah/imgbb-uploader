@@ -1,34 +1,34 @@
 import * as https from "https";
 import * as querystring from "querystring";
-import ResponseObject from "./responseInterface";
+import { IResponseObject } from "./interfaces";
 
 /**
  * Now using the standard 'https' module instead of 'request' deprecated dependency.
  *
  * To tweak the method, edit 'postToImgbb.ts' with the help of [the docs](https://nodejs.org/api/https.html#https_https_request_options_callback)
  * @param {string} apiKey - Your imgBB API key
- * @param {string} base64string - Typically, the output of fileToString("path") function
+ * @param {string} imageing - Typically, the output of fileToString("path") function
  *
  * @returns A promise. Use `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
  */
 
 interface IPostParams {
   apiKey: string;
-  base64str: string;
+  image?: string;
   name?: string;
   expiration?: number;
 }
 
 export const postToImgbb = (params: IPostParams) =>
-  new Promise<ResponseObject>((resolve, reject) => {
-    const { apiKey, base64str, name = null, expiration = null } = { ...params };
+  new Promise<IResponseObject>((resolve, reject) => {
+    const { apiKey, image, name = null, expiration = null } = { ...params };
 
     const payload = querystring.stringify({
-      image: base64str,
+      image,
     });
 
     let query = `/1/upload?key=${apiKey}`;
-    if (name) query += `&name=${name}`;
+    if (name) query += `&name=${encodeURIComponent(name)}`;
     if (expiration) query += `&expiration=${expiration}`;
 
     const options = {
@@ -57,7 +57,7 @@ export const postToImgbb = (params: IPostParams) =>
             ? resolve(output)
             : reject(
                 new Error(
-                  "There was a problem with imgBB, please check your inputs",
+                  `There was a problem with imgBB, please check your inputs.\nFaulty payload: ${image}`,
                 ),
               );
         });

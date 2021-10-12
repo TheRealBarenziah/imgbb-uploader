@@ -1,4 +1,4 @@
-export default interface ResponseObject {
+export interface IResponseObject {
   id: string;
   title: string;
   url_viewer: string;
@@ -29,4 +29,13 @@ export default interface ResponseObject {
     url: string;
   };
   delete_url: string;
+}
+
+export interface IOptionObject {
+  apiKey: string;
+  imagePath?: string;
+  name?: string;
+  expiration?: number;
+  base64string?: string;
+  imageUrl?: string;
 }

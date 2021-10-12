@@ -1,14 +1,7 @@
 import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
-import { validateInput } from "./validateInput";
-
-interface IOptions {
-  apiKey: string;
-  imagePath?: string;
-  name?: string;
-  expiration?: number;
-  base64string?: string;
-}
+import { validateOptionObject, validateStringInput } from "./validateInput";
+import { IOptionObject, IResponseObject } from "./interfaces";
 
 /**
  * Upload local pictures files to imgbb API and get display URLs in response.
@@ -22,6 +15,7 @@ interface IOptions {
  * @param {string} options.name - Custom name for your file
  * @param {string} options.expiration - Expiration value in seconds
  * @param {string} options.base64string - Upload a base64 string (alternative to options.imagePath)
+ * @param {string} options.imageUrl - URL of your image (32Mb max)
  *
  * @returns {Promise.<ResponseObject>}
  *    A promise. Access your data using `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
@@ -31,13 +25,15 @@ interface IOptions {
  *       .then(res => console.log(res))
  *       .catch(err => console.error(err))
  */
-const imgbbUploader = async (...args: string[] | IOptions[]) => {
+const imgbbUploader = async (
+  ...args: string[] | IOptionObject[]
+): Promise<IResponseObject> => {
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
-    if (await validateInput(String(args[0]), String(args[1]))) {
+    if (await validateStringInput(String(args[0]), String(args[1]))) {
       return postToImgbb({
         apiKey: String(args[0]),
-        base64str: await fileToString(String(args[1])),
+        image: await fileToString(String(args[1])),
       });
     } else {
       throw new Error(
@@ -47,20 +43,20 @@ const imgbbUploader = async (...args: string[] | IOptions[]) => {
   } else {
     if (args.length === 1 && typeof args[0] === "object") {
       // handle the option object
-      const { imagePath, apiKey, name, expiration, base64string } = {
+      const { apiKey, name, expiration } = {
         ...args[0],
       };
       try {
+        // ensure there is a single defined key between 'imagePath', 'imageUrl' & 'base64string'
+        const image = await validateOptionObject({ ...args[0] });
         return postToImgbb({
           apiKey: String(apiKey),
-          base64str: base64string // if base64string is provided, skip fs call
-            ? base64string
-            : await fileToString(String(imagePath)),
+          image,
           name,
           expiration,
         });
       } catch (e) {
-        throw new Error(e);
+        throw new Error(String(e));
       }
     } else
       throw new Error(

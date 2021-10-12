@@ -1,10 +1,20 @@
+# 1.3.3
+
+- [Add encodeURIComponent](https://github.com/TheRealBarenziah/imgbb-uploader/issues/10) on the `name` that is passed. This revealed the weird transformations imgBB API could make on passed name. A future version will come to better check the compability of passed `name` with imgBB, and either warn or reject in case the exact `name` can't be accepted as is by imgBB.
+
+- [Feat: passing an image URL is now feasible](https://github.com/TheRealBarenziah/imgbb-uploader/issues/11) as it should !
+
+- [Chore: fileToString func now calls fs.promises.readFile instead of wrapping fs.readFile into a Promise](https://github.com/TheRealBarenziah/imgbb-uploader/commit/ee6e6abc2b6af08313f44b9b4e6a2f74aa53dd77): afaik it won't change the behaviour in the end, it's just more readable that way, & makes the async nature of that operation even more obvious (reminder: [the syncronous fs.readFile call blocks the holy Event Loop 'til it is complete](https://nodejs.org/api/fs.html#fs_synchronous_example))
+
+- TODO: continue the UX work that has been started. This implies, amongst other things, making extra sure (writing a test for it?) that the ResponseObject interface is easily accessible; update the "compatibility" section (I'm transpiling to es5 atm); better input validations (imageUrl regex, name parsing...); audit performance (could it be improved further)
+
 # 1.3.2
 
 - [Patch responseObject interface](https://github.com/TheRealBarenziah/imgbb-uploader/pull/9#issuecomment-860906935)  
   Fix the interface for medium key & update README for that matter.
 
-- [Update devDependencies](https://github.com/TheRealBarenziah/remap-istanbul/commit/f8a107f7aba3b5224011ffa3d353d5e6c2360a8b)
-  For sport, I tried to please `npm audit` & GitHub dependabot for dev deps. Fixing the bothering [RCE](https://github.com/TheRealBarenziah/remap-istanbul/commit/f8a107f7aba3b5224011ffa3d353d5e6c2360a8b) vulnerability took a `remap-istanbul` fork since their repo last commit is 3 years ago.
+- [Update devDependencies](https://github.com/TheRealBarenziah/imgbb-uploader/commit/5a196ea5d58e5fe654d1dee693c7267fbb75476f)
+  For sport, I tried to please `npm audit` & GitHub dependabot for dev deps. Fixing the bothering [RCE](https://snyk.io/vuln/SNYK-JS-HANDLEBARS-1056767) vulnerability [took a `remap-istanbul` fork](https://github.com/TheRealBarenziah/remap-istanbul/commit/f8a107f7aba3b5224011ffa3d353d5e6c2360a8b) since their repo last commit is 3 years ago.
 
 - One day tho, I should setup a proper Istanbul CC setup & take the opportunity to replace `tslint` by `typescript-eslint` since the former [is deprecated since 2019](https://github.com/palantir/tslint/issues/4534).
 
