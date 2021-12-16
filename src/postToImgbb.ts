@@ -52,14 +52,22 @@ export const postToImgbb = (params: IPostParams) =>
         });
 
         res.on("end", () => {
-          const output = JSON.parse(response).data;
-          output
-            ? resolve(output)
-            : reject(
-                new Error(
-                  `There was a problem with imgBB, please check your inputs.\nFaulty payload: ${image}`,
-                ),
-              );
+          if (JSON.parse(response).error) {
+            const error = {
+              message: "There was a problem with imgBB API",
+              imgbbApiResponse: JSON.parse(response),
+            };
+            reject(new Error(JSON.stringify(error, null, 4)));
+          } else {
+            const output = JSON.parse(response).data;
+            output
+              ? resolve(output)
+              : reject(
+                  new Error(
+                    `There was a problem parsing imgBB API response, please check your inputs.\nFaulty payload: ${image}`,
+                  ),
+                );
+          }
         });
       })
 
