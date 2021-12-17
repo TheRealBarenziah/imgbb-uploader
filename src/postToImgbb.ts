@@ -60,13 +60,7 @@ export const postToImgbb = (params: IPostParams) =>
             reject(new Error(JSON.stringify(error, null, 4)));
           } else {
             const output = JSON.parse(response).data;
-            output
-              ? resolve(output)
-              : reject(
-                  new Error(
-                    `There was a problem parsing imgBB API response, please check your inputs.\nFaulty payload: ${image}`,
-                  ),
-                );
+            resolve(output);
           }
         });
       })

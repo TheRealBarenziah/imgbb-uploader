@@ -13,10 +13,9 @@ Primary use is letting imgBB handle the hosting & serving of images.
 **Node >= 8** ( [async/await](https://node.green/) )  
 _Care: this module uses `fs` under the hood. **It WON'T work outside the node environment !**_
 
-_You SHOULDN'T use API keys from your frontend anyway. PLEASE DON'T DO THAT !!!_  
-[Blah blah blah, my soul is lost already, bring it on](https://stackoverflow.com/a/63669049/11894221)
+[I want to use this client-side](https://stackoverflow.com/a/63669049/11894221)
 
-**File formats supported by ImgBB API:** `.jpg`, `.png`,`.bmp`,`.gif`, `base64`.
+**Formats supported by ImgBB API:** `.jpg`, `.png`,`.bmp`,`.gif`, `base64`, `url`.
 
 ## Install
 
@@ -162,7 +161,7 @@ myUrl("Dolunay_Obruk-Sama_<3");
 
 ## Learn more
 
-This module doesn't support array uploads. For heavy duty, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback) and [async forEach](https://www.npmjs.com/package/async-foreach) (you may also be interested in [path](https://nodejs.org/api/path.html#path_path) ).
+This module doesn't support array uploads. For heavy duty, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options) and maybe [async forEach](https://www.npmjs.com/package/async-foreach).
 
 For example, you can create a `baseDir.js` file wherever it suits you:
 
@@ -170,7 +169,7 @@ For example, you can create a `baseDir.js` file wherever it suits you:
 module.exports = require("path").join(__dirname);
 ```
 
-Then you can require this file elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically. Once there, you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
+Then you can require it elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically. Once there you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
 See `fs` documentation and Stack Overflow for more inspiration on the matter.
 
 [CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)

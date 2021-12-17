@@ -16,7 +16,7 @@
     "build": "node clean.js && tsc -p tsconfig-cjs.json",
     "build:cjs": "node clean.js && tsc -p tsconfig-cjs.json",
     "build:esm": "node clean.js && tsc -p tsconfig.json",
-    "remap": "node --no-warnings ./node_modules/.bin/remap-istanbul -i coverage/coverage-final.json -o coverage/ts-report -t html -e src/__tests__/images -e src/__tests__/utils.js",
+    "remap": "node --no-warnings ./node_modules/.bin/remap-istanbul -i coverage/coverage-final.json -o coverage/ts-report -t html -e src/__tests__/images/image,src/__tests__/utils.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "clean": "node clean.js",

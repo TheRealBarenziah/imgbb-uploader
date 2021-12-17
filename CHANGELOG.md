@@ -1,3 +1,18 @@
+# 1.3.4
+
+- [Better error handling](https://github.com/TheRealBarenziah/imgbb-uploader/commit/a08fad99dec39dcee2a577811ef3ceaa62db8359#diff-2ce46d3aedfeb3b3e2c3260ad7f46386bd25c882fa92612957168baa38f22d26R55)  
+  [This issue](https://github.com/TheRealBarenziah/imgbb-uploader/issues/18) made me realize how wrong was my error handling. Now checking for `response.error` and returning it if defined. No more "faulty payload" generic (& incorrect) error for imgBB API-related errors (like 'file too big' or 'invalid API key')!
+
+- Small fix: passing non-number to `expiration` param should throw a proper Error
+
+- Chore: `npm audit fix` to please secoority bots, even if I'm the only one concerned by devDeps and even if nothing had any chance of happening ^o^
+
+- Run tests in parallel: `npm run dev` run was too long  
+  To achieve concurrency I took the easy route of splitting the test suite into separate files. It's not DRY, not very clean (and GitHub will shame me by displaying more JavaScript % than TS) but I read enough bad stuff about [Jest test.concurrent](https://jestjs.io/docs/api#testconcurrentname-fn-timeout) to prefer the reliable (and easy) route for now.  
+  `npm run dev` is still longer than ever thanks to absolutely inefficient `src/__tests__/require/bigFileExplicitThrow.js` relying on [monkey-developed (thats harsh on monkeys) dependency](https://github.com/TheRealBarenziah/waifu-generator/blob/senpai/mosaic.js#L37), but I don't mind since the output of other tests comes faster.
+
+- Next milestones are: minimizing bundle size, and [supporting chevereto-based APIs](https://github.com/TheRealBarenziah/imgbb-uploader/issues/14), hopefully before 2022 !
+
 # 1.3.3
 
 - [Add encodeURIComponent](https://github.com/TheRealBarenziah/imgbb-uploader/issues/10) on the `name` that is passed. This revealed the weird transformations imgBB API could make on passed name. A future version will come to better check the compability of passed `name` with imgBB, and either warn or reject in case the exact `name` can't be accepted as is by imgBB.

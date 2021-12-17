@@ -4,11 +4,24 @@ const imagePath = require("../images/imagePath");
 const imgbbUploader = require("../../../lib/cjs");
 const { fakeWaifu } = require("../utils");
 
-test("invalid 'apiKey' param in default object should throw", async () => {
+test("passing an option object with NaN expiration value should throw", async () => {
+  const filename = await fakeWaifu();
+  const randomExpirationValue = "Not a Number";
+  return await imgbbUploader({
+    imagePath: path.join(imagePath, `${filename}.png`),
+    apiKey: process.env.API_KEY,
+    expiration: randomExpirationValue,
+  })
+    .then(() => fail())
+    .catch((e) => expect(e).toBeInstanceOf(Error));
+});
+
+test("passing an option object with out-of-range expiration value should throw", async () => {
   const filename = await fakeWaifu();
   return await imgbbUploader({
-    path: path.join(imagePath, `${filename}.png`),
-    naniKey: process.env.API_KEY,
+    imagePath: path.join(imagePath, `${filename}.png`),
+    apiKey: process.env.API_KEY,
+    expiration: 30,
   })
     .then(() => fail())
     .catch((e) => expect(e).toBeInstanceOf(Error));

@@ -21,7 +21,7 @@ const fakeWaifu = (mode) =>
             skipFs: true,
             withoutPrefix: true,
             mosaic: {
-              number: 20,
+              number: 30,
             },
           }).then((res) => resolve(res));
         } catch (e) {

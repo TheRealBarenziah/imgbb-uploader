@@ -57,6 +57,9 @@ export const validateOptionObject = async (
     if (!looksLikeApiKey(apiKey))
       throw new Error("'apiKey' looks invalid (should be 32 characters long).");
     if (expiration) {
+      if (typeof expiration !== "number") {
+        throw new Error("'expiration' value must be a number.");
+      }
       if (Number(expiration) < 60 || Number(expiration) > 15552000) {
         throw new Error("'expiration' value must be in 60-15552000 range.");
       }
