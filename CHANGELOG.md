@@ -1,3 +1,8 @@
+# 1.3.5
+
+- Remove useless dependencies  
+  I don't know how eslint stuff came here oO
+
 # 1.3.4
 
 - [Better error handling](https://github.com/TheRealBarenziah/imgbb-uploader/commit/a08fad99dec39dcee2a577811ef3ceaa62db8359#diff-2ce46d3aedfeb3b3e2c3260ad7f46386bd25c882fa92612957168baa38f22d26R55)  

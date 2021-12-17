@@ -6,10 +6,7 @@
   "browser": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/index.d.ts",
-  "dependencies": {
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "^24.3.6"
-  },
+  "dependencies": {},
   "scripts": {
     "dev": "npm run build && npm run format && npm run lint && npm run test && npm run remap",
     "test": "jest --config jestconfig.json",
@@ -41,7 +38,9 @@
     "axios": "^0.21.4",
     "dotenv": "^8.2.0",
     "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^25.3.0",
     "eslint-plugin-node": "^11.1.0",
     "husky": "^4.2.5",
     "jest": "^26.4.0",
