@@ -82,7 +82,7 @@ _**Note about imgBB API:** the `medium` Object will only be returned for `.png` 
 
 From version 1.2.0 onward, you can also pass an options object as param.  
 Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).  
-The key you'll use for your image depends on its nature. One of these must be defined:
+The key you'll use for your image depends on its nature. **One of these must be defined:**
 
 - `imagePath` in case of a local file
 - `imageUrl` in case of an URL string
@@ -161,15 +161,14 @@ myUrl("Dolunay_Obruk-Sama_<3");
 
 ## Learn more
 
-This module doesn't support array uploads. For heavy duty, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options) and maybe [async forEach](https://www.npmjs.com/package/async-foreach).
-
-For example, you can create a `baseDir.js` file wherever it suits you:
+This module doesn't support array uploads. For heavy duty, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options) and maybe [async forEach](https://www.npmjs.com/package/async-foreach). For example, you can create a `baseDir.js` file wherever it suits you:
 
 ```javascript
 module.exports = require("path").join(__dirname);
 ```
 
-Then you can require it elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically. Once there you can f.e. `fs.readdir` and iterate `forEach` file of that directory.  
+Then you can require it elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically.  
+Once there you can for example `fs.readdir` and iterate `forEach` file of that directory.  
 See `fs` documentation and Stack Overflow for more inspiration on the matter.
 
 [CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
