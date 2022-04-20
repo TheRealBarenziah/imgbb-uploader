@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chevereto-free-http
+  namespace: chevereto-free
+  # annotations:
+
+spec:
+  rules:
+    - host: chevereto.cardnag.eu
+      http:
+        paths:
+          - backend:
+              serviceName: chevereto-free-http
+              servicePort: 80
+            path: /
