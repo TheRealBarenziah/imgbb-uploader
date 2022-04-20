@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chevereto-free-http
+  namespace: chevereto-free
+  labels:
+    app: chevereto-free
+    tier: http-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chevereto-free
+      tier: http-app
+  template:
+    metadata:
+      labels:
+        app: chevereto-free
+        tier: http-app
+    spec:
+      containers:
+      - name: cheveretofreehttp
+        image: ghcr.io/rodber/chevereto-free:1.6.2
+        env:
+          - name: CHEVERETO_TAG
+            value: dev
+          - name: CHEVERETO_DB_HOST
+            value: chevereto-free-http-mysql
+          - name: CHEVERETO_DB_USER
+            value: chevereto
+          - name: CHEVERETO_DB_PASS
+            value: tata
+          - name: CHEVERETO_DB_PORT
+            value: "3306"
+          - name: CHEVERETO_DB_NAME
+            value: chevereto
+          - name: CHEVERETO_DISABLE_UPDATE_HTTP
+            value: "1"
+          - name: CHEVERETO_DISABLE_UPDATE_CLI
+            value: "1"
+          - name: CHEVERETO_HTTPS
+            value: "0"
+          - name: CHEVERETO_DEBUG_LEVEL
+            value: "2"
+        volumeMounts:
+          - name: chevereto-free-http-config
+            mountPath: /config
+          - name: chevereto-free-http-data
+            mountPath: /data
+      volumes:
+        - name: chevereto-free-http-config
+          persistentVolumeClaim:
+            claimName: chevereto-free-http-config
+        - name: chevereto-free-http-data
+          persistentVolumeClaim:
+            claimName: chevereto-free-http-data

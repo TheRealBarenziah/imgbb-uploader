@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chevereto-free-http-mysql
+  namespace: chevereto-free
+  labels:
+    app: chevereto-free
+    tier: http-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chevereto-free
+      tier: http-mysql
+  template:
+    metadata:
+      labels:
+        app: chevereto-free
+        tier: http-mysql
+    spec:
+      containers:
+        - name: chevereto-free-http-mysql
+          image: mysql:8
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: toto
+            - name: MYSQL_ROOT_HOST
+              value: cheveretohttpmysql
+            - name: MYSQL_DATABASE
+              value: chevereto
+            - name: MYSQL_USER
+              value: chevereto
+            - name: MYSQL_PASSWORD
+              value: tata
+          volumeMounts:
+            - name: chevereto-free-http-mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: chevereto-free-http-mysql-data
+          persistentVolumeClaim:
+            claimName: chevereto-free-http-mysql-data

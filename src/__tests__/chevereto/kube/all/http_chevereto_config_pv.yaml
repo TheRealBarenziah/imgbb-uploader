@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: chevereto-free-http-config
+  namespace: chevereto-free
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  storageClassName: local-storage
+  local:
+    # /!\ Make sure path exists/is accessible on host
+    path: /home/beatrice/SEXYSTORAGE/chevereto-free-http-config
+  #local volume require node affinity ... !
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - ballysticks

@@ -9,6 +9,6 @@ test("passing file too big should throw explicit error", async () => {
     base64string: base64waifu,
     apiKey: process.env.API_KEY,
   })
-    .then(() => fail())
+    .then((res) => fail(res))
     .catch((e) => expect(String(e).includes("Faulty payload")).toBe(false));
 });

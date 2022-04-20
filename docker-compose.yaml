@@ -1,0 +1,88 @@
+version: "2"
+services:
+  cheveretohttpmysql:
+    image: "mysql:8.0"
+    container_name: cheveretohttpmysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toto
+      MYSQL_ROOT_HOST: cheveretohttpmysql
+      MYSQL_DATABASE: chevereto
+      MYSQL_USER: chevereto
+      MYSQL_PASSWORD: tata
+    volumes:
+      - cheveretohttpmysql:/var/lib/mysql
+
+  cheveretohttpsmysql:
+    image: "mysql:8.0"
+    container_name: cheveretohttpsmysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toto
+      MYSQL_ROOT_HOST: cheveretohttpsmysql
+      MYSQL_DATABASE: chevereto
+      MYSQL_USER: chevereto
+      MYSQL_PASSWORD: tata
+    volumes:
+      - cheveretohttpsmysql:/var/lib/mysql
+
+  cheveretofreehttp:
+    image: "ghcr.io/rodber/chevereto-free:1.6.2"
+    container_name: cheveretofreehttp
+    environment:
+      CHEVERETO_TAG: dev
+      CHEVERETO_DB_HOST: cheveretohttpmysql
+      CHEVERETO_DB_USER: chevereto
+      CHEVERETO_DB_PASS: tata
+      CHEVERETO_DB_PORT: 3306
+      CHEVERETO_DB_NAME: chevereto
+      CHEVERETO_DISABLE_UPDATE_HTTP: 1
+      CHEVERETO_DISABLE_UPDATE_CLI: 1
+      CHEVERETO_HTTPS: 0
+      CHEVERETO_DEBUG_LEVEL: 2
+    ports:
+      - "9001:80"
+    volumes:
+      - cheveretohttpconfig:/config
+      - cheveretohttpdata:/data
+    depends_on:
+      - cheveretohttpmysql
+
+  cheveretofreehttps:
+    container_name: cheveretofreehttps
+    build:
+      context: .
+      dockerfile: src/__tests__/chevereto/Dockerfile
+    environment:
+      CHEVERETO_TAG: dev
+      CHEVERETO_DB_HOST: cheveretohttpmysql
+      CHEVERETO_DB_USER: chevereto
+      CHEVERETO_DB_PASS: tata
+      CHEVERETO_DB_PORT: 3306
+      CHEVERETO_DB_NAME: chevereto
+      CHEVERETO_DISABLE_UPDATE_HTTP: 1
+      CHEVERETO_DISABLE_UPDATE_CLI: 1
+      CHEVERETO_HTTPS: 1
+      CHEVERETO_DEBUG_LEVEL: 2
+    ports:
+      - "9002:443"
+    volumes:
+      - cheveretohttpsconfig:/config
+      - cheveretohttpsdata:/data
+      - ~/cheveretoConfig/ssl.crt:/etc/apache2/ssl/ssl.crt
+      - ~/cheveretoConfig/ssl.key:/etc/apache2/ssl/ssl.key
+      - ~/cheveretoConfig/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - cheveretohttpsmysql
+
+volumes:
+  cheveretohttpsconfig:
+    driver: local
+  cheveretohttpconfig:
+    driver: local
+  cheveretohttpsdata:
+    driver: local
+  cheveretohttpdata:
+    driver: local
+  cheveretohttpmysql:
+    driver: local
+  cheveretohttpsmysql:
+    driver: local
