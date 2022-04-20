@@ -99,7 +99,7 @@ const options = {
   name: "yourCustomFilename", // OPTIONAL: pass a custom filename to imgBB API
 
   expiration: 3600 /* OPTIONAL: pass a numeric value in seconds.
-  It must be in the 60-15552000 range (POSIX time ftw).
+  It must be in the 60-15552000 range.
   Enable this to force your image to be deleted after that time. */,
 
   imageUrl: "https://placekitten.com/500/500", // OPTIONAL: pass an URL to imgBB (max 32Mb)
@@ -110,7 +110,6 @@ const options = {
 
   Enable this to upload base64-encoded image directly as string. (available from 1.3.0 onward)
   Allows to work with RAM directly for increased performance (skips fs I/O calls).
-  Beware: options.imagePath will be ignored as long as options.base64string is defined! 
   */
 };
 
