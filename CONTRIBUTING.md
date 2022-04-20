@@ -71,7 +71,7 @@ docker-compose up -d
 
 ## Deploy with K(uwu)bernetes :rocket:
 
-- (optional) Install [k(uwu)be](https://k3s.io/):  
+- (optional) Install [k(uwu)be](https://k3s.io/):
 
 ```zsh
 curl -sfL https://get.k3s.io | sh -s -
@@ -91,22 +91,25 @@ source ~/.zshrc
 ```
 
 - (optional) Install [kube-ps1](https://github.com/jonmosco/kube-ps1)
+
 ```zsh
 cd ~ && \
 git clone https://github.com/jonmosco/kube-ps1.git && \
 echo "source ~/kube-ps1/kube-ps1.sh" >> ~/.zshrc && \
 echo "PROMPT='\$(kube_ps1)'\$PROMPT" >> ~/.zshrc && \
 source ~/.zshrc
-```  
-- Perform same steps as [docker setup](#docker-container-run-chevereto) (just don't `docker-compose`)
-- Build the chevereto-https image:  
-```zsh
+```
 
-```  
+- Perform same steps as [docker setup](#docker-container-run-chevereto) (just don't `docker-compose`)
+- Build the chevereto-https image:
+
+```zsh
+docker image build -t chevereto-free-https:v1 ./src/__tests__/chevereto
+```
+
 - Create k(uwu)be namespace: `kubectl create namespace chevereto-free`
 - Switch to this namespace: `kns`
-- Apply the stuff: `kubectl apply -f ./src/__tests__/chevereto/kube/all`
-
+- Apply the stuff: `kubectl apply -f ./src/__tests__/chevereto/kube --recursive`
 
 # Additional infos
 

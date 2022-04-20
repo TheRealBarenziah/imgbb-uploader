@@ -19,44 +19,42 @@ spec:
         tier: https-app
     spec:
       containers:
-      - name: cheveretofreehttps
-        image: ghcr.io/rodber/chevereto-free:1.6.2
-        command: ["/bin/bash"]
-        args: ["apache2-foreground"]
-        env:
-          - name: CHEVERETO_TAG
-            value: dev
-          - name: CHEVERETO_DB_HOST
-            value: chevereto-free-https-mysql
-          - name: CHEVERETO_DB_USER
-            value: chevereto
-          - name: CHEVERETO_DB_PASS
-            value: tata
-          - name: CHEVERETO_DB_PORT
-            value: "3306"
-          - name: CHEVERETO_DB_NAME
-            value: chevereto
-          - name: CHEVERETO_DISABLE_UPDATE_HTTP
-            value: "1"
-          - name: CHEVERETO_DISABLE_UPDATE_CLI
-            value: "1"
-          - name: CHEVERETO_HTTPS
-            value: "1"
-          - name: CHEVERETO_DEBUG_LEVEL
-            value: "2"
-        volumeMounts:
-          - name: chevereto-free-https-config
-            mountPath: /config
-          - name: chevereto-free-https-data
-            mountPath: /data
-          # This is for the openssl certificate you generated while thoroughly following CONTRIBUTING.md
-          - name: ssl-certificate
-            mountPath: /etc/apache2/ssl/ssl.crt
-          - name: ssl-certificate-key
-            mountPath: /etc/apache2/ssl/ssl.key
-          # for HTTPS, /etc/apache2/sites-enabled/000-default.conf must be overriden
-          - name: apache-config
-            mountPath: /etc/apache2/sites-enabled/000-default.conf
+        - name: cheveretofreehttps
+          image: chevereto-free-https:v1
+          env:
+            - name: CHEVERETO_TAG
+              value: dev
+            - name: CHEVERETO_DB_HOST
+              value: chevereto-free-https-mysql
+            - name: CHEVERETO_DB_USER
+              value: chevereto
+            - name: CHEVERETO_DB_PASS
+              value: tata
+            - name: CHEVERETO_DB_PORT
+              value: "3306"
+            - name: CHEVERETO_DB_NAME
+              value: chevereto
+            - name: CHEVERETO_DISABLE_UPDATE_HTTP
+              value: "1"
+            - name: CHEVERETO_DISABLE_UPDATE_CLI
+              value: "1"
+            - name: CHEVERETO_HTTPS
+              value: "1"
+            - name: CHEVERETO_DEBUG_LEVEL
+              value: "2"
+          volumeMounts:
+            - name: chevereto-free-https-config
+              mountPath: /config
+            - name: chevereto-free-https-data
+              mountPath: /data
+            # This is for the openssl certificate you generated while thoroughly following CONTRIBUTING.md
+            - name: ssl-certificate
+              mountPath: /etc/apache2/ssl/ssl.crt
+            - name: ssl-certificate-key
+              mountPath: /etc/apache2/ssl/ssl.key
+            # for HTTPS, /etc/apache2/sites-enabled/000-default.conf must be overriden
+            - name: apache-config
+              mountPath: /etc/apache2/sites-enabled/000-default.conf
       volumes:
         - name: chevereto-free-https-config
           persistentVolumeClaim:
