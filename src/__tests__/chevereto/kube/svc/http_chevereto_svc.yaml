@@ -5,11 +5,11 @@ metadata:
   namespace: chevereto-free
   labels:
     app: chevereto-free
-    tier: http
+    tier: http-app
 spec:
   ports:
     - port: 80
       targetPort: 80
   selector:
     app: chevereto-free
-    tier: http
+    tier: http-app
