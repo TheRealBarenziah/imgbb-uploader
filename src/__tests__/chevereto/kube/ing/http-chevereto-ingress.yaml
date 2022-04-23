@@ -3,14 +3,17 @@ kind: Ingress
 metadata:
   name: chevereto-free-http
   namespace: chevereto-free
-  # annotations:
-
+  annotations:
+    kubernetes.io/ingress.class: nginx 
 spec:
   rules:
-    - host: chevereto.cardnag.eu
-      http:
-        paths:
-          - backend:
-              serviceName: chevereto-free-http
-              servicePort: 80
-            path: /
+  - host: chevereto.cardnag.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: chevereto-free-http
+            port:
+              number: 80

@@ -8,8 +8,8 @@ metadata:
     tier: http
 spec:
   ports:
-    - port: 3306
-      targetPort: 3306
+    - port: 80
+      targetPort: 80
   selector:
     app: chevereto-free
     tier: http
