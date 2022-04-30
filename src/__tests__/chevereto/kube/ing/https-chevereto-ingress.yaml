@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chevereto-free-https
+  namespace: chevereto-free
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer-cardnag
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: cheveretos.cardnag.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: chevereto-free-http
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - cheveretos.cardnag.eu
+    secretName: etoile-cardnag-eu
