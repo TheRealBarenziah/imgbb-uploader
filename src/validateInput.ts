@@ -42,10 +42,12 @@ export const validateOptionObject = async (
     const {
       imagePath = null,
       apiKey = null,
-      // name = null,
       expiration = null,
       base64string = null,
       imageUrl = null,
+      cheveretoHost = null,
+      cheveretoHttps = null,
+      cheveretoPort = null,
     } = {
       ...options,
     };
@@ -65,19 +67,25 @@ export const validateOptionObject = async (
       }
     }
     // todo: if(!nameLooksValid(name))...
-
     if (imagePath) {
-      if (base64string || imageUrl) throw oopsie;
-      else if (!validateStringInput(apiKey, imagePath))
+      if (base64string || imageUrl) {
+        throw oopsie;
+      } else if (!validateStringInput(apiKey, imagePath)) {
         throw Error(`'imagePath' seem invalid (${imagePath})`);
-      else return await fileToString(imagePath);
+      } else {
+        return await fileToString(imagePath);
+      }
     } else if (base64string) {
-      if (imageUrl) throw oopsie;
-      else return base64string;
+      if (imageUrl) {
+        throw oopsie;
+      } else {
+        return base64string;
+      }
     } else if (imageUrl) {
-      // todo: some research on imgBB opinions before pasting a regex
       return imageUrl;
-    } else throw oopsie;
+    } else {
+      throw oopsie;
+    }
   } catch (e) {
     throw new Error(String(e));
   }

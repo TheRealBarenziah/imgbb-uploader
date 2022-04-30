@@ -38,4 +38,7 @@ export interface IOptionObject {
   expiration?: number;
   base64string?: string;
   imageUrl?: string;
+  cheveretoHost?: string;
+  cheveretoHttps?: string | boolean;
+  cheveretoPort?: string | number;
 }

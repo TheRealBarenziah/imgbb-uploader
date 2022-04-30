@@ -43,9 +43,14 @@ const imgbbUploader = async (
   } else {
     if (args.length === 1 && typeof args[0] === "object") {
       // handle the option object
-      const { apiKey, name, expiration } = {
-        ...args[0],
-      };
+      const {
+        apiKey,
+        name,
+        expiration,
+        cheveretoHost,
+        cheveretoHttps,
+        cheveretoPort,
+      } = { ...args[0] };
       try {
         // ensure there is a single defined key between 'imagePath', 'imageUrl' & 'base64string'
         const image = await validateOptionObject({ ...args[0] });
@@ -54,6 +59,9 @@ const imgbbUploader = async (
           image,
           name,
           expiration,
+          cheveretoHost,
+          cheveretoHttps,
+          cheveretoPort,
         });
       } catch (e) {
         throw new Error(String(e));

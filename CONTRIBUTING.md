@@ -1,7 +1,7 @@
 # tl;dr
 
 - Clone project
-- `npm i`
+- `npm ci`
 - `npm run dev`
 
 # the long read
@@ -98,16 +98,15 @@ git clone https://github.com/jonmosco/kube-ps1.git && \
 echo "source ~/kube-ps1/kube-ps1.sh" >> ~/.zshrc && \
 echo "PROMPT='\$(kube_ps1)'\$PROMPT" >> ~/.zshrc && \
 source ~/.zshrc
-```  
+```
 
-
-- Create k(uwu)be namespace: `kubectl create namespace chevereto-free`  
-- Switch to this namespace: `kns`  
-- Edit `spec.rules.host` of ingress rules in `./src/__tests__/chevereto/kube/ing` files  
-- For HTTPS, put your TLS certificate inside `chevereto-free` namespace & reference it in `tls` section of `./src/__tests__/chevereto/kube/ing/https-chevereto-ingress.yaml`  
-- Apply the stuff: `kubectl apply -f ./src/__tests__/chevereto/kube --recursive`  
-- Finalize the setup by creating a Chevereto admin account; ensure both HTTP & HTTPS URLs are working using private browsing  
-- Before running the test suite, don't forget to create an `.env` file at project root (following `.env.example` template)  
+- Create k(uwu)be namespace: `kubectl create namespace chevereto-free`
+- Switch to this namespace: `kns`
+- Edit `spec.rules.host` of ingress rules in `./src/__tests__/chevereto/kube/ing` files
+- For HTTPS, put your TLS certificate inside `chevereto-free` namespace & reference it in `tls` section of `./src/__tests__/chevereto/kube/ing/https-chevereto-ingress.yaml`
+- Apply the stuff: `kubectl apply -f ./src/__tests__/chevereto/kube --recursive`
+- Finalize the setup by creating a Chevereto admin account; ensure both HTTP & HTTPS URLs are working using private browsing
+- Before running the test suite, don't forget to create an `.env` file at project root (following `.env.example` template)
 
 # Additional infos
 
