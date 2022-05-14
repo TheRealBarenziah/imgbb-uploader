@@ -2,6 +2,17 @@ import fs from "fs";
 import { fileToString } from "./fileToString";
 import { IOptionObject } from "./interfaces";
 
+const looksLikeImgbbApiKey = (value: string | undefined) => {
+  return value && value.length === 32 ? true : false;
+};
+
+export const isFile = async (path: string) => {
+  return await fs.promises
+    .lstat(path)
+    .then((res) => res.isFile())
+    .catch(() => false);
+};
+
 /**
  * Formally validate input 2 strings params
  *
@@ -9,21 +20,49 @@ import { IOptionObject } from "./interfaces";
  * @param {string} path - Should be a valid file path
  *
  * @returns {Promise.<Boolean>}
- *    A promise that resolve to `true` if things are looking good, and to `false` otherwise
+ * A promise that resolve to `true` if things are looking good, and to `false` otherwise
  */
-
-const looksLikeApiKey = (value: string | null) =>
-  value && value.length === 32 ? true : false;
-
 export const validateStringInput = async (
-  apiKey: string | null,
+  apiKey: string | undefined,
   path: string,
 ): Promise<boolean> => {
-  const file = await fs.promises
-    .lstat(path)
-    .then((res) => res.isFile())
-    .catch(() => false);
-  return file && looksLikeApiKey(apiKey) ? true : false;
+  return (await isFile(path)) && looksLikeImgbbApiKey(apiKey) ? true : false;
+};
+
+interface IValidateImageInput {
+  imagePath?: string;
+  apiKey?: string; // If we reach this function call, apiKey is sure to be defined. But TS don't get this
+  base64string?: string;
+  imageUrl?: string;
+}
+const validateImageInput = async ({
+  imagePath,
+  base64string,
+  imageUrl,
+}: IValidateImageInput) => {
+  const oopsie = Error(
+    "A single input key must be defined between: 'imagePath', 'imageUrl', 'base64string'.",
+  );
+  if (imagePath) {
+    const validPath = await isFile(imagePath);
+    if (base64string || imageUrl) {
+      throw oopsie;
+    } else if (!validPath) {
+      throw Error(`'imagePath' seem invalid (${imagePath})`);
+    } else {
+      return await fileToString(imagePath);
+    }
+  } else if (base64string) {
+    if (imageUrl) {
+      throw oopsie;
+    } else {
+      return base64string;
+    }
+  } else if (imageUrl) {
+    return imageUrl;
+  } else {
+    throw oopsie;
+  }
 };
 
 /**
@@ -32,59 +71,60 @@ export const validateStringInput = async (
  * @param {IOptions} options - The options object as described in the docs
  *
  * @returns {Promise.<Boolean>}
- *    A promise that resolve to a valid "image" value if things are looking good, and throws otherwise
+ * A promise that resolve to a valid "image" value if things are looking good, and throws otherwise
  */
-
 export const validateOptionObject = async (
   options: IOptionObject,
-): Promise<string | undefined> => {
+): Promise<string> => {
   try {
     const {
-      imagePath = null,
-      apiKey = null,
-      expiration = null,
-      base64string = null,
-      imageUrl = null,
-      cheveretoHost = null,
-      cheveretoHttps = null,
-      cheveretoPort = null,
+      imagePath = undefined,
+      apiKey = undefined,
+      expiration = undefined,
+      base64string = undefined,
+      imageUrl = undefined,
+      cheveretoHost = undefined,
+      cheveretoHttps = undefined,
+      cheveretoPort = undefined,
     } = {
       ...options,
     };
 
-    const oopsie = Error(
-      "A single input key must be defined between: 'imagePath', 'imageUrl', 'base64string'.",
-    );
-
-    if (!looksLikeApiKey(apiKey))
-      throw new Error("'apiKey' looks invalid (should be 32 characters long).");
-    if (expiration) {
-      if (typeof expiration !== "number") {
-        throw new Error("'expiration' value must be a number.");
+    // case 1: validate inputs before !imgBB chevereto API call
+    if (cheveretoHost) {
+      if (String(cheveretoHost).includes(":")) {
+        throw new Error(
+          "It seem you tried to pass a custom port along your chevereto URL. Please use the dedicated 'cheveretoPort' key for this purpose.",
+        );
       }
-      if (Number(expiration) < 60 || Number(expiration) > 15552000) {
-        throw new Error("'expiration' value must be in 60-15552000 range.");
-      }
+      // TODO: couple more checks
+      return validateImageInput({
+        imagePath,
+        imageUrl,
+        base64string,
+      });
     }
-    // todo: if(!nameLooksValid(name))...
-    if (imagePath) {
-      if (base64string || imageUrl) {
-        throw oopsie;
-      } else if (!validateStringInput(apiKey, imagePath)) {
-        throw Error(`'imagePath' seem invalid (${imagePath})`);
-      } else {
-        return await fileToString(imagePath);
+    // case 2: validate inputs before imgBB API call
+    else {
+      if (!looksLikeImgbbApiKey(apiKey))
+        throw new Error(
+          "'apiKey' looks invalid (should be 32 characters long).",
+        );
+      if (expiration) {
+        if (typeof expiration !== "number") {
+          throw new Error("'expiration' value must be a number.");
+        }
+        if (Number(expiration) < 60 || Number(expiration) > 15552000) {
+          throw new Error("'expiration' value must be in 60-15552000 range.");
+        }
       }
-    } else if (base64string) {
-      if (imageUrl) {
-        throw oopsie;
-      } else {
-        return base64string;
-      }
-    } else if (imageUrl) {
-      return imageUrl;
-    } else {
-      throw oopsie;
+      // todo: if(!nameLooksValid(name))...
+      return validateImageInput({
+        apiKey,
+        imagePath,
+        imageUrl,
+        base64string,
+      });
     }
   } catch (e) {
     throw new Error(String(e));

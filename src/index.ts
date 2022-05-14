@@ -18,7 +18,7 @@ import { IOptionObject, IResponseObject } from "./interfaces";
  * @param {string} options.imageUrl - URL of your image (32Mb max)
  *
  * @returns {Promise.<ResponseObject>}
- *    A promise. Access your data using `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
+ * A promise. Access your data using `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
  *
  * @example
  *     imgbbUploader("your-api-key", "/absolute/path/to/file.jpg")
@@ -31,9 +31,10 @@ const imgbbUploader = async (
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
     if (await validateStringInput(String(args[0]), String(args[1]))) {
+      const image = await fileToString(String(args[1]));
       return postToImgbb({
         apiKey: String(args[0]),
-        image: await fileToString(String(args[1])),
+        image,
       });
     } else {
       throw new Error(
@@ -56,7 +57,7 @@ const imgbbUploader = async (
         const image = await validateOptionObject({ ...args[0] });
         return postToImgbb({
           apiKey: String(apiKey),
-          image,
+          image, // Dear TS, reaching here means 'image' is defined (otherwise we would be in the catch block)
           name,
           expiration,
           cheveretoHost,

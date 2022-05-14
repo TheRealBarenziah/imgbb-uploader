@@ -25,7 +25,6 @@ module.exports = {
   plugins: [
     "eslint-plugin-jsdoc",
     "eslint-plugin-prefer-arrow",
-    "eslint-plugin-react",
     "@typescript-eslint",
   ],
   rules: {
@@ -67,6 +66,7 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/indent": "off",
+    "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/member-delimiter-style": [
       "off",
       {
@@ -80,7 +80,6 @@ module.exports = {
         },
       },
     ],
-    "@typescript-eslint/naming-convention": "error",
     "@typescript-eslint/no-empty-function": "error",
     "@typescript-eslint/no-empty-interface": "error",
     "@typescript-eslint/no-explicit-any": "off",
@@ -146,7 +145,7 @@ module.exports = {
     "no-bitwise": "error",
     "no-caller": "error",
     "no-cond-assign": "error",
-    "no-console": "error",
+    "no-console": "warn",
     "no-debugger": "error",
     "no-empty": "error",
     "no-empty-function": "error",

@@ -8,4 +8,6 @@ import fs from "fs";
  */
 
 export const fileToString = (imagePath: string) =>
-  fs.promises.readFile(imagePath, "base64").catch((e) => e);
+  fs.promises.readFile(imagePath, "base64").catch((e: any) => {
+    throw e;
+  });
