@@ -2,6 +2,7 @@ import { fileToString } from "./fileToString";
 import { postToImgbb } from "./postToImgbb";
 import { validateOptionObject, validateStringInput } from "./validateInput";
 import { IOptionObject, IResponseObject } from "./interfaces";
+import { postToChevereto } from "./postToChevereto";
 
 /**
  * Upload local pictures files to imgbb API and get display URLs in response.
@@ -55,15 +56,27 @@ const imgbbUploader = async (
       try {
         // ensure there is a single defined key between 'imagePath', 'imageUrl' & 'base64string'
         const image = await validateOptionObject({ ...args[0] });
-        return postToImgbb({
-          apiKey: String(apiKey),
-          image, // Dear TS, reaching here means 'image' is defined (otherwise we would be in the catch block)
-          name,
-          expiration,
-          cheveretoHost,
-          cheveretoHttps,
-          cheveretoPort,
-        });
+
+        // no cheveretoHost defined => post to imgBB
+        if (!cheveretoHost) {
+          return postToImgbb({
+            apiKey: String(apiKey),
+            image, // Dear TS, reaching here means 'image' is defined (otherwise we would be in the catch block)
+            name,
+            expiration,
+          });
+        }
+
+        // cheveretoHost is defined: handle chevereto case
+        else {
+          return postToChevereto({
+            apiKey: String(apiKey),
+            image,
+            cheveretoHost,
+            cheveretoHttps,
+            cheveretoPort,
+          });
+        }
       } catch (e) {
         throw new Error(String(e));
       }
