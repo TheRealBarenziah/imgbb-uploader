@@ -45,6 +45,7 @@ export const postToChevereto = (params: IPostParams) =>
         "Content-Type": "application/x-www-form-urlencoded",
         "Content-Length": payload.length,
       },
+      rejectUnauthorized: false,
     };
 
     const req = httpRequest(options, (res: any) => {
@@ -55,29 +56,33 @@ export const postToChevereto = (params: IPostParams) =>
       });
 
       res.on("end", () => {
-        if (response) {
-          const output = JSON.parse(response);
-          // We still need to discriminate between error & success
-          if (output.error) {
-            const error = {
-              message: `There was a problem querying ${cheveretoHost}`,
-              cheveretoResponse: output,
-            };
-            reject(new Error(JSON.stringify(error, null, 4)));
+        try {
+          if (response) {
+            const output = JSON.parse(response);
+            // We still need to discriminate between error & success
+            if (output.error) {
+              const error = {
+                message: `${cheveretoHost} API returned an error`,
+                cheveretoResponse: output,
+              };
+              reject(new Error(JSON.stringify(error, null, 4)));
+            } else {
+              resolve(output);
+            }
           } else {
-            resolve(output);
+            reject(
+              new Error(
+                `Something went wrong: ${cheveretoHost} response was empty.`,
+              ),
+            );
           }
-        } else {
-          reject(
-            new Error(
-              `Something went wrong: ${cheveretoHost} response was empty.`,
-            ),
-          );
+          return response;
+        } catch (error) {
+          reject(new Error(String(error)));
         }
-        return response;
       });
     }).on("error", (err: any) => {
-      reject(new Error(err));
+      reject(new Error(String(err)));
     });
 
     req.write(payload);
