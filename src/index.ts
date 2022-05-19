@@ -26,9 +26,7 @@ import { postToChevereto } from "./postToChevereto";
  *       .then(res => console.log(res))
  *       .catch(err => console.error(err))
  */
-const imgbbUploader = async (
-  ...args: string[] | IOptionObject[]
-): Promise<IResponseObject> => {
+const imgbbUploader = async (...args: string[] | IOptionObject[]): Promise<IResponseObject> => {
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
     if (await validateStringInput(String(args[0]), String(args[1]))) {
@@ -45,14 +43,9 @@ const imgbbUploader = async (
   } else {
     if (args.length === 1 && typeof args[0] === "object") {
       // handle the option object
-      const {
-        apiKey,
-        name,
-        expiration,
-        cheveretoHost,
-        cheveretoHttps,
-        cheveretoPort,
-      } = { ...args[0] };
+      const { apiKey, name, expiration, cheveretoHost, cheveretoHttps, cheveretoPort } = {
+        ...args[0],
+      };
       try {
         // ensure there is a single defined key between 'imagePath', 'imageUrl' & 'base64string'
         const image = await validateOptionObject({ ...args[0] });

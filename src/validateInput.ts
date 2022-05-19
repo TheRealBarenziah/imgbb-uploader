@@ -35,11 +35,7 @@ interface IValidateImageInput {
   base64string?: string;
   imageUrl?: string;
 }
-const validateImageInput = async ({
-  imagePath,
-  base64string,
-  imageUrl,
-}: IValidateImageInput) => {
+const validateImageInput = async ({ imagePath, base64string, imageUrl }: IValidateImageInput) => {
   const oopsie = Error(
     "A single input key must be defined between: 'imagePath', 'imageUrl', 'base64string'.",
   );
@@ -73,9 +69,7 @@ const validateImageInput = async ({
  * @returns {Promise.<Boolean>}
  * A promise that resolve to a valid "image" value if things are looking good, and throws otherwise
  */
-export const validateOptionObject = async (
-  options: IOptionObject,
-): Promise<string> => {
+export const validateOptionObject = async (options: IOptionObject): Promise<string> => {
   try {
     const {
       imagePath = undefined,
@@ -84,8 +78,6 @@ export const validateOptionObject = async (
       base64string = undefined,
       imageUrl = undefined,
       cheveretoHost = undefined,
-      cheveretoHttps = undefined,
-      cheveretoPort = undefined,
     } = {
       ...options,
     };
@@ -93,9 +85,7 @@ export const validateOptionObject = async (
     // case 1: validate inputs before !imgBB chevereto API call
     if (cheveretoHost) {
       const host = String(cheveretoHost);
-      const hostWithoutProtocol = host.includes("://")
-        ? host.split("://")[1]
-        : host;
+      const hostWithoutProtocol = host.includes("://") ? host.split("://")[1] : host;
       if (hostWithoutProtocol.includes(":")) {
         throw new Error(
           "It seem you tried to pass a custom port along your chevereto URL. Please use the dedicated 'cheveretoPort' key for this purpose.",
@@ -111,9 +101,7 @@ export const validateOptionObject = async (
     // case 2: validate inputs before imgBB API call
     else {
       if (!looksLikeImgbbApiKey(apiKey))
-        throw new Error(
-          "'apiKey' looks invalid (should be 32 characters long).",
-        );
+        throw new Error("'apiKey' looks invalid (should be 32 characters long).");
       if (expiration) {
         if (typeof expiration !== "number") {
           throw new Error("'expiration' value must be a number.");

@@ -7,9 +7,8 @@ const imgbbUploader = require("../../../lib/cjs");
 test("passing two strings as params", async () => {
   const filename = await fakeWaifu();
   expect(
-    await imgbbUploader(
-      process.env.API_KEY,
-      path.join(imagePath, `${filename}.png`),
-    ).then((res) => Boolean(res.image.url)),
+    await imgbbUploader(process.env.API_KEY, path.join(imagePath, `${filename}.png`)).then((res) =>
+      Boolean(res.image.url),
+    ),
   ).toBe(true);
 });

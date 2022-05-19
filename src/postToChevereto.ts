@@ -5,7 +5,7 @@ import * as querystring from "querystring";
 import { IOptionObject, IResponseObject } from "./interfaces";
 
 /**
- * Now using the standard 'https' module instead of 'request' deprecated dependency.
+ * Now using the standard nodejs modules instead of 'request' deprecated dependency.
  *
  * To tweak the method, edit 'postToImgbb.ts' with the help of [the docs](https://nodejs.org/api/https.html#https_https_request_options_callback)
  *
@@ -21,22 +21,22 @@ interface IPostParams extends IOptionObject {
 
 export const postToChevereto = (params: IPostParams) =>
   new Promise<IResponseObject>((resolve, reject) => {
-    const {
-      apiKey,
-      image,
-      cheveretoHost = null,
-      cheveretoHttps = null,
-      cheveretoPort = null,
-    } = { ...params };
-    /* tslint:disable-next-line */
+    const { apiKey, image, cheveretoHost = "" } = { ...params };
     let query = "/api/1/upload";
+
     const payload = querystring.stringify({
       source: image,
       key: apiKey,
     });
 
+    // Infer relevant request module by parsing cheveretoHost; default to https unless explicitly given 'http://'
+    const requestFunk = cheveretoHost.split("://")[0] === "http" ? httpRequest : httpsRequest;
+    const hostname = cheveretoHost.includes("://") ? cheveretoHost.split("://")[1] : cheveretoHost;
+
+    // TODO: if exists, parse explicit port by splitting ':'
+
     const options = {
-      hostname: cheveretoHost,
+      hostname,
       method: "POST",
       timeout: 5000,
       path: query,
@@ -48,9 +48,10 @@ export const postToChevereto = (params: IPostParams) =>
       rejectUnauthorized: false,
     };
 
-    const req = httpRequest(options, (res: any) => {
+    const req = requestFunk(options, (res: any) => {
       let response = "";
-
+      // ts-disable-next-line
+      console.log("response 52 ohayouuu ", response, ".. obtw request ? ", requestFunk);
       res.on("data", (d: string) => {
         response += d;
       });
@@ -70,11 +71,7 @@ export const postToChevereto = (params: IPostParams) =>
               resolve(output);
             }
           } else {
-            reject(
-              new Error(
-                `Something went wrong: ${cheveretoHost} response was empty.`,
-              ),
-            );
+            reject(new Error(`Something went wrong: ${cheveretoHost} response was empty.`));
           }
           return response;
         } catch (error) {

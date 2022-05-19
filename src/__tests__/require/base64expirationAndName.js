@@ -13,9 +13,7 @@ test("passing a base64string, expiration & name", async () => {
       apiKey: process.env.API_KEY,
       name: valarDohaeris,
       expiration: randomExpirationValue,
-    }).then((res) =>
-      Object({ name: res.image.name, expiration: Number(res.expiration) }),
-    ),
+    }).then((res) => Object({ name: res.image.name, expiration: Number(res.expiration) })),
   ).toStrictEqual({
     name: valarDohaeris,
     expiration: randomExpirationValue,
