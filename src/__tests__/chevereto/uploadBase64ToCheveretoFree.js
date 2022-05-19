@@ -11,6 +11,6 @@ test("upload base64 string to chevereto-free", async () => {
       // cheveretoPort: Number(process.env.CHEVERETO_PORT),
       // cheveretoHttps: process.env.CHEVERETO_HTTPS ? true : false,
       base64string: waifu,
-    }).then((res) => Boolean(res.image.display_url)),
+    }).then((res) => Boolean(res.image.url)),
   ).toBe(true);
 });

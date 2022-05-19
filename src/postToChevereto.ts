@@ -55,8 +55,25 @@ export const postToChevereto = (params: IPostParams) =>
       });
 
       res.on("end", () => {
-        /* tslint:disable-next-line */
-        console.log("cheveretohost is defined. response nani ? ", response);
+        if (response) {
+          const output = JSON.parse(response);
+          // We still need to discriminate between error & success
+          if (output.error) {
+            const error = {
+              message: `There was a problem querying ${cheveretoHost}`,
+              cheveretoResponse: output,
+            };
+            reject(new Error(JSON.stringify(error, null, 4)));
+          } else {
+            resolve(output);
+          }
+        } else {
+          reject(
+            new Error(
+              `Something went wrong: ${cheveretoHost} response was empty.`,
+            ),
+          );
+        }
         return response;
       });
     }).on("error", (err: any) => {
