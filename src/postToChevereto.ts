@@ -50,8 +50,6 @@ export const postToChevereto = (params: IPostParams) =>
 
     const req = requestFunk(options, (res: any) => {
       let response = "";
-      // ts-disable-next-line
-      console.log("response 52 ohayouuu ", response, ".. obtw request ? ", requestFunk);
       res.on("data", (d: string) => {
         response += d;
       });
