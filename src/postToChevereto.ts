@@ -29,14 +29,23 @@ export const postToChevereto = (params: IPostParams) =>
       key: apiKey,
     });
 
-    // Infer relevant request module by parsing cheveretoHost; default to https unless explicitly given 'http://'
-    const requestFunk = cheveretoHost.split("://")[0] === "http" ? httpRequest : httpsRequest;
-    const hostname = cheveretoHost.includes("://") ? cheveretoHost.split("://")[1] : cheveretoHost;
+    // Parse cheveretoHost to infer relevant request module; default to https unless explicitly given 'http://'
+    const goodOldHttp = cheveretoHost.split("://")[0] === "http";
+    const requestFn = goodOldHttp ? httpRequest : httpsRequest;
+    let hostname = cheveretoHost.includes("://") ? cheveretoHost.split("://")[1] : cheveretoHost;
+    let port = goodOldHttp ? 80 : 443;
 
-    // TODO: if exists, parse explicit port by splitting ':'
+    // Handle explicit, non-standard ports. We care about freaky configs.
+    // 'One must still have chaos in oneself to be able to give birth to a dancing star', ですか。
+    if (hostname.includes(":")) {
+      const splittedHostname = hostname.split(":");
+      port = Number(splittedHostname[1]);
+      hostname = splittedHostname[0];
+    }
 
     const options = {
       hostname,
+      port,
       method: "POST",
       timeout: 5000,
       path: query,
@@ -48,7 +57,7 @@ export const postToChevereto = (params: IPostParams) =>
       rejectUnauthorized: false,
     };
 
-    const req = requestFunk(options, (res: any) => {
+    const req = requestFn(options, (res: any) => {
       let response = "";
       res.on("data", (d: string) => {
         response += d;
@@ -76,9 +85,15 @@ export const postToChevereto = (params: IPostParams) =>
           reject(new Error(String(error)));
         }
       });
-    }).on("error", (err: any) => {
-      reject(new Error(String(err)));
-    });
+    })
+      .on("error", (err: any) => {
+        reject(new Error(String(err)));
+      })
+
+      .on("timeout", () => {
+        // https://stackoverflow.com/a/47546591/11894221
+        req.destroy();
+      });
 
     req.write(payload);
 

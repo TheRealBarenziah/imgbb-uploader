@@ -84,14 +84,6 @@ export const validateOptionObject = async (options: IOptionObject): Promise<stri
 
     // case 1: validate inputs before !imgBB chevereto API call
     if (cheveretoHost) {
-      const host = String(cheveretoHost);
-      const hostWithoutProtocol = host.includes("://") ? host.split("://")[1] : host;
-      if (hostWithoutProtocol.includes(":")) {
-        throw new Error(
-          "It seem you tried to pass a custom port along your chevereto URL. Please use the dedicated 'cheveretoPort' key for this purpose.",
-        );
-      }
-      // TODO: couple more checks
       return validateImageInput({
         imagePath,
         imageUrl,

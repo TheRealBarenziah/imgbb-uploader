@@ -7,7 +7,4 @@ import fs from "fs";
  * A string (base64) representation of your image.
  */
 
-export const fileToString = (imagePath: string) =>
-  fs.promises.readFile(imagePath, "base64").catch((e: any) => {
-    throw e;
-  });
+export const fileToString = (imagePath: string) => fs.promises.readFile(imagePath, "base64");
