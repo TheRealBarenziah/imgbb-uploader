@@ -3,10 +3,7 @@
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-  "testPathIgnorePatterns": [
-    "/src/__tests__/images",
-    "/src/__tests__/utils.js"
-  ],
+  "testPathIgnorePatterns": ["/src/__tests__/images", "/src/__tests__/utils.js"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
   "verbose": true,
   "collectCoverage": true,

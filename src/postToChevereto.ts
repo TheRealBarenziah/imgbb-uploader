@@ -21,14 +21,25 @@ interface IPostParams extends IOptionObject {
 }
 
 export const postToChevereto = (params: IPostParams) =>
-  new Promise<IResponseObject>((resolve, reject) => {
+  new Promise<IResponseObject | string>((resolve, reject) => {
     const { apiKey, image, cheveretoHost, customPayload = {} } = { ...params };
 
-    const payload = querystring.stringify({
+    // Throw instantly when 'txt' or 'redirect' is passed to customPayload.format.. We don't do that here
+    if (customPayload) {
+      if (customPayload?.format === "txt" || customPayload?.format === "redirect") {
+        throw new Error(
+          "'options.customPayload.format' standard alternatives to 'json' are not supported; see USE_WITH_CHEVERETO.md for more details.",
+        );
+      }
+    }
+
+    const keyValues: Record<string, any> = {
       source: image,
       key: apiKey,
       ...customPayload,
-    });
+    };
+
+    const payload = querystring.stringify(keyValues);
 
     // Parse cheveretoHost to infer relevant request module; default to https unless explicitly given 'http://'
     const goodOldHttp = cheveretoHost.split("://")[0] === "http";
@@ -48,7 +59,7 @@ export const postToChevereto = (params: IPostParams) =>
       hostname,
       port,
       method: "POST",
-      timeout: 10000,
+      timeout: 5000,
       path: "/api/1/upload",
       headers: {
         Accept: "application/json",
@@ -79,21 +90,20 @@ export const postToChevereto = (params: IPostParams) =>
               resolve(output);
             }
           } else {
-            reject(new Error(`Something went wrong: ${cheveretoHost} response was empty.`));
+            reject(new Error(String(`${cheveretoHost} returned an empty response`)));
           }
-          return response;
         } catch (error) {
           reject(new Error(String(error)));
         }
       });
     })
-      .on("error", (err: any) => {
-        reject(new Error(String(err)));
-      })
-
       .on("timeout", () => {
         // https://stackoverflow.com/a/47546591/11894221
         req.destroy();
+      })
+
+      .on("error", (err: any) => {
+        reject(new Error(String(err)));
       });
 
     req.write(payload);

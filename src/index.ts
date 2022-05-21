@@ -28,7 +28,9 @@ import { postToChevereto } from "./postToChevereto";
  *       .then(res => console.log(res))
  *       .catch(err => console.error(err))
  */
-const imgbbUploader = async (...args: string[] | IOptionObject[]): Promise<IResponseObject> => {
+const imgbbUploader = async (
+  ...args: string[] | IOptionObject[]
+): Promise<IResponseObject | string> => {
   // handle two string params to ensure retrocompatibility
   if (args.length === 2) {
     if (await validateStringInput(String(args[0]), String(args[1]))) {

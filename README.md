@@ -1,27 +1,34 @@
 # imgbb-uploader
 
-Lightweight Nodejs module to upload local pictures files to imgbb API and get display URLs in response.  
+Lightweight Nodejs module to upload pictures to imgBB (or other chevereto-based APIs) and get display URLs in response.  
 Primary use is letting imgBB handle the hosting & serving of images.
 
 [![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader?targetFile=package.json)
 [![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://www.npmjs.com/package/imgbb-uploader?activeTab=dependencies)
-[![Build Status](https://travis-ci.org/TheRealBarenziah/imgbb-uploader.svg?branch=master)](https://travis-ci.org/TheRealBarenziah/imgbb-uploader)
+
+## Install
+
+```bash
+npm install imgbb-uploader
+```
 
 ## Compatibility:
 
 **Node >= 8** ( [async/await](https://node.green/) )  
 _Care: this module uses `fs` under the hood. **It WON'T work outside the node environment !**_
 
-[I want to use this client-side](https://stackoverflow.com/a/63669049/11894221)
+**Want to use this client-side?** [Head there](https://stackoverflow.com/a/63669049/11894221)
 
 **Formats supported by ImgBB API:** `.jpg`, `.png`,`.bmp`,`.gif`, `base64`, `url`.
 
-## Install
+## I don't want to be relying on imgBB
 
-`npm install imgbb-uploader`
+imgBB is based on **Chevereto**, a software written by [rodber](https://github.com/rodber) that [you can easily host yourself](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md#docker-container-run-chevereto).  
+imgbb-uploader (1.4.0 & forward) supports all chevereto versions (chevereto-free, v3 & v4)! 😍  
+**[Head to the dedicated documentation](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/USE_WITH_CHEVERETO.md) for uploading to chevereto-based servers**
 
-## Use with two string params (legacy, LTS)
+## Upload to imgBB with two string params (legacy, LTS)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
@@ -35,7 +42,7 @@ imgbbUploader("your-imgbb-api-key-string", "path/to/your/image.png")
   .catch((error) => console.error(error));
 ```
 
-### `.then((response) => console.log(response))` output example :
+## `.then((response) => console.log(response))` output example :
 
 ```javascript
 {
@@ -78,9 +85,9 @@ Use `await` or `.then` as shown above.
 
 _**Note about imgBB API:** the `medium` Object will only be returned for `.png` and `base64` files !_
 
-## Use with options object (more features, yay! )
+## With options object (more features, yay! )
 
-From version 1.2.0 onward, you can also pass an options object as param.  
+From version 1.2.0 onward, you can pass an options object as param.  
 Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).  
 The key you'll use for your image depends on its nature. **One of these must be defined:**
 
@@ -106,11 +113,7 @@ const options = {
 
   base64string:
     "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR42mNcLVNbzwAEjDAGACcSA4kB6ARiAAAAAElFTkSuQmCC",
-  /* OPTIONAL: pass base64-encoded image (max 32Mb)
-
-  Enable this to upload base64-encoded image directly as string. (available from 1.3.0 onward)
-  Allows to work with RAM directly for increased performance (skips fs I/O calls).
-  */
+  // OPTIONAL: pass base64-encoded image (max 32Mb)
 };
 
 imgbbUploader(options)
@@ -121,29 +124,30 @@ imgbbUploader(options)
 **This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
 
-## More examples using option object
-
-Using options.base64string:
+## Another example using option object
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
 
+// Some buffer we need to upload
+const data = "definitely-not-an-image-binary";
+
 // Some promise of base64 data
-const base64str = () =>
+const bufferToBase64 = (buffer) =>
   new Promise((resolve) => {
+    const buff = new Buffer(buffer);
+    const base64string = buff.toString("base64"); // https://nodejs.org/api/buffer.html#buftostringencoding-start-end
     return setTimeout(() => {
-      resolve(
-        "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR42mNcLVNbzwAEjDAGACcSA4kB6ARiAAAAAElFTkSuQmCC",
-      );
+      resolve(base64string);
     }, 1000);
   });
 
-// Your barebone async function
-const myUrl = async (name) => {
+// Some async function
+const getDisplayUrl = async (buffer, name = "Default-filename") => {
   return await imgbbUploader({
     apiKey: "definitely-not-a-valid-key",
-    base64string: await base64str(),
-    name: name,
+    base64string: await bufferToBase64(buffer),
+    name,
   })
     .then((res) => {
       console.log(`Handle success: ${res.url}`);
@@ -155,19 +159,19 @@ const myUrl = async (name) => {
     });
 };
 
-myUrl("Dolunay_Obruk-Sama_<3");
+const myUrl = getDisplayUrl(data, "Dolunay_Obruk-Sama_<3");
 ```
 
-## Learn more
+## Working with directories/arrays
 
-This module doesn't support array uploads. For heavy duty, you'll probably have to work with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options) and maybe [async forEach](https://www.npmjs.com/package/async-foreach). For example, you can create a `baseDir.js` file wherever it suits you:
+This module doesn't support array uploads. To upload whole directories of local files, can work with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options). For example, you could create a `imagesDir.js` file wherever it suits you:
 
 ```javascript
 module.exports = require("path").join(__dirname);
 ```
 
-Then you can require it elsewhere and use something like `path.join(myDirpath, "subfolder")` to dig into directories programmatically.  
-Once there you can for example `fs.readdir` and iterate `forEach` file of that directory.  
+Then require that elsewhere and use something like `path.join(imagesDirPath, relevantSubfolder)` to dig into directories programmatically.  
+Once there you can `fs.readdir` and iterate `forEach` file of that directory as you see fit.  
 See `fs` documentation and Stack Overflow for more inspiration on the matter.
 
 [CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
