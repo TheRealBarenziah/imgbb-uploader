@@ -11,7 +11,7 @@ import { IOptionObject, IResponseObject } from "./interfaces";
  * @param {string} apiKey - Your imgBB API key
  * @param {string} image - Typically, the output of fileToString("path") function
  *
- * @returns A promise. Use `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
+ * @returns A promise. [README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
  */
 
 interface IPostParams extends IOptionObject {

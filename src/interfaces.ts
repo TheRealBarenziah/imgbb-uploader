@@ -39,6 +39,5 @@ export interface IOptionObject {
   base64string?: string;
   imageUrl?: string;
   cheveretoHost?: string;
-  cheveretoHttps?: string | boolean;
-  cheveretoPort?: string | number;
+  customPayload?: Record<string, unknown>;
 }

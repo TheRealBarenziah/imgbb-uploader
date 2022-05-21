@@ -5,24 +5,26 @@ import { IOptionObject, IResponseObject } from "./interfaces";
 import { postToChevereto } from "./postToChevereto";
 
 /**
- * Upload local pictures files to imgbb API and get display URLs in response.
+ * Upload local pictures files to imgBB API (or other Chevereto instances) & get display URLs in response.
  *
- * @param {string} apiKey - Your imgBB API key
+ * @param {string} apiKey - Your API key
  * @param {string} pathToFile - Path to your file
  *
  * @param {Object} options - OPTIONAL: pass Option object as parameter
- * @param {string} options.apiKey - Your imgBB API key
+ * @param {string} options.apiKey - Your API key
  * @param {string} options.imagePath - Path to your image
  * @param {string} options.name - Custom name for your file
  * @param {string} options.expiration - Expiration value in seconds
  * @param {string} options.base64string - Upload a base64 string (alternative to options.imagePath)
  * @param {string} options.imageUrl - URL of your image (32Mb max)
+ * @param {string} options.cheveretoHost - Define to switch into 'chevereto mode'
+ * @param {string} options.customPayload - Pass custom key-value pairs (in chevereto mode only)
  *
  * @returns {Promise.<ResponseObject>}
- * A promise. Access your data using `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
+ * A promise. See [README](https://github.com/TheRealBarenziah/imgbb-uploader#use) for more infos
  *
  * @example
- *     imgbbUploader("your-api-key", "/absolute/path/to/file.jpg")
+ *     imgbbUploader("your-api-key", "path/to/file.jpg")
  *       .then(res => console.log(res))
  *       .catch(err => console.error(err))
  */
@@ -43,7 +45,7 @@ const imgbbUploader = async (...args: string[] | IOptionObject[]): Promise<IResp
   } else {
     if (args.length === 1 && typeof args[0] === "object") {
       // handle the option object
-      const { apiKey, name, expiration, cheveretoHost, cheveretoHttps, cheveretoPort } = {
+      const { apiKey, name, expiration, cheveretoHost, customPayload } = {
         ...args[0],
       };
       try {
@@ -60,14 +62,13 @@ const imgbbUploader = async (...args: string[] | IOptionObject[]): Promise<IResp
           });
         }
 
-        // cheveretoHost is defined: handle chevereto case
+        // cheveretoHost is defined: switch in chevereto mode
         else {
           return postToChevereto({
             apiKey: String(apiKey),
             image,
             cheveretoHost,
-            cheveretoHttps,
-            cheveretoPort,
+            customPayload,
           });
         }
       } catch (e) {
@@ -75,9 +76,11 @@ const imgbbUploader = async (...args: string[] | IOptionObject[]): Promise<IResp
       }
     } else
       throw new Error(
-        `It seems you didn't pass your arguments properly! Please check imgbbUploader documentation here:\nhttps://github.com/TheRealBarenziah/imgbb-uploader/tree/master`,
+        `It seems you didn't pass your arguments properly! Please check the documentation here:\nhttps://github.com/TheRealBarenziah/imgbb-uploader/tree/master`,
       );
   }
 };
 
+/* "Consider using 'export default' or another module format instead" ? 
+"No, I don't think I will" */
 export = imgbbUploader;

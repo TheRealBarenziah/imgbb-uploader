@@ -9,8 +9,10 @@ test("providing additional custom keys shouldn't throw", async () => {
       apiKey: process.env.CHEVERETO_HTTPS_API_KEY,
       cheveretoHost: process.env.CHEVERETO_HTTPS_HOST,
       base64string: waifu,
-      nsfw: 1,
-      undocumentedFeature: "ERROR_SUCCESS",
+      customPayload: {
+        nsfw: 1,
+        undocumentedFeature: "ERROR_SUCCESS",
+      },
     }).then((res) => Boolean(res.image.url)),
   ).toBe(true);
 });

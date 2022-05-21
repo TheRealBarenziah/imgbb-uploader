@@ -17,16 +17,17 @@ import { IOptionObject, IResponseObject } from "./interfaces";
 
 interface IPostParams extends IOptionObject {
   image: string;
+  cheveretoHost: string;
 }
 
 export const postToChevereto = (params: IPostParams) =>
   new Promise<IResponseObject>((resolve, reject) => {
-    const { apiKey, image, cheveretoHost = "" } = { ...params };
-    let query = "/api/1/upload";
+    const { apiKey, image, cheveretoHost, customPayload = {} } = { ...params };
 
     const payload = querystring.stringify({
       source: image,
       key: apiKey,
+      ...customPayload,
     });
 
     // Parse cheveretoHost to infer relevant request module; default to https unless explicitly given 'http://'
@@ -48,7 +49,7 @@ export const postToChevereto = (params: IPostParams) =>
       port,
       method: "POST",
       timeout: 5000,
-      path: query,
+      path: "/api/1/upload",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",

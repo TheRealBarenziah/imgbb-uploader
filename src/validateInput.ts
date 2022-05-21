@@ -2,10 +2,6 @@ import fs from "fs";
 import { fileToString } from "./fileToString";
 import { IOptionObject } from "./interfaces";
 
-const looksLikeImgbbApiKey = (value: string | undefined) => {
-  return value && value.length === 32 ? true : false;
-};
-
 export const isFile = async (path: string) => {
   return await fs.promises
     .lstat(path)
@@ -26,7 +22,7 @@ export const validateStringInput = async (
   apiKey: string | undefined,
   path: string,
 ): Promise<boolean> => {
-  return (await isFile(path)) && looksLikeImgbbApiKey(apiKey) ? true : false;
+  return (await isFile(path)) && apiKey ? true : false;
 };
 
 interface IValidateImageInput {
@@ -92,8 +88,7 @@ export const validateOptionObject = async (options: IOptionObject): Promise<stri
     }
     // case 2: validate inputs before imgBB API call
     else {
-      if (!looksLikeImgbbApiKey(apiKey))
-        throw new Error("'apiKey' looks invalid (should be 32 characters long).");
+      if (!apiKey) throw new Error("no 'apiKey' provided.");
       if (expiration) {
         if (typeof expiration !== "number") {
           throw new Error("'expiration' value must be a number.");
