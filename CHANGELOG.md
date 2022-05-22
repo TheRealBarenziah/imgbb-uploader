@@ -1,6 +1,18 @@
 # 1.4.0
 
-TODO: writeup
+- Closes [Support chevereto issue](https://github.com/TheRealBarenziah/imgbb-uploader/issues/14) after more than eight months. Sorry for the wait! It was partially caused by a massive amount of [yak shaving](https://xkcd.com/1739/) involved (like, writing a pure Docker stack for the tests, then switching to docker-compose, then to remotely-hosted K(uwu)bernetes stack, all while knowing very little about Docker & nothing about K(uwu)be)  
+  _"TDD is a time gain, not a time loss"_, they said !!!
+  Well, maybe it's not wrong in the end. Afterall the back and forth allowed me to learn important things about TLS and networks and stuff. And there's no debate about the future developments/bugfixes being made easier!  
+
+
+Some other things that took time was hesitating on [the interface](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/USE_WITH_CHEVERETO.md). In the end I opted for something that felt balanced between TypeScript constraints, flexibility and ease of use.  
+I hope Chevereto users will like it, whatever the version they're using! Either way I'm all ears for feedback.
+
+- Switch from Travis CI to Github Actions  
+  [Travis CI today](https://travis-ci.community/t/org-com-migration-unexpectedly-comes-with-a-plan-change-for-oss-what-exactly-is-the-new-deal/10567) is far from I've once knew and loved. No hard feelings, but I have to move away to a more OSS-friendly solution. I went with GitHub Actions. For my limited usage it feels like the old Travis: a free, easy to setup, pleasant to use automation solution.  
+
+
+Maybe one day I'll also automate the `npm publish` stuff with it, seems simple enough
 
 # 1.3.5
 

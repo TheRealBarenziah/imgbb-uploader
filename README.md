@@ -15,17 +15,18 @@ npm install imgbb-uploader
 
 ## Compatibility:
 
-**Node >= 8** ( [async/await](https://node.green/) )  
+**Node >= 8** ( [Promises/await](https://node.green/) )  
 _Care: this module uses `fs` under the hood. **It WON'T work outside the node environment !**_
 
-**Want to use this client-side?** [Head there](https://stackoverflow.com/a/63669049/11894221)
+**Want to use this client-side?** [Click here](https://stackoverflow.com/a/63669049/11894221)
 
 **Formats supported by ImgBB API:** `.jpg`, `.png`,`.bmp`,`.gif`, `base64`, `url`.
 
 ## We also support Chevereto v3 & v4!
 
-Did you know? imgBB is based on **Chevereto**, a software written by [rodber](https://github.com/rodber) that [you can easily host yourself](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md#docker-container-run-chevereto).  
-**[Using Chevereto? Head there for dedicated documentation](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/USE_WITH_CHEVERETO.md)**
+Did you know? imgBB is based on **Chevereto**, a software written by [rodber](https://github.com/rodber) that [you can easily host yourself](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md#docker-container-run-chevereto).
+
+**[To use with Chevereto, click here](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/USE_WITH_CHEVERETO.md)**!
 
 ## Upload to imgBB with two string params (legacy)
 
@@ -78,16 +79,13 @@ imgbbUploader("your-imgbb-api-key-string", "path/to/your/image.png")
 }
 ```
 
-This async function returns a promise:  
-`console.log(imgbbUploader(myKey, myPath)) // Promise { <pending> }`  
-Use `await` or `.then` as shown above.
-
 _**Note about imgBB API:** the `medium` Object will only be returned for `.png` and `base64` files !_
 
 ## With options object (more features, yay! )
 
 From version 1.2.0 onward, you can pass an options object as param.  
-Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).  
+Use it to customize filename and/or a set duration after which the image will be deleted, [cf their docs](https://api.imgbb.com/).
+
 The key you'll use for your image depends on its nature. **One of these must be defined:**
 
 - `imagePath` in case of a local file
@@ -163,23 +161,22 @@ const myUrl = getDisplayUrl(data, "Dolunay_Obruk-Sama_<3");
 
 ## Working with directories/arrays
 
-_This module don't **and won't** directly support array uploads_. It's up to you to pick the best solution for your usecase.  
-For example, to upload whole local directories of picture I enjoy working with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options). I usually create an `imagesDir.js` file wherever it suits me:
+_This module don't_ **and won't** directly _support array uploads_. Only you can pick the best solution for your usecase.  
+For example, to upload local directories of pictures, I enjoy working with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options).  
+I usually create an `imagesDir.js` file wherever it suits me:
 
 ```javascript
 module.exports = require("path").join(__dirname);
 ```
 
-Then `require` that elsewhere and use `path.join(imagesDir, relevantSubfolder)` to dig into directories programmatically.  
+Then `require` that elsewhere and use `path.join(imagesDir, relevantSubfolder)` to dig into directories.  
 Once there, iterate using `fs.readdir` and `forEach` as needed.
 
 If you need more inspiration [Stack Overflow should have you covered](https://www.google.com/search?q=site%3Astackoverflow.com+promise.all)!
-
-## Changelog
-
-[CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
 
 ## Contributing
 
 Issues & PRs are very welcome!  
 [Get started with local development](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
+
+[CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
