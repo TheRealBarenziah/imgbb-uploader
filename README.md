@@ -22,13 +22,12 @@ _Care: this module uses `fs` under the hood. **It WON'T work outside the node en
 
 **Formats supported by ImgBB API:** `.jpg`, `.png`,`.bmp`,`.gif`, `base64`, `url`.
 
-## I don't want to be relying on imgBB
+## We also support Chevereto v3 & v4!
 
-imgBB is based on **Chevereto**, a software written by [rodber](https://github.com/rodber) that [you can easily host yourself](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md#docker-container-run-chevereto).  
-imgbb-uploader (1.4.0 & forward) supports all chevereto versions (chevereto-free, v3 & v4)! 😍  
-**[Head to the dedicated documentation](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/USE_WITH_CHEVERETO.md) for uploading to chevereto-based servers**
+Did you know? imgBB is based on **Chevereto**, a software written by [rodber](https://github.com/rodber) that [you can easily host yourself](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md#docker-container-run-chevereto).  
+**[Using Chevereto? Head there for dedicated documentation](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/USE_WITH_CHEVERETO.md)**
 
-## Upload to imgBB with two string params (legacy, LTS)
+## Upload to imgBB with two string params (legacy)
 
 - I) [Get a free API key from imgbb](https://api.imgbb.com/) ( estimated time ~1 minute )
 - II) [Put that in an environment variable](https://www.npmjs.com/package/dotenv)
@@ -124,7 +123,7 @@ imgbbUploader(options)
 **This module is tiny & totally unlicensed: to better fit your need, please fork away !**  
 [Basic instructions for tweaking](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)
 
-## Another example using option object
+#### Another example: handling buffer with option object
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
@@ -164,14 +163,23 @@ const myUrl = getDisplayUrl(data, "Dolunay_Obruk-Sama_<3");
 
 ## Working with directories/arrays
 
-This module doesn't support array uploads. To upload whole directories of local files, can work with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options). For example, you could create a `imagesDir.js` file wherever it suits you:
+_This module don't **and won't** directly support array uploads_. It's up to you to pick the best solution for your usecase.  
+For example, to upload whole local directories of picture I enjoy working with [fs.readdir](https://nodejs.org/api/fs.html#fspromisesreaddirpath-options). I usually create an `imagesDir.js` file wherever it suits me:
 
 ```javascript
 module.exports = require("path").join(__dirname);
 ```
 
-Then require that elsewhere and use something like `path.join(imagesDirPath, relevantSubfolder)` to dig into directories programmatically.  
-Once there you can `fs.readdir` and iterate `forEach` file of that directory as you see fit.  
-See `fs` documentation and Stack Overflow for more inspiration on the matter.
+Then `require` that elsewhere and use `path.join(imagesDir, relevantSubfolder)` to dig into directories programmatically.  
+Once there, iterate using `fs.readdir` and `forEach` as needed.
+
+If you need more inspiration [Stack Overflow should have you covered](https://www.google.com/search?q=site%3Astackoverflow.com+promise.all)!
+
+## Changelog
 
 [CHANGELOG](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CHANGELOG.md)
+
+## Contributing
+
+Issues & PRs are very welcome!  
+[Get started with local development](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/CONTRIBUTING.md)

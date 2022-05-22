@@ -83,6 +83,8 @@ const imgbbUploader = async (
   }
 };
 
-/* "Consider using 'export default' or another module format instead" ? 
-"No, I don't think I will" */
+/* 
+"Consider using 'export default' or another module format instead" ?
+No, I don't think I will 
+*/
 export = imgbbUploader;

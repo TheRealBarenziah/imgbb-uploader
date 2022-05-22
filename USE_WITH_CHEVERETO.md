@@ -1,14 +1,12 @@
 # Upload to Chevereto server
 
-## Tl;dr
-
-### Install
+## Install
 
 ```bash
 npm install imgbb-uploader
 ```
 
-### Use
+## Use
 
 ```javascript
 const cheveretoUploader = require("imgbb-uploader");
@@ -39,11 +37,11 @@ cheveretoUploader(options)
 ```
 
 This module takes an Object argument and returns a promise: its interface is mostly similar with the one used for imgBB calls.  
-There are a couple differences:
+**There are a couple differences detailed below:**
 
-## Mandatory params
+# Mandatory params
 
-### apiKey
+## apiKey
 
 When logged in Chevereto:
 
@@ -52,7 +50,7 @@ When logged in Chevereto:
 - Go to Settings
 - In the dropdown below select API: your API key is there
 
-### cheveretoHost
+## cheveretoHost
 
 In the example above, there are 3 important elements in the provided string: `"https://` `mycheveretoinstance.gg` `:4443"`
 
@@ -60,22 +58,24 @@ In the example above, there are 3 important elements in the provided string: `"h
 - Host: must be defined
 - Port: can be omitted (default to standard `:80` for http; `:443` for https) or provided explicitly if needed
 
-### imagePath || imageUrl || base64string
+## imagePath || imageUrl || base64string
 
-**Exactly one of these 3 keys must be defined**, depending on the nature of your upload.  
-In the end it'll be send to the server as the value for `source` key
+**Exactly one of these 3 keys must be defined!**  
+It'll be send to the server as the value of `source` key
 
 ## Optional params
 
-customPayload is an object that accepts any data you wish.  
-The key/values will be POST'd along the standard `key` & `source` keys.  
-It can be used, for example, to specify `nsfw`, `expiration` and others values [chevereto v4 is allowing](https://v4-docs.chevereto.com/developer/api/api-v1.html#parameters)  
-Or even to specify values for the `undocumentedFeature` key you've implemented [on your own chevereto-free fork](https://github.com/rodber/chevereto-free)!
+**customPayload** is an object that accepts any data you wish.
 
-## About 'format' param
+The key/values will be POST'd along the standard `key` & `source` keys.
+
+It can be used, for example, to specify `nsfw`, `expiration` and others values [allowed by chevereto v4](https://v4-docs.chevereto.com/developer/api/api-v1.html#parameters)  
+You can even specify values for the `undocumentedFeature` you've implemented on [your own chevereto-free fork](https://github.com/rodber/chevereto-free)!
+
+## Note about 'format' param
 
 Chevereto API accepts a `format` parameter which default to `json` but accepts `txt` and `redirect` params.  
-`txt` output is a simple string also present in the JSON, & `redirect` returns a complete HTML document (which afaik is more of a PHP paradigm).  
-You _COULD_ be allowedd to pass that parameter in `customPayload`, yeah, theoretically you could...  
-But long story short, it would be a pain for me (and of dubious value for you) to support `format=redirect`, so this module won't.  
-If you have an actual usecase in your JavaScript app/server, please create an issue and I promise to read you in good faith!
+`txt` output a single URL also present in the JSON, while `redirect` returns a full HTML document (which afaik is more of a PHP paradigm).  
+You _COULD_ be allowed to pass that parameter in `customPayload`, yeah, theoretically you could..  
+But long story short, **this module won't support `format=redirect` for now.**  
+**If you DO have** an actual usecase in your JavaScript app/server, please create an issue and I promise to read you in good faith! 👍
