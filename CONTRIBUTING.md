@@ -67,7 +67,7 @@ docker-compose up -d
 
 - Go to http://localhost:9001 && https://localhost:9002
 - ???
-- PROFIT (`toto` / `toto1234` is my goto admin to pass the regex :) )
+- PROFIT (Tip: disable "Flood protection" in Dashboard>Settings so the CI doesn't randomly fail on duplicate upload)
 
 ## Deploy with K(uwu)bernetes :rocket:
 
