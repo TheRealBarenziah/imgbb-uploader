@@ -6,6 +6,7 @@ Primary use is letting imgBB handle the hosting & serving of images.
 [![https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/imgbb-uploader.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/imgbb-uploader)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/imgbb-uploader?targetFile=package.json)
 [![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://www.npmjs.com/package/imgbb-uploader?activeTab=dependencies)
+![Test suite](https://github.com/TheRealBarenziah/imgbb-uploader/actions/workflows/tests.yml/badge.svg)
 
 ## Install
 
