@@ -5,7 +5,7 @@ metadata:
   namespace: chevereto-free
 spec:
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   storageClassName: local-storage
   volumeName: chevereto-free-http-config
   resources:

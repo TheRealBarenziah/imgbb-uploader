@@ -1,6 +1,5 @@
 const generateWaifu = require("waifu-generator");
 const tfaker = require("tfaker");
-const axios = require("axios");
 const https = require("https");
 
 const fakeWaifu = (mode) =>

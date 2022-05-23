@@ -10,17 +10,17 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - host: cheveretos.cardnag.eu
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: chevereto-free-http
-            port:
-              number: 80
+    - host: cheveretos.cardnag.eu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chevereto-free-http
+                port:
+                  number: 80
   tls:
-  - hosts:
-    - cheveretos.cardnag.eu
-    secretName: etoile-cardnag-eu
+    - hosts:
+        - cheveretos.cardnag.eu
+      secretName: etoile-cardnag-eu
