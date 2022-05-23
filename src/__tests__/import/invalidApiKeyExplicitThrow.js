@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 test("ESM: passing invalid API key should throw explicit error", async () => {

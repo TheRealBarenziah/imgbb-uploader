@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 test("ESM: trying to pass 'option.customPayload.format' param should throw before even trying", async () => {

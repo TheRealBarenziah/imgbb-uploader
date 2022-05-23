@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 test("ESM: HTTPS: protocol (the 'https://' bit) is implicit & can be omitted", async () => {

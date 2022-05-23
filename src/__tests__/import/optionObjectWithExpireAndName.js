@@ -3,7 +3,7 @@ import path from "path";
 import imagePath from "../images/imagePath";
 import { fakeWaifu } from "../utils";
 import tfaker from "tfaker";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 
 test("ESM: passing an option object with name & expiration params", async () => {
   const filename = await fakeWaifu();

@@ -1,7 +1,7 @@
 import "dotenv/config";
 import path from "path";
 import imagePath from "../images/imagePath";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 test("ESM: passing multiple valid input sources (imagePath + imageUrl) should throw", async () => {

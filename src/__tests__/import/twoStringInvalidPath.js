@@ -1,7 +1,7 @@
 import "dotenv/config";
 import path from "path";
 import { fakeWaifu } from "../utils";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 
 test("ESM: passing two strings as params: invalid file path should throw", async () => {
   const filename = await fakeWaifu();

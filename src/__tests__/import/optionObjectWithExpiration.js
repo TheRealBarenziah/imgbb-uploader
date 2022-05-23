@@ -2,7 +2,7 @@ import "dotenv/config";
 import path from "path";
 import imagePath from "../images/imagePath";
 import { fakeWaifu } from "../utils";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 
 test("ESM: passing an option object with expiration as 3rd param", async () => {
   const filename = await fakeWaifu();

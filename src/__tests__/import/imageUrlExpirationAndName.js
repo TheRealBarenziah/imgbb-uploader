@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 import tfaker from "tfaker";
 
 test("ESM: passing an imageUrl, expiration & name", async () => {

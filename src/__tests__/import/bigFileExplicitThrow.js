@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/cjs";
+import imgbbUploader from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 test("ESM: passing file too big should throw explicit error", async () => {
