@@ -11,6 +11,7 @@
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
   "verbose": true,
   "collectCoverage": true,
+  "collectCoverageFrom": ["src/*.{ts}", "!src/__tests__/*.{js,ts}", "!src/__tests__/**/*.{js,ts}"],
   "setupFiles": ["dotenv/config"],
-  "testTimeout": 10000
+  "testTimeout": 15000
 }

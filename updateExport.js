@@ -1,4 +1,4 @@
-const exportHelper = require("export-helper"); // what a marvelous module !!!
+const exportHelper = require("export-helper"); // what a marvelous module !!
 
 const updateExport = () => {
   if (process.argv.slice(2)[0] === "es5") {

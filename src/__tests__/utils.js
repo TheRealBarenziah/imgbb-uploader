@@ -21,8 +21,9 @@ const fakeWaifu = (mode) =>
           return generateWaifu({
             skipFs: true,
             withoutPrefix: true,
-            mosaic: {
-              number: 33,
+            macrophilia: {
+              height: 8000,
+              thiqq: true,
             },
           }).then((res) => resolve(res));
         } catch (e) {
