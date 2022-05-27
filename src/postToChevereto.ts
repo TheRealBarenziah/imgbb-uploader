@@ -7,10 +7,12 @@ import { IOptionObject, IResponseObject } from "./interfaces";
 /**
  * Now using the standard nodejs modules instead of 'request' deprecated dependency.
  *
- * To tweak the method, edit 'postToImgbb.ts' with the help of [the docs](https://nodejs.org/api/https.html#https_https_request_options_callback)
+ * To tweak the method, edit 'postToChevereto.ts' with the help of [the docs](https://nodejs.org/api/https.html#https_https_request_options_callback)
  *
- * @param {string} apiKey - Your imgBB API key
+ * @param {string} apiKey - Your Chevereto API key
  * @param {string} image - Typically, the output of fileToString("path") function
+ * @param {string} cheveretoHost - Chevereto host; ccepts explicit protocol & port
+ * @param {Object} customPayload - Custom payload object that'll be spreaded into the request payload
  *
  * @returns A promise. Use `.then` as shown in [the README](https://github.com/TheRealBarenziah/imgbb-uploader#use) :
  */
@@ -42,7 +44,7 @@ export const postToChevereto = (params: IPostParams) =>
     const payload = querystring.stringify(keyValues);
 
     // Parse cheveretoHost to infer relevant request module; default to https unless explicitly given 'http://'
-    const goodOldHttp = cheveretoHost.split("://")[0] === "http";
+    const goodOldHttp = cheveretoHost.includes("http://");
     const requestFn = goodOldHttp ? httpRequest : httpsRequest;
     let hostname = cheveretoHost.includes("://") ? cheveretoHost.split("://")[1] : cheveretoHost;
     let port = goodOldHttp ? 80 : 443;
@@ -59,7 +61,7 @@ export const postToChevereto = (params: IPostParams) =>
       hostname,
       port,
       method: "POST",
-      timeout: 5000,
+      timeout: 10000,
       path: "/api/1/upload",
       headers: {
         Accept: "application/json",

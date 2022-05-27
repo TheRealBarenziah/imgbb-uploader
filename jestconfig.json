@@ -13,5 +13,5 @@
   "collectCoverage": true,
   "collectCoverageFrom": ["src/*.{ts}", "!src/__tests__/*.{js,ts}", "!src/__tests__/**/*.{js,ts}"],
   "setupFiles": ["dotenv/config"],
-  "testTimeout": 15000
+  "testTimeout": 60000
 }

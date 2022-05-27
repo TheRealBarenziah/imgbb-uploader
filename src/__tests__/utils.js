@@ -18,14 +18,15 @@ const fakeWaifu = (mode) =>
         break;
       case "bigFile":
         try {
+          const filename = `${randomFilename}-thiqq`;
           return generateWaifu({
-            skipFs: true,
-            withoutPrefix: true,
+            path: "./src/__tests__/images",
+            filename,
             macrophilia: {
-              height: 8000,
+              height: 5742,
               thiqq: true,
             },
-          }).then((res) => resolve(res));
+          }).then(() => resolve(filename));
         } catch (e) {
           reject(e);
         }

@@ -1,12 +1,15 @@
 require("dotenv").config();
+const path = require("path");
+const imagePath = require("../images/imagePath");
 const imgbbUploader = require("../../../lib/cjs");
 const { fakeWaifu } = require("../utils");
 
+jest.setTimeout(360000);
+
 test("passing file too big should throw explicit error", async () => {
-  jest.setTimeout(360000);
-  const base64waifu = await fakeWaifu("bigFile");
+  const filename = await fakeWaifu("bigFile");
   return await imgbbUploader({
-    base64string: base64waifu,
+    imagePath: path.join(imagePath, `${filename}.png`),
     apiKey: process.env.API_KEY,
   })
     .then((res) => fail(res))
