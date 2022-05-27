@@ -1,15 +1,15 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: "ts-jest",
-  transform: {
-    ".ts": "ts-jest",
-  },
+  transform: {},
+  testEnvironment: "node",
   testRegex: "(/__tests__/.*)$",
   testPathIgnorePatterns: [
     "/src/__tests__/images/imagePath.js",
     "/src/__tests__/utils.js",
     "/src/__tests__/codegen.js",
   ],
-  moduleFileExtensions: ["ts", "js", "json", "node"],
+  moduleFileExtensions: ["js", "mjs"],
   verbose: true,
   collectCoverage: true,
   coverageDirectory: "coverage",
