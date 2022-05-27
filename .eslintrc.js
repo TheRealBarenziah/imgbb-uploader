@@ -9,24 +9,13 @@ module.exports = {
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
   ],
-  ignorePatterns: [
-    "node_modules",
-    "lib",
-    "coverage",
-    "src/__tests__",
-    ".eslintrc.js",
-    "clean.js",
-  ],
+  ignorePatterns: ["node_modules", "lib", "coverage", "src/__tests__", "/*.js"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: "tsconfig.json",
     sourceType: "module",
   },
-  plugins: [
-    "eslint-plugin-jsdoc",
-    "eslint-plugin-prefer-arrow",
-    "@typescript-eslint",
-  ],
+  plugins: ["eslint-plugin-jsdoc", "eslint-plugin-prefer-arrow", "@typescript-eslint"],
   rules: {
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/array-type": [
@@ -99,7 +88,7 @@ module.exports = {
     "@typescript-eslint/prefer-function-type": "error",
     "@typescript-eslint/prefer-namespace-keyword": "error",
     "@typescript-eslint/quotes": "off",
-    "@typescript-eslint/semi": ["off", null],
+    "@typescript-eslint/semi": "error",
     "@typescript-eslint/triple-slash-reference": [
       "error",
       {

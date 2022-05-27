@@ -61,7 +61,7 @@ export const postToChevereto = (params: IPostParams) =>
       hostname,
       port,
       method: "POST",
-      timeout: 10000,
+      timeout: 15000,
       path: "/api/1/upload",
       headers: {
         Accept: "application/json",

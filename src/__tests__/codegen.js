@@ -1,7 +1,7 @@
 const { writeFile } = require("fs/promises");
 const { resolve } = require("path");
 const { readdir, readFile } = require("fs").promises;
-const jestConfig = require("../../jestconfig.json");
+const jestConfig = require("../../jest.config.js");
 
 /*
 To avoid repeating ourselves, the idea is to generate the "import" tests before running the test suite, by:
