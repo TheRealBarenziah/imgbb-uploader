@@ -50,6 +50,7 @@ const editString = (jsString) => {
 				1- require("dotenv").config();
 				2- const imgbbUploader = require("string");
 				3- const stuff = require("string");
+				3'- const imagePath = require("string.js")
 				4- const { csv } = require("string"); 
 			*/
 
@@ -70,8 +71,8 @@ const editString = (jsString) => {
           // replace keyword
           .replace("const", "import");
 
-        // Glue it with 'path'
-        return `${stuffToImport}from ${path};`;
+        // Glue it with 'path' (handle case 3' here: imagePath.js is calling require so we need a dedicated file)
+        return `${stuffToImport}from ${path.replace("imagePath.js", "imagePath.mjs")};`;
       }
     }
     // For clarity, let's edit the test description to mention it being an "export" test

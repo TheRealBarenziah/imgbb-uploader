@@ -1,6 +1,6 @@
 import "dotenv/config";
 import path from "path";
-import imagePath from "../images/imagePath";
+import imagePath from "../images/imagePath.mjs";
 import { imgbbUploader } from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 

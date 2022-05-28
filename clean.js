@@ -15,7 +15,9 @@ const clean = () => {
   // delete randomly generated test images while we're at it
   fs.readdir(imagePath, (err, files) => {
     if (err) console.error(err);
-    const filesToDelete = files.filter((filename) => filename !== "imagePath.js");
+    const filesToDelete = files.filter(
+      (filename) => filename !== "imagePath.js" && filename !== "imagePath.mjs",
+    );
     filesToDelete.forEach((file) => fs.unlink(path.join(imagePath, file), () => null));
   });
 

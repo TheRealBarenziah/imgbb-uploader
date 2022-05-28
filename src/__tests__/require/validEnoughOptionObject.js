@@ -1,6 +1,6 @@
 require("dotenv").config();
 const path = require("path");
-const imagePath = require("../images/imagePath");
+const imagePath = require("../images/imagePath.js");
 const imgbbUploader = require("../../../lib/cjs");
 const { fakeWaifu } = require("../utils");
 const tfaker = require("tfaker");

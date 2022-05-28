@@ -9,6 +9,7 @@ module.exports = {
   testRegex: "(/__tests__/.*)$",
   testPathIgnorePatterns: [
     "/src/__tests__/images/imagePath.js",
+    "/src/__tests__/images/imagePath.mjs",
     "/src/__tests__/utils.js",
     "/src/__tests__/codegen.js",
   ],

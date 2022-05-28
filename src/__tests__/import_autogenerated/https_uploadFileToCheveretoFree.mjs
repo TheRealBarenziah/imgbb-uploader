@@ -1,7 +1,7 @@
 import "dotenv/config";
 import path from "path";
 import { imgbbUploader } from "../../../lib/esm";
-import imagePath from "../images/imagePath";
+import imagePath from "../images/imagePath.mjs";
 import { fakeWaifu } from "../utils";
 
 test("ESM: HTTPS: upload file to chevereto-free", async () => {

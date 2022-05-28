@@ -1,7 +1,7 @@
 require("dotenv").config();
 const path = require("path");
 const imgbbUploader = require("../../../lib/cjs");
-const imagePath = require("../images/imagePath");
+const imagePath = require("../images/imagePath.js");
 const { fakeWaifu } = require("../utils");
 
 test("HTTP: upload file to chevereto-free", async () => {
