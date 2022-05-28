@@ -1,7 +1,7 @@
 import "dotenv/config";
 import path from "path";
 import imagePath from "../images/imagePath";
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 test("ESM: passing an option object with NaN expiration value should throw", async () => {

@@ -1,4 +1,4 @@
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 import tfaker from "tfaker";
 

@@ -1,7 +1,6 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
-import { test, expect } from "@jest/globals";
 
 test("ESM: providing additional custom keys shouldn't throw", async () => {
   const waifu = await fakeWaifu("base64string");

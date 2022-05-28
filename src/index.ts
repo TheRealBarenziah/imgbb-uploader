@@ -83,4 +83,4 @@ const imgbbUploader = async (
   }
 };
 
-export default imgbbUploader;
+export { imgbbUploader };

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 
 test("ESM: no file in given imagePath should throw", async () => {
   return await imgbbUploader({

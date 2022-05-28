@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 import { randomImageUrl } from "../utils";
 
 test("ESM: HTTP: upload uri to chevereto-free", async () => {

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 
 test("ESM: passing an url should be feasible", async () => {
   const imageUrl = "https://picsum.photos/400";

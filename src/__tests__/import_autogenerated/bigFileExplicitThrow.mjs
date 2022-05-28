@@ -1,6 +1,6 @@
 import path from "path";
 import imagePath from "../images/imagePath";
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 jest.setTimeout(300000); // here as a bittersweet reminder of ancient times

@@ -48,23 +48,29 @@ const editString = (jsString) => {
     if (isThisARequire.test(jsLine)) {
       /* Patterns we need to handle:
 				1- require("dotenv").config();
-				2- const stuff = require("string");
-				3- const { csv } = require("string"); 
+				2- const imgbbUploader = require("string");
+				3- const stuff = require("string");
+				4- const { csv } = require("string"); 
 			*/
 
-      // Pattern 1 is easy
+      // Handle pattern 1
       if (jsLine.includes("config()")) {
         return 'import "dotenv/config";';
       } else {
-        // Patterns 2 & 3 are the same: take path
-        const path = jsLine
-          .slice(jsLine.indexOf("(") + 1, jsLine.indexOf(")"))
-          .replace("cjs", "esm");
+        const path = jsLine.slice(jsLine.indexOf("(") + 1, jsLine.indexOf(")"));
 
-        // Take stuff to import (& replace keyword while we're at it)
-        const stuffToImport = jsLine.split("=")[0].replace("const", "import");
+        // Handle pattern 2
+        if (jsLine.includes("const imgbbUploader = require")) {
+          return `import { imgbbUploader } from ${path.replace("cjs", "esm")};`;
+        }
 
-        // Glue that together
+        // Handle patterns 3 & 4: take stuff to import
+        const stuffToImport = jsLine
+          .split("=")[0]
+          // replace keyword
+          .replace("const", "import");
+
+        // Glue it with 'path'
         return `${stuffToImport}from ${path};`;
       }
     }

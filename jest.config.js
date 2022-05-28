@@ -1,7 +1,10 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: "ts-jest",
-  transform: {},
+  transform: {
+    "^.+\\.(ts)?$": "ts-jest",
+    "^.+\\.(js|mjs)$": "babel-jest",
+  },
   testEnvironment: "node",
   testRegex: "(/__tests__/.*)$",
   testPathIgnorePatterns: [

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import imgbbUploader from "../../../lib/esm";
+import { imgbbUploader } from "../../../lib/esm";
 import { fakeWaifu } from "../utils";
 
 test("ESM: HTTPS: invalid cheveretoHost should throw properly", async () => {
