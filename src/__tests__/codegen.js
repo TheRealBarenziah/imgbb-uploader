@@ -17,7 +17,12 @@ const getFilenameFromPath = (path) => {
 };
 
 // Get array of files to ignore from /jestconfig.json
-const filesToIgnore = jestConfig.testPathIgnorePatterns.map((filepath) => {
+const filesToIgnore = [
+  ...jestConfig.testPathIgnorePatterns,
+  "https_uploadUriToCheveretoFree.js",
+  /*we don't need to duplicate this one as it tends to give false positives regarding "Duplicated upload" 
+	(this is a chevereto-v3 bug)  */
+].map((filepath) => {
   const splittedFilename = filepath.split("/");
   return splittedFilename[splittedFilename.length - 1];
 });
