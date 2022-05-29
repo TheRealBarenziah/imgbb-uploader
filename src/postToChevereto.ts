@@ -28,7 +28,7 @@ export const postToChevereto = (params: IPostParams) =>
 
     // Throw instantly when 'txt' or 'redirect' is passed to customPayload.format.. We don't do that here
     if (customPayload) {
-      if (customPayload?.format === "txt" || customPayload?.format === "redirect") {
+      if (customPayload.format === "txt" || customPayload.format === "redirect") {
         throw new Error(
           "'options.customPayload.format' standard alternatives to 'json' are not supported; see USE_WITH_CHEVERETO.md for more details.",
         );
