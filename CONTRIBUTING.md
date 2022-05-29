@@ -9,10 +9,9 @@
 `npm run dev` is a shortcut for `npm run build && npm run lint && npm run test && npm run remap` :
 
 - `npm run build` will remove existing `coverage` and `lib` folder, then compile the code in `src` into `lib` folder
+- `npm run test` will generate 'import' tests from the require ones in `src/__tests__`, then run all that, & finally generate a coverage report
 - `npm run lint` will run tslint on source files
-- `npm run test` will run the tests defined in `src/__tests__`
-- `npm run remap` will leverage `remap-istanbul` module to generate HTML Code Coverage report for your TypeScript.
-- This report can be found here: `./coverage/ts-report`). Transpiled code report just in case: (`./coverage/lcov-report`).
+- Coverage report in HTML can be found here: (`./coverage/lcov-report`).
 
 See more scripts in `package.json`.
 

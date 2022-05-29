@@ -1,19 +1,38 @@
+# 1.5.0
+
+### ESM support 🚀
+
+While trying to utilise the initial version of [phraze](https://www.npmjs.com/package/phraze) module, a sudden realization shocked me. There are people out there who are writing pure ESM nodejs projects, and they do it as it is the most natural thing to do !!!
+
+Despite having fairly painful memories of the UMD (_universal_ module definition) / AMD (_asyncronous_ module definition) / ESM (_EcmaScript_ Modules) / CJS (_CommonJS_) jungle, I tried to give it another go.  
+Long story short, it's still far from obvious, but now things are a bit simpler that they once were. ESM seem to have won [the heart of the many](https://nodejs.org/api/esm.html) (in the frontend, it had mine already), on top of being [anointed by the holy tc39](https://tc39.es/ecma262/#sec-modules) by definition.
+
+The main difficulties I've encountered while working on ESM support were:
+
+- TS being bitchy about the export syntax. To be able to keep the "require" syntax everyone loves, I had to use [a little hack](https://www.npmjs.com/package/export-helper)
+- Tests duplication. There was no way I'd rewrite & maintain 30+ more tests. So I made [an utility](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/src/__tests__/codegen.js) that write those tests for me, and that was **very fun**! 10/10 would write JS with JS again  
+  For the record, this is the 3rd iteration; before that I had a sweet (but hard to maintain) AWK version, then a glitchy [awk-in-js](https://www.npmjs.com/package/awkjs) one.
+- [jest experimental ESM support](https://jestjs.io/docs/ecmascript-modules). Had several back & forth with babel & ts-jest configs before having a working setup. Fortunately, the size of Jest community, and the quality of it's issue contributors, made it so I could find a working setup without having to dive into their source code. Thanks guys !
+
+### Ditch remap-istanbul
+
+GitHub was very annoying flagging me for security issues about this thing absolutely no one interacts with besides me, but yeah. While I had to update Jest to support ESM, I took the chance to ditch it, and generate the coverage report with Jest. Cya remap-istanbul! 👋
+
 # 1.4.0
 
-- Closes [Support chevereto issue](https://github.com/TheRealBarenziah/imgbb-uploader/issues/14) after more than eight months.  
-  
-Sorry for the wait! It was partially caused by a massive amount of [yak shaving](https://xkcd.com/1739/) around Chevereto CI, like, writing a pure Docker stack, then switching to handmade docker-compose, then to remotely-hosted K(uwu)bernetes stack, all while knowing overall little about Docker & nothing about K(uwu)be  
-  
-  _"TDD is a time gain, not a time loss"_, they said !!!  
-  
-  Well, maybe it's not wrong in the end. Afterall the back and forth allowed me to learn important things about TLS and networks and stuff. And there's no debate about the future developments/bugfixes being made easier!  
+- Closes [Support chevereto issue](https://github.com/TheRealBarenziah/imgbb-uploader/issues/14) after more than eight months.
 
+Sorry for the wait! It was partially caused by a massive amount of [yak shaving](https://xkcd.com/1739/) around Chevereto CI, like, writing a pure Docker stack, then switching to handmade docker-compose, then to remotely-hosted K(uwu)bernetes stack, all while knowing overall little about Docker & nothing about K(uwu)be
+
+_"TDD is a time gain, not a time loss"_, they said !!!
+
+Well, maybe it's not wrong in the end. Afterall the back and forth allowed me to learn important things about TLS and networks and stuff. And there's no debate about the future developments/bugfixes being made easier!
 
 Some other things that took time was hesitating on [the interface](https://github.com/TheRealBarenziah/imgbb-uploader/blob/master/USE_WITH_CHEVERETO.md). In the end I opted for something that felt balanced between TypeScript constraints, flexibility and ease of use.  
 I hope Chevereto users will like it, whatever the version they're using! Either way I'm all ears for feedback.
 
-- Switch from Travis CI to Github Actions  
-  
+- Switch from Travis CI to Github Actions
+
 [Travis CI today](https://travis-ci.community/t/org-com-migration-unexpectedly-comes-with-a-plan-change-for-oss-what-exactly-is-the-new-deal/10567) is far from the one I once knew and loved. No hard feelings, but I have to move away to a more OSS-friendly solution. I went with GitHub Actions. For my limited usage it feels like the old Travis: a free, easy to setup, pleasant to use automation solution.  
 Maybe one day I'll also automate the `npm publish` stuff with it, seems simple enough.
 
