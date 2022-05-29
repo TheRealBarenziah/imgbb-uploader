@@ -17,7 +17,7 @@ module.exports = {
   verbose: true,
   collectCoverage: true,
   coverageDirectory: "coverage",
-  collectCoverageFrom: ["src/*.ts", "!src/interfaces.ts", "lib/**/*.js"],
+  collectCoverageFrom: ["src/*.ts", "!src/interfaces.ts", "dist/**/*.js"],
   setupFiles: ["dotenv/config"],
   testTimeout: 60000,
 };

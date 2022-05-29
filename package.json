@@ -2,26 +2,23 @@
   "name": "imgbb-uploader",
   "version": "1.4.0",
   "description": "Lightweight module to upload images through imgBB and other chevereto-based APIs.",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/cjs/index.d.ts",
   "scripts": {
-    "dev": "npm run build && npm run format && npm run ncc && npm run test && npm run lint",
+    "dev": "npm run build && npm run format && npm run build && npm run test && npm run lint",
     "test": "node src/__tests__/codegen.js && NODE_OPTIONS=--experimental-vm-modules jest --verbose",
-    "testWithoutCodegen": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "build": "node clean.js && node updateExport.js es5 && tsc -p tsconfig-cjs.json && node updateExport.js es6 && tsc -p tsconfig.json",
-    "build:cjs": "node clean.js && tsc -p tsconfig-cjs.json",
-    "build:esm": "node clean.js && tsc -p tsconfig.json",
-    "ncc:cjs": "ncc build ./src/index.ts -o dist/cjs -m -s --license ./lib/",
-    "ncc:mjs": "ncc build ./src/index.ts -o dist/esm -m -s --license ./lib/ --target es2022",
-    "ncc": "npm run ncc:cjs && npm run ncc:mjs",
-    "build:cjs:prod": "tsc -p tsconfig-cjs.json --sourceMap false",
-    "build:esm:prod": "tsc -p tsconfig.json --sourceMap false",
+    "build": "node clean.js && npm run prepare:cjs && npm run build:cjs && npm run prepare:esm && npm run build:esm",
+    "build:cjs": "ncc build ./src/index.ts -o lib/cjs -s",
+    "build:esm": "ncc build ./src/index.ts -o lib/esm -s --target es2022",
+    "build:cjs:prod": "ncc build ./src/index.ts -o lib/cjs -m --no-source-map-register --target es2015",
+    "build:esm:prod": "ncc build ./src/index.ts -o lib/esm -m --no-source-map-register --target es2022",
     "build:prod": "node clean.js && node updateExport.js es5 && npm run build:cjs:prod && node updateExport.js es6 && npm run build:esm:prod",
+    "prepare:cjs": "node updateTsConfig.js cjs && npx export-helper es5 src/index.ts",
+    "prepare:esm": "node updateTsConfig.js esm && npx export-helper es6 src/index.ts",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --fix .",
     "clean": "node clean.js",
-    "prepare": "npm run build:prod",
     "prepublishOnly": "npm run build:prod && npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
@@ -42,6 +39,7 @@
     "@types/node": "^14.0.27",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
+    "@vercel/ncc": "^0.34.0",
     "axios": "^0.21.4",
     "babel-jest": "^28.1.0",
     "dotenv": "^8.2.0",
@@ -90,8 +88,5 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
-  },
-  "dependencies": {
-    "@vercel/ncc": "^0.34.0"
   }
 }
