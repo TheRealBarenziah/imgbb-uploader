@@ -1,6 +1,6 @@
 {
   "name": "imgbb-uploader",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Lightweight module to upload images through imgBB and other chevereto-based APIs.",
   "main": "lib/cjs/index.js",
   "browser": "lib/cjs/index.js",

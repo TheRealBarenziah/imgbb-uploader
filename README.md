@@ -16,7 +16,7 @@ npm install imgbb-uploader
 
 ## Compatibility:
 
-**Node >= 8** ( [Promises/await](https://node.green/) )  
+**Node >= 8** ( [Promises/await](https://node.green/) ) _ESM projects are supported from 1.5 onward_
 _Care: this module uses `fs` under the hood. **It WON'T work outside the node environment !**_
 
 **Want to use this client-side?** [Click here](https://stackoverflow.com/a/63669049/11894221)
@@ -37,6 +37,9 @@ Did you know? imgBB is based on **Chevereto**, a software written by [rodber](ht
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
+/* or use import in ESM projects:
+import { imgbbUploader } from "imgbb-uploader"; 
+*/
 
 imgbbUploader("your-imgbb-api-key-string", "path/to/your/image.png")
   .then((response) => console.log(response))
@@ -95,6 +98,9 @@ The key you'll use for your image depends on its nature. **One of these must be 
 
 ```javascript
 const imgbbUploader = require("imgbb-uploader");
+/* or use import in ESM projects:
+import { imgbbUploader } from "imgbb-uploader"; 
+*/
 
 const options = {
   apiKey: process.env.IMGBB_API_KEY, // MANDATORY

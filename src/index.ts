@@ -24,7 +24,12 @@ import { postToChevereto } from "./postToChevereto";
  * A promise. See [README](https://github.com/TheRealBarenziah/imgbb-uploader#use) for more infos
  *
  * @example
- *     imgbbUploader("your-api-key", "path/to/file.jpg")
+ *     imgbbUploader({
+ *         apiKey: process.env.IMGBB_API_KEY,
+ *         name: "customFilename",
+ *         expiration: 3600,
+ *         imagePath: "./your/image/path.png"
+ *       })
  *       .then(res => console.log(res))
  *       .catch(err => console.error(err))
  */
