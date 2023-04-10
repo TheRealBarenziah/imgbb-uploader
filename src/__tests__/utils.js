@@ -44,18 +44,16 @@ const fakeWaifu = (mode) =>
     }
   });
 
-const randomImageUrl = async () =>
+const randomImageUrl = () =>
   new Promise((resolve, reject) => {
     return https
-      .get("https://picsum.photos/400", (res) => {
-        resolve(res.headers.location);
-        res.on("data", (d) => {
-          process.stdout.write(d);
-        });
+      .get("https://random.imagecdn.app/v1/image?width=300&height=300", (res) => {
+        res.setEncoding("utf8");
+        let response = "";
+        res.on("data", (d) => (response += d));
+        res.on("end", () => resolve(response));
       })
-      .on("error", (e) => {
-        reject(e);
-      });
+      .on("error", (e) => reject(e));
   });
 
 module.exports = {

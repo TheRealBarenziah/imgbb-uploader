@@ -1,3 +1,9 @@
+# 1.5.1
+
+- Fixes [The program crashes when the server is offline](https://github.com/TheRealBarenziah/imgbb-uploader/issues/36) thanks to [majwadalam's PR](https://github.com/TheRealBarenziah/imgbb-uploader/pull/37)
+
+- Fix the CI: I updated randomImageUrl() to use [random.responsiveimages.io](https://random.responsiveimages.io/) since the [picsum.photos](https://picsum.photos/) version was too annoying to work with (agressive Cloudfare protections made the HTTP request return 'This website is using a security service to protect itself from online attacks' to my modest 3 requests, basically breaking the CI).
+
 # 1.5.0
 
 ### ESM support 🚀
