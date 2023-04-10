@@ -52,7 +52,13 @@ export const postToImgbb = (params: IPostParams) =>
         });
 
         res.on("end", () => {
-          if (JSON.parse(response).error) {
+          if(response === ""){
+            const error = {
+                message: "imgBB API returned an error",
+                imgbbApiResponse: "No response from imgBB",
+            };
+            reject(new Error(JSON.stringify(error, null, 4)));
+          } else if (JSON.parse(response).error) {
             const error = {
               message: "imgBB API returned an error",
               imgbbApiResponse: JSON.parse(response),
